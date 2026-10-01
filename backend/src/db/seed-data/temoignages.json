@@ -1,0 +1,92 @@
+[
+  {
+    "rubrique": "anxiete",
+    "citation": "J'avais honte de dire que j'avais peur tout le temps. J'ai cru que j'étais fou. Savoir que c'est une réaction normale m'a aidé à en parler.",
+    "auteurLibelle": "Edem, 20 ans · Lomé",
+    "ordre": 1
+  },
+  {
+    "rubrique": "anxiete",
+    "citation": "Les examens me paralysaient. J'ai appris à respirer autrement et ça a tout changé. Je passais mes concours avec beaucoup moins de stress.",
+    "auteurLibelle": "Afua, 18 ans · Kpalimé",
+    "ordre": 2
+  },
+  {
+    "rubrique": "sommeil",
+    "citation": "Je scrollais jusqu'à 2h du matin. Arrêter le téléphone une heure avant a été le plus grand changement que j'ai fait pour mon sommeil.",
+    "auteurLibelle": "Kossi, 21 ans · Lomé",
+    "ordre": 1
+  },
+  {
+    "rubrique": "sommeil",
+    "citation": "Le scan corporel guidé m'a semblé bizarre au début. Maintenant je m'endors avant même d'avoir fini.",
+    "auteurLibelle": "Kafui, 19 ans · Tsévié",
+    "ordre": 2
+  },
+  {
+    "rubrique": "confiance",
+    "citation": "Je me comparais tout le temps à d'autres sur Instagram. J'ai désinstallé l'appli pendant un mois. Ça m'a sauvé la tête.",
+    "auteurLibelle": "Yawa, 19 ans · Atakpamé",
+    "ordre": 1
+  },
+  {
+    "rubrique": "confiance",
+    "citation": "J'ai échoué à mon concours d'entrée deux fois. La troisième fois, j'y suis arrivé. L'échec m'a appris plus que la réussite.",
+    "auteurLibelle": "Adjoa, 22 ans · Lomé",
+    "ordre": 2
+  },
+  {
+    "rubrique": "relations",
+    "citation": "Je n'osais jamais dire non à ma famille. J'ai compris que dire non c'est aussi me respecter moi. Ça m'a pris du temps, mais maintenant je me sens plus libre.",
+    "auteurLibelle": "Mawuli, 22 ans · Sokodé",
+    "ordre": 1
+  },
+  {
+    "rubrique": "relations",
+    "citation": "Mon ami et moi on s'est disputés et je ne savais pas comment réparer. J'ai essayé de l'écouter vraiment pour la première fois. On s'est réconciliés.",
+    "auteurLibelle": "Séna, 18 ans · Lomé",
+    "ordre": 2
+  },
+  {
+    "rubrique": "deuil",
+    "citation": "J'ai perdu ma grand-mère et je n'arrivais pas à pleurer. J'avais honte. On m'a dit que chacun vit le deuil à sa façon, et j'ai commencé à me pardonner.",
+    "auteurLibelle": "Abla, 17 ans · Lomé",
+    "ordre": 1
+  },
+  {
+    "rubrique": "deuil",
+    "citation": "J'ai écrit une lettre à mon père après sa mort. Je ne l'ai jamais envoyée évidemment. Mais ça m'a soulagé d'une manière que je ne saurais pas expliquer.",
+    "auteurLibelle": "Théo, 24 ans · Atakpamé",
+    "ordre": 2
+  },
+  {
+    "rubrique": "identite",
+    "citation": "Ma famille voulait que je fasse la médecine. Moi je voulais être artiste. Clarifier mes valeurs m'a aidé à défendre mes rêves avec calme.",
+    "auteurLibelle": "Kofi, 23 ans · Lomé",
+    "ordre": 1
+  },
+  {
+    "rubrique": "identite",
+    "citation": "Je me sentais déchiré entre ce que mes parents attendent et ce que je veux vraiment. J'ai réalisé qu'on peut respecter sa famille et quand même choisir sa vie.",
+    "auteurLibelle": "Ama, 21 ans · Kpalimé",
+    "ordre": 2
+  },
+  {
+    "rubrique": "concentration",
+    "citation": "J'avais mon téléphone à portée de main pendant que j'étudiais. Je l'ai mis dans une autre pièce. En une semaine j'ai rattrapé tout mon retard.",
+    "auteurLibelle": "Séna, 20 ans · Lomé",
+    "ordre": 1
+  },
+  {
+    "rubrique": "emotions",
+    "citation": "Je ne savais pas comment nommer ce que je ressentais. Écrire mes émotions chaque soir m'a aidé à me comprendre moi-même.",
+    "auteurLibelle": "Dzidzor, 18 ans · Kara",
+    "ordre": 1
+  },
+  {
+    "rubrique": "emotions",
+    "citation": "Je criais tout le temps sur mes petits frères. J'ai appris à respirer avant de réagir. Maintenant la maison est plus calme.",
+    "auteurLibelle": "Komlan, 17 ans · Lomé",
+    "ordre": 2
+  }
+]

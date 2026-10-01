@@ -21,34 +21,37 @@ Ce document organise le travail par étapes. Les cases de la phase 0 doivent êt
 
 - [ ] Initialiser `frontend/` avec React.js et Vite en JavaScript.
 - [ ] Initialiser `backoffice/` avec React.js et Vite en JavaScript.
-- [ ] Initialiser `backend/` avec Node.js et Express en JavaScript.
-- [ ] Choisir et uniformiser les modules JavaScript (`type: module` proposé).
+- [x] Initialiser `backend/` avec Node.js et Express en JavaScript.
+- [x] Choisir et uniformiser les modules JavaScript (`type: module`).
 - [ ] Ajouter ESLint, Prettier et les scripts communs.
-- [ ] Ajouter la validation des variables d'environnement au démarrage du backend.
-- [ ] Configurer CORS uniquement pour les origines autorisées.
-- [ ] Ajouter un endpoint de santé ne révélant aucune information sensible.
+- [x] Ajouter la validation des variables d'environnement au démarrage du backend (zod).
+- [x] Configurer CORS uniquement pour les origines autorisées.
+- [x] Ajouter un endpoint de santé ne révélant aucune information sensible (`GET /api/sante`).
 
 ## Phase 2 — Base PostgreSQL
 
-- [ ] Configurer le pool `pg` avec `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD` et `PGSSL`.
-- [ ] Choisir un outil de migrations compatible JavaScript.
-- [ ] Concevoir le schéma initial.
-- [ ] Créer les tables de rubriques, contenus, traductions, exercices et médias.
-- [ ] Créer les tables de questions publiques et confidentielles sans mélanger leurs accès.
-- [ ] Créer les tables de réponses, statuts, attributions et modération.
-- [ ] Créer les tables d'utilisateurs backoffice, rôles et permissions.
-- [ ] Créer les tables de contacts d'urgence par zone géographique.
-- [ ] Créer une table d'audit sans contenu confidentiel en clair.
-- [ ] Ajouter les index, contraintes, dates et mécanismes d'archivage nécessaires.
-- [ ] Préparer un jeu de données de développement sans données personnelles réelles.
+- [x] Configurer le pool `pg` avec `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD` et `PGSSL`.
+- [x] Choisir un outil de migrations : runner SQL maison (`npm run db:migrate`, table `schema_migrations`).
+- [x] Concevoir le schéma initial (`001_schema_initial.sql`).
+- [x] Créer les tables de rubriques, articles, exercices et témoignages.
+- [ ] Ajouter les traductions (français/éwé) et les médias (audios des exercices) une fois la décision de langue prise.
+- [x] Créer les tables de questions publiques et confidentielles sans mélanger leurs accès (deux tables distinctes).
+- [x] Créer les colonnes de réponses, statuts, attributions et modération.
+- [x] Créer la table d'utilisateurs backoffice avec rôles (admin, éditeur, modérateur, professionnel).
+- [x] Créer la table de contacts d'urgence par pays.
+- [x] Créer une table d'audit sans contenu confidentiel en clair.
+- [x] Ajouter les index, contraintes et dates.
+- [ ] Planifier la purge des questions confidentielles expirées (`expire_le`, 90 jours par défaut, à valider).
+- [x] Préparer un jeu de données de développement extrait du prototype (`npm run db:seed`).
+- [ ] Déplacer en base le contenu des exercices encore codé en dur dans le prototype (ancrage, scan, valeurs, écoute active, limites).
 
 ## Phase 3 — Backend/API
 
-- [ ] Définir la convention des routes et le format des réponses d'erreur.
-- [ ] Implémenter la lecture des rubriques, articles, exercices et traductions publiés.
-- [ ] Implémenter le parcours « Faire le point » sous forme de règles explicables et non diagnostiques.
-- [ ] Implémenter l'envoi et la consultation des questions publiques.
-- [ ] Implémenter le canal confidentiel retenu en phase 0.
+- [x] Définir la convention des routes et le format des réponses d'erreur.
+- [x] Implémenter la lecture des rubriques, articles et exercices publiés.
+- [x] Garder « Faire le point » côté navigateur (aucune donnée envoyée) ; règles à faire valider par un professionnel.
+- [x] Implémenter l'envoi (avec modération préalable) et la consultation des questions publiques.
+- [x] Implémenter un canal confidentiel par code de suivi (proposition à valider en phase 0).
 - [ ] Implémenter l'authentification du backoffice.
 - [ ] Implémenter les rôles administrateur, éditeur, modérateur et professionnel.
 - [ ] Implémenter la gestion éditoriale et le workflow brouillon/relecture/publication.
@@ -72,6 +75,24 @@ Ce document organise le travail par étapes. Les cases de la phase 0 doivent êt
 - [ ] Prévoir les connexions lentes et une expérience mobile prioritaire.
 - [ ] Vérifier clavier, lecteur d'écran, contrastes et tailles de texte.
 - [ ] Ajouter les tests de composants et de parcours critiques.
+
+### Corrections à reporter depuis le prototype `dhiki-v2_3.html`
+
+- [ ] « Faire le point » : le résultat est calculé en passant de l'étape 2 à 3, donc avant la réponse « besoin d'aide » ; le bloc « Consulter un professionnel » ne s'affiche jamais.
+- [ ] Urgence : « Commencer maintenant » lance la respiration dans un écran masqué (`showScreen('s-exo')` n'est pas appelé quand `isUrgence` est vrai).
+- [ ] Minuteurs (respiration, scan, Pomodoro) qui continuent de tourner après le bouton « ← Retour ».
+- [ ] Bouton « À propos » : le texte reste blanc (invisible) après avoir quitté la page ; la page est en dehors de `<main>` (marges différentes).
+- [ ] Failles XSS : questions, réponses de journal et d'ancrage injectées sans échappement dans `innerHTML` ; export PDF construit dans un attribut `onclick`.
+- [ ] Animation de respiration aux durées fixes (4 s / 4 s / 6 s) désynchronisée des phases réelles (ex. 4-7-8).
+- [ ] Fichiers audio `audio/respiration.mp3` et `audio/ancrage-sensoriel.mp3` absents ; un seul audio pour toutes les respirations.
+- [ ] Compteurs codés en dur sur l'accueil (« 8 thèmes », « Relations : 1 exercice » alors qu'il y en a 3) : les calculer via l'API.
+- [ ] Question publique : affichée immédiatement sans modération et sans champ pseudo ; question anonyme jamais transmise ni consultable.
+- [ ] Historique de navigation dupliqué quand un exercice se relance lui-même (plusieurs « Retour » nécessaires).
+- [ ] Animation `shake` utilisée dans « Clarifier tes valeurs » mais jamais définie.
+- [ ] Aucun menu sur mobile (la navigation est masquée sous 640 px).
+- [ ] Écrits limités à 30 : le plus ancien est supprimé sans avertissement.
+- [ ] L'accueil annonce « en français et en éwé » alors que seul le français existe.
+- [ ] Numéro du CPASE fictif (`+22890000000`) : ne rien afficher tant qu'un contact n'est pas vérifié.
 
 ## Phase 5 — Backoffice
 

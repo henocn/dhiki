@@ -1,0 +1,3308 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>DHIKI - Que la paix soit là</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+/* ── TOKENS ── */
+:root {
+  --cr:   #F7F0E6;   /* crème  - fond principal */
+  --sand: #FDF8F0;   /* sable  - surfaces cartes */
+  --tc:   #C2623F;   /* terracotta  - accent */
+  --tcl:  #E8A184;   /* terracotta clair */
+  --sage: #5F8265;   /* vert sauge */
+  --sagel:#A8C4AC;   /* sauge clair */
+  --coal: #2C1A12;   /* texte principal */
+  --ts:   #6A544A;   /* texte secondaire */
+  --bd:   #E2D4C3;   /* bordures */
+  --bdl:  #EDE4D8;   /* bordures légères */
+  --coral:#E05E42;   /* urgence */
+  --warn: #F2C14E;   /* avertissement */
+  --ok:   #5F8265;   /* succès */
+  --white:#FFFFFF;
+  --rad:  14px;
+  --radb: 22px;
+  --sh:   0 2px 12px rgba(44,26,18,.08);
+  --shm:  0 4px 24px rgba(44,26,18,.13);
+  font-size: 16px;
+}
+
+/* ── RESET ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--cr)}
+body{font-family:'DM Sans',sans-serif;color:var(--coal);line-height:1.6;padding:0;overflow-x:hidden}
+button{cursor:pointer;border:none;background:none;font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+input,textarea,select{font:inherit;color:inherit}
+textarea{resize:vertical}
+
+/* ── LAYOUT ── */
+#app{min-height:100vh;display:flex;flex-direction:column}
+
+/* ── HEADER ── */
+header{
+  position:sticky;top:0;z-index:100;
+  background:var(--cr);
+  border-bottom:1.5px solid var(--bd);
+  padding:0 24px;
+}
+.hdr-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;gap:16px;
+  height:60px;
+}
+.logo-btn{display:flex;flex-direction:column;align-items:flex-start;gap:1px;flex-shrink:0;padding:2px 0}
+.logo-mark{display:flex;align-items:center;gap:7px}
+.logo-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.32rem;color:var(--tc);letter-spacing:-.03em;line-height:1}
+.logo-sub{display:none}
+.logo-tagline{font-size:.72rem;color:var(--ts);letter-spacing:.05em;text-transform:uppercase;display:none;border-left:1.5px solid var(--bd);padding-left:12px;margin-left:4px;line-height:1.2;opacity:.72;flex-shrink:0}
+nav{display:flex;gap:4px;margin-left:auto}
+nav button{
+  padding:6px 14px;border-radius:20px;font-size:.88rem;font-weight:500;
+  color:var(--ts);transition:all .18s;
+}
+nav button:hover,nav button.active{background:var(--tc);color:#fff}
+.btn-urgence{
+  margin-left:8px;
+  background:var(--coral);color:#fff;
+  padding:7px 16px;border-radius:20px;
+  font-size:.85rem;font-weight:700;
+  flex-shrink:0;
+  transition:opacity .18s;
+}
+.btn-urgence:hover{opacity:.88}
+
+/* ── MAIN ── */
+main{flex:1;max-width:1200px;width:100%;margin:0 auto;padding:0 32px 80px}
+
+/* ── SCREENS ── */
+.screen{display:none}
+.screen.on{display:block}
+
+/* ── HOME ── */
+.hero{
+  padding:48px 0 32px;
+  text-align:center;
+}
+.hero h1{
+  font-family:'Nunito',sans-serif;font-weight:800;
+  font-size:clamp(1.7rem,4vw,2.8rem);
+  color:var(--tc);line-height:1.18;
+  text-wrap:balance;margin-bottom:10px;
+}
+.hero p{font-size:1.05rem;color:var(--ts);max-width:500px;margin:0 auto 28px}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+.btn-primary{
+  background:var(--tc);color:#fff;
+  padding:12px 26px;border-radius:var(--radb);
+  font-weight:700;font-size:.95rem;
+  transition:opacity .18s;
+}
+.btn-primary:hover{opacity:.88}
+.btn-secondary{
+  background:var(--white);color:var(--tc);
+  border:2px solid var(--tc);
+  padding:10px 24px;border-radius:var(--radb);
+  font-weight:700;font-size:.95rem;
+  transition:all .18s;
+}
+.btn-secondary:hover{background:var(--tc);color:#fff}
+
+/* ── BENTO GRID ── */
+.bento{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin:0 0 36px;
+}
+@media(min-width:860px){
+  .bento{grid-template-columns:1fr 1fr}
+  .bento-card.wide{grid-column:1/-1}
+  .bento-card.wide-2{grid-column:span 2}
+  .rubriques{grid-template-columns:repeat(4,1fr)}
+}
+.bento-card{
+  background:var(--sand);border-radius:var(--rad);
+  border:1.5px solid var(--bdl);
+  padding:20px;cursor:pointer;
+  transition:transform .18s,box-shadow .18s;
+  position:relative;overflow:hidden;
+}
+.bento-card:hover{transform:translateY(-3px);box-shadow:var(--shm)}
+.bento-card.wide{grid-column:1/-1}
+.bento-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:12px;
+}
+.bento-card h3{font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem;margin-bottom:4px}
+.bento-card p{font-size:.83rem;color:var(--ts);line-height:1.45}
+.bento-badge{
+  position:absolute;top:14px;right:14px;
+  background:var(--tc);color:#fff;
+  font-size:.72rem;font-weight:700;
+  padding:2px 8px;border-radius:20px;
+}
+
+/* section title */
+.sec-title{
+  font-family:'Nunito',sans-serif;font-weight:700;
+  font-size:1.15rem;color:var(--coal);
+  margin-bottom:16px;margin-top:36px;
+  display:flex;align-items:center;gap:8px;
+}
+.sec-title::after{content:'';flex:1;height:1.5px;background:var(--bd)}
+
+/* ── RUBRIQUES GRID ── */
+.rubriques{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:14px;
+  margin-bottom:36px;
+}
+.rub-card{
+  background:var(--sand);border-radius:var(--rad);
+  border:1.5px solid var(--bdl);
+  padding:18px 14px;cursor:pointer;
+  text-align:center;
+  transition:transform .18s,box-shadow .18s;
+}
+.rub-card:hover{transform:translateY(-3px);box-shadow:var(--shm)}
+.rub-icon{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 10px;
+}
+.rub-card h3{font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;margin-bottom:3px}
+.rub-card p{font-size:.78rem;color:var(--ts)}
+
+/* ── URGENCE MODAL ── */
+.overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(44,26,18,.45);
+  display:none;align-items:flex-end;justify-content:center;
+  padding:0 0 env(safe-area-inset-bottom,0);
+}
+.overlay.open{display:flex}
+.modal{
+  background:var(--sand);border-radius:24px 24px 0 0;
+  padding:28px 24px 36px;width:100%;max-width:540px;
+  animation:slideUp .28s ease;
+}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-close{float:right;font-size:1.4rem;color:var(--ts);line-height:1;background:var(--bdl);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.modal h2{font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:6px;color:var(--coal)}
+.modal p{font-size:.9rem;color:var(--ts);margin-bottom:18px}
+.crisis-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.crisis-list li{
+  background:var(--white);border-radius:var(--rad);border:1.5px solid var(--bd);
+  padding:14px 16px;
+}
+.crisis-list strong{display:block;font-size:.92rem;font-weight:700}
+.crisis-list span{font-size:.82rem;color:var(--ts)}
+.crisis-list a{display:inline-block;margin-top:5px;font-size:.85rem;font-weight:700;color:var(--coral)}
+
+/* ── RUBRIQUE DETAIL ── */
+.rub-hero{
+  background:var(--sand);border-radius:var(--rad);
+  border:1.5px solid var(--bdl);
+  padding:28px 24px;margin:24px 0 20px;
+}
+.rub-hero-top{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.rub-hero-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rub-hero h1{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.4rem;color:var(--coal)}
+.rub-hero p{font-size:.93rem;color:var(--ts);line-height:1.6;margin-bottom:0}
+.rub-stats{display:flex;gap:16px;margin-top:12px}
+.rub-stat{font-size:.8rem;color:var(--ts);background:var(--cr);padding:4px 10px;border-radius:20px;border:1px solid var(--bd)}
+
+/* tabs */
+.tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--white);padding:4px;border-radius:var(--radb);border:1.5px solid var(--bd)}
+.tab-btn{flex:1;padding:8px;border-radius:18px;font-size:.85rem;font-weight:600;color:var(--ts);transition:all .18s;text-align:center}
+.tab-btn.active{background:var(--tc);color:#fff}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* resource cards */
+.res-list{display:flex;flex-direction:column;gap:10px}
+.res-item{
+  background:var(--white);border-radius:var(--rad);
+  border:1.5px solid var(--bdl);
+  padding:14px 16px;cursor:pointer;
+  display:flex;align-items:center;gap:14px;
+  transition:box-shadow .18s;
+}
+.res-item:hover{box-shadow:var(--sh)}
+.res-type{
+  background:var(--tc);color:#fff;
+  font-size:.72rem;font-weight:700;
+  padding:3px 9px;border-radius:20px;
+  white-space:nowrap;flex-shrink:0;
+}
+.res-type.audio{background:var(--sage)}
+.res-info{flex:1}
+.res-meta{font-size:.78rem;color:var(--ts);margin-bottom:2px}
+.res-title{font-weight:600;font-size:.92rem}
+
+/* exercise cards */
+.exo-list{display:flex;flex-direction:column;gap:12px}
+.exo-card{
+  background:var(--white);border-radius:var(--rad);
+  border:1.5px solid var(--bdl);
+  padding:18px;
+}
+.exo-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
+.exo-meta{font-size:.78rem;color:var(--ts);margin-bottom:3px}
+.exo-title{font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem}
+.exo-desc{font-size:.85rem;color:var(--ts);margin-bottom:12px;line-height:1.5}
+.btn-start{
+  background:var(--tc);color:#fff;
+  padding:8px 18px;border-radius:20px;
+  font-size:.85rem;font-weight:700;
+  white-space:nowrap;flex-shrink:0;
+  transition:opacity .18s;
+}
+.btn-start:hover{opacity:.85}
+
+/* temoignages */
+.temo-list{display:flex;flex-direction:column;gap:12px}
+.temo-card{
+  background:var(--white);border-radius:var(--rad);
+  border:1.5px solid var(--bdl);
+  padding:18px;
+}
+.temo-card blockquote{
+  font-size:.95rem;font-style:italic;color:var(--coal);
+  margin-bottom:8px;line-height:1.55;
+}
+.temo-who{font-size:.8rem;color:var(--ts);font-weight:600}
+
+/* back btn */
+.back-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.88rem;font-weight:600;color:var(--ts);
+  padding:6px 0;margin:16px 0 0;
+  background:none;
+}
+.back-btn:hover{color:var(--tc)}
+
+/* ── ARTICLE READER ── */
+.article-wrap{padding:24px 0 48px}
+.article-meta{font-size:.82rem;color:var(--ts);margin-bottom:6px}
+.article-title{
+  font-family:'Nunito',sans-serif;font-weight:800;
+  font-size:clamp(1.3rem,3vw,1.9rem);
+  color:var(--coal);line-height:1.2;
+  text-wrap:balance;margin-bottom:18px;
+}
+.article-body{
+  max-width:640px;
+  font-size:.97rem;line-height:1.75;color:var(--coal);
+}
+.article-body h2{
+  font-family:'Nunito',sans-serif;font-weight:700;font-size:1.15rem;
+  margin:28px 0 8px;color:var(--tc);
+}
+.article-body p{margin-bottom:14px}
+.article-body ul{padding-left:20px;margin-bottom:14px}
+.article-body li{margin-bottom:5px}
+.article-pullquote{
+  border-left:4px solid var(--tc);
+  padding:12px 18px;
+  margin:20px 0;
+  background:var(--sand);border-radius:0 var(--rad) var(--rad) 0;
+  font-style:italic;font-size:1.02rem;color:var(--coal);
+}
+
+/* ── BREATHING EXERCISE ── */
+.exo-player{padding:32px 0 48px;text-align:center}
+.exo-player h1{
+  font-family:'Nunito',sans-serif;font-weight:800;
+  font-size:1.5rem;color:var(--coal);margin-bottom:6px
+}
+.exo-player .exo-subtitle{font-size:.9rem;color:var(--ts);margin-bottom:36px}
+
+.breath-stage{
+  position:relative;width:200px;height:200px;
+  margin:0 auto 32px;
+}
+.breath-ring{
+  position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle,var(--sagel) 0%,var(--sage) 60%,transparent 100%);
+  opacity:.25;
+  animation:none;
+}
+.breath-ring.anim-inhale{animation:expand 4s ease-in-out forwards}
+.breath-ring.anim-hold{animation:hold 4s ease forwards}
+.breath-ring.anim-exhale{animation:shrink 6s ease-in-out forwards}
+@keyframes expand{from{transform:scale(.5);opacity:.25}to{transform:scale(1.2);opacity:.55}}
+@keyframes hold{from{transform:scale(1.2);opacity:.55}to{transform:scale(1.2);opacity:.55}}
+@keyframes shrink{from{transform:scale(1.2);opacity:.55}to{transform:scale(.5);opacity:.2}}
+
+.breath-inner{
+  position:absolute;inset:30px;border-radius:50%;
+  background:var(--sage);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+}
+.breath-label{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.05rem;color:#fff;line-height:1.2}
+.breath-count{font-size:2rem;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+
+.breath-steps{
+  background:var(--sand);border-radius:var(--rad);border:1.5px solid var(--bdl);
+  padding:16px 18px;margin-bottom:24px;text-align:left;max-width:380px;margin-left:auto;margin-right:auto;
+}
+.breath-step{
+  font-size:.88rem;color:var(--ts);padding:5px 0;
+  display:flex;gap:10px;align-items:center;
+}
+.breath-step.current{color:var(--tc);font-weight:700}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--bd);flex-shrink:0}
+.step-dot.current{background:var(--tc)}
+
+.breath-ctrl{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-ghost{
+  padding:9px 20px;border-radius:20px;
+  border:2px solid var(--bd);color:var(--ts);font-weight:600;font-size:.88rem;
+  transition:all .18s;
+}
+.btn-ghost:hover{border-color:var(--tc);color:var(--tc)}
+.breath-cycle-info{font-size:.8rem;color:var(--ts);margin-top:16px}
+
+/* ── AUDIO PLAYER BAR ── */
+.audio-bar{
+  display:flex;align-items:center;gap:12px;
+  background:var(--sand);border:1.5px solid var(--bdl);border-radius:40px;
+  padding:10px 16px;margin:20px auto 0;max-width:360px;
+}
+.audio-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--sage);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:background .18s;
+}
+.audio-btn:hover{background:var(--tc)}
+.audio-btn svg{width:16px;height:16px;fill:currentColor}
+.audio-track{flex:1;height:4px;background:var(--bdl);border-radius:2px;position:relative;cursor:pointer}
+.audio-progress{height:100%;background:var(--sage);border-radius:2px;width:0%;transition:width .5s linear}
+.audio-label{font-size:.72rem;color:var(--ts);flex-shrink:0;min-width:36px;text-align:right;font-variant-numeric:tabular-nums}
+.audio-hint{font-size:.75rem;color:var(--ts);text-align:center;margin-top:10px;opacity:.7}
+
+/* ── Q&A SCREEN ── */
+.qa-hero{
+  padding:32px 0 24px;
+}
+.qa-hero h1{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.6rem;color:var(--coal);margin-bottom:6px}
+.qa-hero p{font-size:.93rem;color:var(--ts);max-width:520px;margin-bottom:28px}
+
+.qa-type-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px}
+.qa-type-card{
+  background:var(--sand);border-radius:var(--rad);
+  border:2px solid var(--bdl);
+  padding:22px 18px;cursor:pointer;text-align:center;
+  transition:border-color .18s,box-shadow .18s;
+}
+.qa-type-card:hover,.qa-type-card.selected{border-color:var(--tc);box-shadow:0 0 0 4px rgba(194,98,63,.1)}
+.qa-type-icon{font-size:2rem;margin-bottom:10px}
+.qa-type-card h3{font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem;margin-bottom:5px}
+.qa-type-card p{font-size:.8rem;color:var(--ts);line-height:1.45}
+
+.qa-form{display:none}
+.qa-form.show{display:block}
+.qa-form label{display:block;font-weight:600;font-size:.9rem;margin-bottom:6px;color:var(--coal)}
+.qa-form textarea{
+  width:100%;border-radius:var(--rad);border:1.5px solid var(--bd);
+  background:var(--white);padding:14px;font-size:.93rem;
+  min-height:120px;outline:none;
+  transition:border-color .18s;
+  line-height:1.5;
+}
+.qa-form textarea:focus{border-color:var(--tc)}
+.qa-form-hint{font-size:.8rem;color:var(--ts);margin-top:6px;margin-bottom:18px}
+.qa-submit{
+  background:var(--tc);color:#fff;padding:12px 28px;
+  border-radius:var(--radb);font-weight:700;font-size:.95rem;
+  transition:opacity .18s;display:inline-flex;align-items:center;gap:8px;
+}
+.qa-submit:hover{opacity:.88}
+.qa-confirm{
+  background:var(--sand);border-radius:var(--rad);
+  border:1.5px solid var(--bdl);
+  padding:28px 24px;text-align:center;
+  display:none;
+}
+.qa-confirm.show{display:block}
+.qa-confirm-icon{font-size:2.5rem;margin-bottom:12px}
+.qa-confirm h2{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.2rem;margin-bottom:6px}
+.qa-confirm p{font-size:.9rem;color:var(--ts);margin-bottom:20px;max-width:380px;margin-left:auto;margin-right:auto}
+
+/* public Q list */
+.qa-public-section{margin-top:36px}
+.qa-public-section h2{font-family:'Nunito',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:14px;color:var(--coal)}
+.qa-item{
+  background:var(--white);border-radius:var(--rad);
+  border:1.5px solid var(--bdl);
+  padding:16px;margin-bottom:10px;
+}
+.qa-item-q{font-size:.92rem;font-weight:600;margin-bottom:6px}
+.qa-item-a{
+  font-size:.88rem;color:var(--ts);
+  border-left:3px solid var(--sage);
+  padding-left:10px;margin-top:8px;line-height:1.5;
+}
+.qa-item-meta{font-size:.75rem;color:var(--ts);margin-top:6px}
+.qa-tag-pending{
+  display:inline-block;background:var(--warn);color:#6B4F00;
+  font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:4px;
+}
+.qa-tag-answered{
+  display:inline-block;background:#D4EDDA;color:#155724;
+  font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:4px;
+}
+
+/* ── MES ÉCRITS ── */
+.ecrits-wrap{padding:24px 0 56px}
+.ecrits-wrap h1{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.5rem;color:var(--coal);margin-bottom:4px}
+.ecrits-wrap .ecrits-sub{font-size:.9rem;color:var(--ts);margin-bottom:28px}
+.ecrit-card{background:var(--sand);border-radius:var(--rad);border:1.5px solid var(--bdl);padding:18px;margin-bottom:12px;cursor:pointer;transition:box-shadow .18s}
+.ecrit-card:hover{box-shadow:var(--sh)}
+.ecrit-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.ecrit-tag{background:var(--tc);color:#fff;font-size:.7rem;font-weight:700;padding:2px 9px;border-radius:20px}
+.ecrit-date{font-size:.75rem;color:var(--ts)}
+.ecrit-preview{font-size:.88rem;color:var(--coal);font-style:italic;line-height:1.5;white-space:pre-wrap;overflow:hidden;max-height:3.6em;transition:max-height .3s}
+.ecrit-preview.open{max-height:none}
+.ecrit-read-more{font-size:.78rem;color:var(--tc);font-weight:700;margin-top:6px;background:none;border:none;cursor:pointer;padding:0}
+.ecrit-empty{text-align:center;padding:48px 20px;color:var(--ts)}
+.ecrit-empty .empty-icon{font-size:2.4rem;margin-bottom:12px}
+.ecrit-empty p{font-size:.9rem;max-width:320px;margin:0 auto}
+
+/* ── FAIRE LE POINT ── */
+.flp-wrap{padding:28px 0 56px}
+.flp-wrap h1{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.5rem;color:var(--coal);margin-bottom:4px}
+.flp-wrap .flp-sub{font-size:.9rem;color:var(--ts);margin-bottom:32px}
+
+.flp-step{display:none}
+.flp-step.on{display:block}
+.flp-q{font-family:'Nunito',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:16px;color:var(--coal)}
+
+/* emotion grid */
+.emo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-bottom:24px}
+.emo-btn{
+  background:var(--sand);border-radius:var(--rad);
+  border:2px solid var(--bdl);
+  padding:14px 8px;cursor:pointer;text-align:center;
+  transition:all .18s;
+}
+.emo-btn:hover,.emo-btn.sel{border-color:var(--tc);background:var(--white);box-shadow:0 0 0 3px rgba(194,98,63,.12)}
+.emo-emoji{font-size:1.7rem;margin-bottom:5px}
+.emo-label{font-size:.8rem;font-weight:600}
+
+/* intensity slider */
+.intensity-wrap{margin-bottom:24px}
+.intensity-labels{display:flex;justify-content:space-between;font-size:.78rem;color:var(--ts);margin-bottom:6px}
+input[type=range]{
+  width:100%;-webkit-appearance:none;appearance:none;
+  height:6px;border-radius:3px;background:var(--bd);outline:none;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--tc);cursor:pointer;border:3px solid var(--white);
+  box-shadow:0 1px 4px rgba(44,26,18,.2);
+}
+.intensity-val{text-align:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:1.2rem;color:var(--tc);margin-top:8px}
+
+/* context chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.chip{
+  padding:7px 16px;border-radius:20px;
+  border:1.5px solid var(--bd);font-size:.85rem;font-weight:500;
+  cursor:pointer;transition:all .18s;background:var(--sand);
+}
+.chip:hover,.chip.sel{background:var(--tc);color:#fff;border-color:var(--tc)}
+
+/* free text */
+.flp-textarea{
+  width:100%;border-radius:var(--rad);border:1.5px solid var(--bd);
+  background:var(--white);padding:14px;font-size:.92rem;
+  min-height:90px;outline:none;line-height:1.5;
+  transition:border-color .18s;margin-bottom:24px;
+}
+.flp-textarea:focus{border-color:var(--tc)}
+
+/* yes/no */
+.yn-row{display:flex;gap:10px;margin-bottom:24px}
+.yn-btn{
+  flex:1;padding:12px;border-radius:var(--rad);
+  border:2px solid var(--bd);font-weight:700;font-size:.9rem;
+  cursor:pointer;text-align:center;transition:all .18s;background:var(--sand);
+}
+.yn-btn:hover,.yn-btn.sel{border-color:var(--tc);background:var(--tc);color:#fff}
+
+/* flp acknowledgment */
+.flp-ack{
+  background:var(--white);
+  border:1.5px solid var(--bdl);
+  border-left:3.5px solid var(--tc);
+  border-radius:var(--rad);
+  padding:13px 16px;
+  font-size:.93rem;
+  color:var(--ts);
+  line-height:1.55;
+  margin-bottom:22px;
+  display:none;
+  animation:flpAckIn .35s ease;
+}
+.flp-ack.on{display:block}
+@keyframes flpAckIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+/* flp result */
+.flp-result{
+  background:var(--sand);border-radius:var(--rad);
+  border:1.5px solid var(--bdl);
+  padding:24px;margin-top:8px;
+}
+.flp-result-lead{font-size:.85rem;color:var(--tc);font-weight:600;letter-spacing:.03em;text-transform:uppercase;margin-bottom:10px}
+.flp-result h2{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.2rem;margin-bottom:2px}
+.flp-result-sub{font-size:.82rem;color:var(--ts);margin-bottom:12px}
+.flp-result p{font-size:.88rem;color:var(--ts);margin-bottom:16px}
+.flp-suggestions{display:flex;flex-direction:column;gap:10px}
+.flp-sug{
+  background:var(--white);border-radius:var(--rad);border:1.5px solid var(--bdl);
+  padding:14px;cursor:pointer;display:flex;align-items:center;gap:12px;
+  transition:box-shadow .18s;
+}
+.flp-sug:hover{box-shadow:var(--sh)}
+.flp-sug-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.flp-sug-text strong{display:block;font-size:.9rem;font-weight:700}
+.flp-sug-text span{font-size:.78rem;color:var(--ts)}
+
+/* nav dots mobile */
+.nav-steps{display:flex;gap:6px;margin-bottom:24px}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--bd);transition:background .2s}
+.nav-dot.done,.nav-dot.curr{background:var(--tc)}
+.flp-nav{display:flex;gap:10px;margin-top:24px}
+.btn-next{
+  background:var(--tc);color:#fff;padding:11px 24px;
+  border-radius:var(--radb);font-weight:700;font-size:.92rem;
+  transition:opacity .18s;
+}
+.btn-next:hover{opacity:.88}
+.btn-prev{
+  padding:9px 20px;border-radius:var(--radb);
+  border:2px solid var(--bd);color:var(--ts);font-weight:600;font-size:.88rem;
+  transition:all .18s;
+}
+.btn-prev:hover{border-color:var(--tc);color:var(--tc)}
+
+/* ── RESPONSIVE MOBILE ── */
+@media(max-width:640px){
+  header{padding:0 16px}
+  main{padding:0 16px 64px}
+  nav{display:none}
+  .bento{grid-template-columns:1fr}
+  .bento-card.wide{grid-column:1}
+  .rubriques{grid-template-columns:repeat(2,1fr)}
+  .qa-type-grid{grid-template-columns:1fr}
+  .hero{padding:28px 0 20px}
+  .tabs{overflow-x:auto}
+}
+
+@media(min-width:641px){
+  .logo-tagline{display:block}
+}
+
+/* ── DESKTOP ── */
+@media(min-width:860px){
+  main{padding:0 48px 100px}
+  .hero{padding:64px 0 40px}
+  .hero p{font-size:1.1rem}
+  nav button{padding:6px 12px;font-size:.84rem}
+}
+
+@media(min-width:641px) and (max-width:859px){
+  nav{gap:2px}
+  nav button{padding:5px 9px;font-size:.8rem}
+  .btn-urgence{padding:6px 12px;font-size:.8rem}
+}
+
+/* ── UTILITY ── */
+.mt-4{margin-top:4px}.mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}
+.mb-4{margin-bottom:4px}.mb-8{margin-bottom:8px}.mb-12{margin-bottom:12px}
+.flex-center{display:flex;align-items:center;justify-content:center}
+.text-center{text-align:center}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="hdr-inner">
+    <button class="logo-btn" onclick="goHome()">
+      <div class="logo-mark">
+        <svg width="32" height="32" viewBox="0 0 34 34" fill="none">
+          <circle cx="17" cy="17" r="16" fill="#C2623F"/>
+          <circle cx="17" cy="17" r="12.5" fill="#F5EFE6"/>
+          <circle cx="17" cy="17" r="10" fill="#6B8F71"/>
+          <circle cx="17" cy="17" r="6" fill="#FAF3E8"/>
+          <circle cx="17" cy="17" r="3.5" fill="#C2623F"/>
+        </svg>
+        <div class="logo-name">DHIKI</div>
+      </div>
+    </button>
+    <span class="logo-tagline">Bien-être mental</span>
+    <nav>
+      <button onclick="goHome()" id="nav-accueil" class="active">Accueil</button>
+      <button onclick="showScreen('s-rubriques')" id="nav-rub">Rubriques</button>
+      <button onclick="showScreen('s-qa')" id="nav-qa">Poser une question</button>
+      <button onclick="showScreen('s-flp')" id="nav-flp">Faire le point</button>
+    </nav>
+    <button onclick="showScreen('s-apropos')" id="nav-apropos" style="padding:6px 14px;border-radius:20px;font-size:.88rem;font-weight:500;color:var(--ts);transition:all .18s">À propos</button>
+    <button class="btn-urgence" onclick="openUrgence()">⚡ Urgence</button>
+  </div>
+</header>
+
+<!-- ══ MAIN ══ -->
+<main>
+
+<!-- ── ACCUEIL ── -->
+<div id="s-home" class="screen on">
+  <div class="hero">
+    <h1>Que la paix<br>soit là.</h1>
+    <p>Un espace calme pour prendre soin de ta santé mentale. Gratuit, en français et en éwé, fait pour toi.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showScreen('s-flp')">Faire le point maintenant</button>
+      <button class="btn-secondary" onclick="showScreen('s-rubriques')">Explorer les rubriques</button>
+    </div>
+  </div>
+
+  <div class="bento">
+    <div class="bento-card" onclick="showScreen('s-flp')">
+      <div class="bento-icon" style="background:#FDE8DE">
+        <svg width="24" height="24" fill="none" stroke="#C2623F" stroke-width="2"><path d="M12 21C12 21 4 13.5 4 8a8 8 0 0116 0c0 5.5-8 13-8 13z"/></svg>
+      </div>
+      <h3>Faire le point</h3>
+      <p>Comment tu te sens vraiment ? Prends 2 minutes pour toi.</p>
+    </div>
+    <div class="bento-card" onclick="showScreen('s-qa')">
+      <div class="bento-icon" style="background:#E6F0E7">
+        <svg width="24" height="24" fill="none" stroke="#5F8265" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      <h3>Poser une question</h3>
+      <p>Anonyme ou publique  - un professionnel te répond sous 48h.</p>
+    </div>
+    <div class="bento-card wide" onclick="showScreen('s-rubriques')">
+      <div class="bento-icon" style="background:#FDF3DC">
+        <svg width="24" height="24" fill="none" stroke="#B8860B" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      </div>
+      <div class="bento-badge">8 thèmes</div>
+      <h3>Rubriques</h3>
+      <p>Anxiété, sommeil, relations, confiance en soi… Explore des ressources faites pour toi. Lecture, exercices guidés, témoignages.</p>
+    </div>
+  </div>
+
+  <div id="home-ecrits-section" style="display:none;margin-bottom:8px">
+    <div class="bento-card" onclick="showScreen('s-ecrits')" style="background:var(--white);display:flex;align-items:center;gap:14px;padding:16px 20px">
+      <div class="bento-icon" style="background:#F0EBF8;margin:0;flex-shrink:0">
+        <svg width="22" height="22" fill="none" stroke="#7B68C8" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <div style="flex:1">
+        <div style="font-family:'Nunito',sans-serif;font-weight:700;font-size:.95rem">Mes écrits</div>
+        <div style="font-size:.78rem;color:var(--ts)" id="home-ecrits-count">Retrouve tes journaux et lettres</div>
+      </div>
+      <svg width="16" height="16" fill="none" stroke="var(--ts)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </div>
+  </div>
+
+  <div class="sec-title">Rubriques populaires</div>
+  <div class="rubriques">
+    <div class="rub-card" onclick="openRubrique('anxiete')">
+      <div class="rub-icon" style="background:#FDE8DE">
+        <svg width="26" height="26" fill="none" stroke="#C2623F" stroke-width="2"><path d="M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm0-6v-4m0-4h.01"/></svg>
+      </div>
+      <h3>Anxiété & stress</h3>
+      <p>4 ressources · 2 exercices</p>
+    </div>
+    <div class="rub-card" onclick="openRubrique('sommeil')">
+      <div class="rub-icon" style="background:#E6ECFF">
+        <svg width="26" height="26" fill="none" stroke="#4A6CF7" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </div>
+      <h3>Sommeil</h3>
+      <p>3 ressources · 2 exercices</p>
+    </div>
+    <div class="rub-card" onclick="openRubrique('confiance')">
+      <div class="rub-icon" style="background:#FDF3DC">
+        <svg width="26" height="26" fill="none" stroke="#B8860B" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <h3>Confiance en soi</h3>
+      <p>3 ressources · 1 exercice</p>
+    </div>
+    <div class="rub-card" onclick="openRubrique('relations')">
+      <div class="rub-icon" style="background:#E6F0E7">
+        <svg width="26" height="26" fill="none" stroke="#5F8265" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <h3>Relations</h3>
+      <p>3 ressources · 1 exercice</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── RUBRIQUES LIST ── -->
+<div id="s-rubriques" class="screen">
+  <button class="back-btn" onclick="goHome()">← Accueil</button>
+  <div class="sec-title" style="margin-top:16px">Toutes les rubriques</div>
+  <div class="rubriques" id="rub-grid"></div>
+</div>
+
+<!-- ── RUBRIQUE DETAIL ── -->
+<div id="s-rubrique" class="screen">
+  <button class="back-btn" id="rub-back-btn" onclick="goBack()">← Retour</button>
+  <div id="rub-detail-content"></div>
+</div>
+
+<!-- ── ARTICLE READER ── -->
+<div id="s-article" class="screen">
+  <button class="back-btn" onclick="goBack()">← Retour</button>
+  <div class="article-wrap" id="article-content"></div>
+</div>
+
+<!-- ── EXERCISE PLAYER ── -->
+<div id="s-exo" class="screen">
+  <button class="back-btn" onclick="goBack()">← Retour</button>
+  <div id="exo-content"></div>
+</div>
+
+<!-- ── Q&A ── -->
+<div id="s-qa" class="screen">
+  <div class="qa-hero">
+    <h1>Poser une question</h1>
+    <p>Tu peux poser ta question publiquement ou de façon anonyme. Un professionnel de santé mentale te répond dans les 48 heures.</p>
+    <div class="qa-type-grid">
+      <div class="qa-type-card" id="qa-pub-card" onclick="selectQaType('public')">
+        <div class="qa-type-icon">💬</div>
+        <h3>Question publique</h3>
+        <p>Ta question est visible par tous. Les réponses peuvent aider d'autres personnes dans la même situation.</p>
+      </div>
+      <div class="qa-type-card" id="qa-anon-card" onclick="selectQaType('anon')">
+        <div class="qa-type-icon">🔒</div>
+        <h3>Question anonyme</h3>
+        <p>Personne ne voit ta question sauf le professionnel qui te répond. Totalement confidentielle.</p>
+      </div>
+    </div>
+
+    <div class="qa-form" id="qa-form">
+      <label id="qa-form-label">Ta question</label>
+      <textarea id="qa-textarea" placeholder="Écris ta question ici…" rows="5"></textarea>
+      <div class="qa-form-hint" id="qa-hint">Ta question sera visible publiquement avec ton prénom ou un pseudo.</div>
+      <button class="qa-submit" onclick="submitQa()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        Envoyer
+      </button>
+    </div>
+
+    <div class="qa-confirm" id="qa-confirm">
+      <div class="qa-confirm-icon">✅</div>
+      <h2>Question envoyée !</h2>
+      <p id="qa-confirm-text">Ta question a été transmise à notre équipe. Tu recevras une réponse dans les 48 heures.</p>
+      <button class="btn-primary" onclick="resetQa()">Poser une autre question</button>
+    </div>
+  </div>
+
+  <div class="qa-public-section">
+    <h2>Questions récentes</h2>
+    <div id="qa-list"></div>
+  </div>
+</div>
+
+<!-- ── FAIRE LE POINT ── -->
+<div id="s-flp" class="screen">
+  <button class="back-btn" onclick="goBack()" style="margin-top:16px">← Retour</button>
+  <div class="flp-wrap">
+    <h1>Faire le point</h1>
+    <p class="flp-sub">Prends 3 minutes pour toi. Personne ne voit tes réponses.</p>
+
+    <!-- progress dots -->
+    <div class="nav-steps">
+      <div class="nav-dot curr" id="dot-0"></div>
+      <div class="nav-dot" id="dot-1"></div>
+      <div class="nav-dot" id="dot-2"></div>
+      <div class="nav-dot" id="dot-3"></div>
+      <div class="nav-dot" id="dot-4"></div>
+    </div>
+
+    <!-- warm acknowledgment (updated dynamically) -->
+    <div class="flp-ack" id="flp-ack"></div>
+
+    <!-- Step 0  - emotion -->
+    <div class="flp-step on" id="flp-0">
+      <div class="flp-q">Comment tu te sens en ce moment ?</div>
+      <div class="emo-grid">
+        <div class="emo-btn" onclick="selectEmo(this,'calme')"><div class="emo-emoji">😌</div><div class="emo-label">Calme</div></div>
+        <div class="emo-btn" onclick="selectEmo(this,'heureux')"><div class="emo-emoji">😊</div><div class="emo-label">Heureux·se</div></div>
+        <div class="emo-btn" onclick="selectEmo(this,'anxieux')"><div class="emo-emoji">😟</div><div class="emo-label">Anxieux·se</div></div>
+        <div class="emo-btn" onclick="selectEmo(this,'triste')"><div class="emo-emoji">😢</div><div class="emo-label">Triste</div></div>
+        <div class="emo-btn" onclick="selectEmo(this,'fatigue')"><div class="emo-emoji">😴</div><div class="emo-label">Fatigué·e</div></div>
+        <div class="emo-btn" onclick="selectEmo(this,'colere')"><div class="emo-emoji">😤</div><div class="emo-label">En colère</div></div>
+        <div class="emo-btn" onclick="selectEmo(this,'confus')"><div class="emo-emoji">😕</div><div class="emo-label">Perdu·e</div></div>
+        <div class="emo-btn" onclick="selectEmo(this,'espoir')"><div class="emo-emoji">🌱</div><div class="emo-label">Plein·e d'espoir</div></div>
+      </div>
+      <div class="flp-nav">
+        <button class="btn-next" onclick="flpNext()">Continuer →</button>
+      </div>
+    </div>
+
+    <!-- Step 1  - intensité -->
+    <div class="flp-step" id="flp-1">
+      <div class="flp-q">À quelle intensité ressens-tu ça ?</div>
+      <div class="intensity-wrap">
+        <div class="intensity-labels"><span>Légèrement</span><span>Beaucoup</span></div>
+        <input type="range" id="flp-intensity" min="1" max="10" value="5" oninput="document.getElementById('intensity-display').textContent=this.value">
+        <div class="intensity-val" id="intensity-display">5</div>
+      </div>
+      <div class="flp-nav">
+        <button class="btn-prev" onclick="flpPrev()">← Retour</button>
+        <button class="btn-next" onclick="flpNext()">Continuer →</button>
+      </div>
+    </div>
+
+    <!-- Step 2  - contexte -->
+    <div class="flp-step" id="flp-2">
+      <div class="flp-q">À quoi est-ce lié ?</div>
+      <div class="chips">
+        <div class="chip" onclick="toggleChip(this)">École / Études</div>
+        <div class="chip" onclick="toggleChip(this)">Famille</div>
+        <div class="chip" onclick="toggleChip(this)">Amitiés</div>
+        <div class="chip" onclick="toggleChip(this)">Amour / Relations</div>
+        <div class="chip" onclick="toggleChip(this)">Argent</div>
+        <div class="chip" onclick="toggleChip(this)">Travail / Avenir</div>
+        <div class="chip" onclick="toggleChip(this)">Corps / Santé</div>
+        <div class="chip" onclick="toggleChip(this)">Solitude</div>
+        <div class="chip" onclick="toggleChip(this)">Je ne sais pas</div>
+      </div>
+      <div class="flp-nav">
+        <button class="btn-prev" onclick="flpPrev()">← Retour</button>
+        <button class="btn-next" onclick="flpNext()">Continuer →</button>
+      </div>
+    </div>
+
+    <!-- Step 3  - texte libre -->
+    <div class="flp-step" id="flp-3">
+      <div class="flp-q">Qu'est-ce qui t'occupe l'esprit en ce moment ?</div>
+      <textarea class="flp-textarea" id="flp-text" placeholder="Tu n'es pas obligé·e d'écrire. Mais si tu veux vider un peu ta tête…"></textarea>
+      <div class="flp-q" style="margin-top:4px">Est-ce que tu penses avoir besoin d'aide professionnelle ?</div>
+      <div class="yn-row">
+        <div class="yn-btn" id="yn-yes" onclick="selectYN('yes')">Oui</div>
+        <div class="yn-btn" id="yn-no" onclick="selectYN('no')">Non</div>
+        <div class="yn-btn" id="yn-sais" onclick="selectYN('sais')">Je ne sais pas</div>
+      </div>
+      <div class="flp-nav">
+        <button class="btn-prev" onclick="flpPrev()">← Retour</button>
+        <button class="btn-next" onclick="flpNext()">Continuer →</button>
+      </div>
+    </div>
+
+    <!-- Step 4  - résultats -->
+    <div class="flp-step" id="flp-4">
+      <div class="flp-result" id="flp-result-box"></div>
+      <div class="flp-nav" style="margin-top:20px">
+        <button class="btn-ghost" onclick="resetFlp()">Recommencer</button>
+        <button class="btn-next" onclick="showScreen('s-qa')">Poser une question</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MES ÉCRITS ── -->
+<div id="s-ecrits" class="screen">
+  <div class="ecrits-wrap">
+    <button class="back-btn" onclick="goBack()">← Retour</button>
+    <h1 style="margin-top:16px">Mes écrits</h1>
+    <p class="ecrits-sub">Tes textes sont sauvegardés sur cet appareil, dans ce navigateur. Ils ne sont visibles que par toi.</p>
+    <div id="ecrits-list"></div>
+  </div>
+</div>
+
+</main>
+
+<!-- ── À PROPOS ── -->
+<div id="s-apropos" class="screen">
+  <div class="article-wrap" style="max-width:720px">
+    <button class="back-btn" onclick="goBack()">← Retour</button>
+    <div style="margin-top:32px;margin-bottom:48px;text-align:center">
+      <svg width="56" height="56" viewBox="0 0 34 34" fill="none" style="margin:0 auto 16px">
+        <circle cx="17" cy="17" r="16" fill="#C2623F"/>
+        <circle cx="17" cy="17" r="12.5" fill="#F5EFE6"/>
+        <circle cx="17" cy="17" r="10" fill="#6B8F71"/>
+        <circle cx="17" cy="17" r="6" fill="#FAF3E8"/>
+        <circle cx="17" cy="17" r="3.5" fill="#C2623F"/>
+      </svg>
+      <h1 style="font-family:'Nunito',sans-serif;font-size:2rem;font-weight:800;color:var(--tc);margin-bottom:8px">DHIKI</h1>
+      <p style="font-size:.8rem;color:var(--ts);letter-spacing:.06em;text-transform:uppercase">Bien-être mental</p>
+    </div>
+
+    <section style="margin-bottom:40px">
+      <h2 style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.25rem;color:var(--coal);margin-bottom:12px">Notre mission</h2>
+      <p style="color:var(--ts);line-height:1.75;margin-bottom:12px">DHIKI est née d'un constat simple : le bien-être mental est essentiel, et les jeunes qui se sentent écoutés et compris dans un espace sécurisant s'épanouissent mieux, s'expriment plus librement, et construisent un rapport à eux-mêmes plus sain — et deviennent de meilleurs adultes.</p>
+      <p style="color:var(--ts);line-height:1.75;margin-bottom:12px">Notre mission est d'offrir cet espace — une safe place, un havre de paix — à toute personne qui en a besoin. Un lieu sans jugement, accessible gratuitement, où chacun peut prendre soin de sa santé mentale à son rythme.</p>
+      <p style="color:var(--ts);line-height:1.75">DHIKI s'adresse d'abord aux jeunes de 12 à 25 ans, mais aussi à tous ceux qui cherchent un moment pour souffler, se retrouver, et aller un peu mieux. En Afrique et au-delà.</p>
+    </section>
+
+    <section style="margin-bottom:40px">
+      <h2 style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.25rem;color:var(--coal);margin-bottom:12px">Ce que DHIKI propose</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:16px">
+          <div style="font-size:1.4rem;margin-bottom:8px">🧘</div>
+          <div style="font-weight:700;font-size:.9rem;margin-bottom:4px">Exercices guidés</div>
+          <div style="font-size:.82rem;color:var(--ts)">Respiration, méditation, journaux, ancrage sensoriel</div>
+        </div>
+        <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:16px">
+          <div style="font-size:1.4rem;margin-bottom:8px">📚</div>
+          <div style="font-weight:700;font-size:.9rem;margin-bottom:4px">Articles et ressources</div>
+          <div style="font-size:.82rem;color:var(--ts)">Des contenus clairs, écrits pour notre contexte local</div>
+        </div>
+        <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:16px">
+          <div style="font-size:1.4rem;margin-bottom:8px">💬</div>
+          <div style="font-weight:700;font-size:.9rem;margin-bottom:4px">Poser une question</div>
+          <div style="font-size:.82rem;color:var(--ts)">Anonymement, en toute sécurité</div>
+        </div>
+        <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:16px">
+          <div style="font-size:1.4rem;margin-bottom:8px">⚡</div>
+          <div style="font-weight:700;font-size:.9rem;margin-bottom:4px">Aide d'urgence</div>
+          <div style="font-size:.82rem;color:var(--ts)">Ressources immédiates en cas de crise</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-bottom:40px">
+      <h2 style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.25rem;color:var(--coal);margin-bottom:12px">Nos valeurs</h2>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:10px">
+        <li style="display:flex;align-items:flex-start;gap:10px"><span style="color:var(--tc);font-weight:700;flex-shrink:0">Gratuit</span><span style="color:var(--ts);font-size:.92rem">Tout le contenu est et restera gratuit, sans exception.</span></li>
+        <li style="display:flex;align-items:flex-start;gap:10px"><span style="color:var(--tc);font-weight:700;flex-shrink:0">Anonyme</span><span style="color:var(--ts);font-size:.92rem">Aucun compte requis. Tes écrits restent sur ton appareil, invisibles pour nous.</span></li>
+        <li style="display:flex;align-items:flex-start;gap:10px"><span style="color:var(--tc);font-weight:700;flex-shrink:0">Ancré</span><span style="color:var(--ts);font-size:.92rem">Né à Lomé, pensé pour les réalités africaines. Conçu pour voyager, d'une ville à l'autre, d'un pays à l'autre.</span></li>
+        <li style="display:flex;align-items:flex-start;gap:10px"><span style="color:var(--tc);font-weight:700;flex-shrink:0">Bienveillant</span><span style="color:var(--ts);font-size:.92rem">Sans jugement. Chacun avance à son rythme.</span></li>
+      </ul>
+    </section>
+
+    <section style="margin-bottom:40px">
+      <h2 style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.25rem;color:var(--coal);margin-bottom:12px">Qui sommes-nous</h2>
+      <p style="color:var(--ts);line-height:1.75;margin-bottom:12px">DHIKI est portée par <strong style="color:var(--coal)">l'Association DHIKI Togo</strong>, créée pour donner vie à ce projet et accompagner les jeunes Africains dans leur bien-être mental.</p>
+      <p style="color:var(--ts);line-height:1.75">Nous croyons que des outils accessibles, gratuits et adaptés à nos réalités peuvent transformer des vies — et que des jeunes qui se sentent bien en eux-mêmes construisent un avenir meilleur, pour eux et pour leurs communautés.</p>
+    </section>
+
+    <section style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:24px;text-align:center;margin-bottom:48px">
+      <p style="font-size:.9rem;color:var(--ts);margin-bottom:4px">Une question, une suggestion ?</p>
+      <a href="mailto:contact@dhiki.space" style="font-weight:700;color:var(--tc);font-size:.95rem">contact@dhiki.space</a>
+    </section>
+  </div>
+</div>
+
+<!-- ══ URGENCE OVERLAY ══ -->
+<div class="overlay" id="urgence-overlay" onclick="closeUrgence(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeUrgence()">×</button>
+    <h2>⚡ Besoin d'aide immédiate ?</h2>
+    <p>Tu n'es pas seul·e. Ces ressources peuvent t'aider maintenant.</p>
+    <ul class="crisis-list">
+      <li>
+        <strong>Exercice de respiration</strong>
+        <span>3 minutes pour calmer ton corps et tes pensées.</span>
+        <br><button onclick="closeUrgence();startBreathing('urgence')" style="margin-top:6px;display:inline-block;background:var(--sage);color:#fff;padding:6px 14px;border-radius:20px;font-size:.84rem;font-weight:700">Commencer maintenant</button>
+      </li>
+      <li>
+        <strong>Parler à un proche de confiance</strong>
+        <span>Appelle quelqu'un qui t'écoute, sans jugement - un ami, un parent, quelqu'un en qui tu as confiance.</span>
+      </li>
+      <li>
+        <strong>CPASE - Centre Psychosocial</strong>
+        <span>Lomé, Togo · Consultations gratuites</span>
+        <a href="tel:+22890000000">Appeler le centre</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+/* ══════════════ DATA ══════════════ */
+
+const RUBRIQUES = [
+  {
+    id:'anxiete', name:'Anxiété & stress', ressources:4, exos:2,
+    color:'#FDE8DE', stroke:'#C2623F',
+    icon:`<svg width="26" height="26" fill="none" stroke="#C2623F" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>`,
+    intro:"L'anxiété n'est pas une faiblesse  - c'est une réaction normale de ton cerveau face à ce qui te semble menaçant. Elle peut cependant devenir difficile à vivre. Tu trouves ici des ressources pour mieux la comprendre et des outils concrets pour la gérer.",
+    comprendre:[
+      {id:'anxiete-coeur', meta:'Lecture · 4 min', title:'Pourquoi mon cœur s\'accélère quand je stresse'},
+      {id:'anxiete-normal', meta:'Lecture · 3 min', title:'L\'anxiété est normale  - mais pas toujours'},
+      {id:'anxiete-ecole', meta:'Lecture · 5 min', title:'Gérer l\'anxiété avant les examens'},
+      {id:'anxiete-sociale', meta:'Lecture · 4 min', title:'L\'anxiété sociale : quand les autres font peur'}
+    ],
+    exercices:[
+      {id:'respiration-4-7-8', type:'breathing', meta:'Exercice guidé · 5 min', title:'Respiration 4-7-8', desc:'Une technique de respiration utilisée pour calmer rapidement le système nerveux. Tu peux la pratiquer partout, à tout moment.'},
+      {id:'ancrage-5', type:'ancrage', meta:'Exercice guidé · 3 min', title:'Ancrage sensoriel 5-4-3-2-1', desc:'Reconnecte-toi au présent en mobilisant tes 5 sens. Très efficace lors d\'une crise d\'anxiété ou de panique.'},
+    ],
+    temoignages:[
+      {q:'"J\'avais honte de dire que j\'avais peur tout le temps. J\'ai cru que j\'étais fou. Savoir que c\'est une réaction normale m\'a aidé à en parler."', who:'Edem, 20 ans · Lomé'},
+      {q:'"Les examens me paralysaient. J\'ai appris à respirer autrement et ça a tout changé. Je passais mes concours avec beaucoup moins de stress."', who:'Afua, 18 ans · Kpalimé'}
+    ]
+  },
+  {
+    id:'sommeil', name:'Sommeil', ressources:3, exos:2,
+    color:'#E6ECFF', stroke:'#4A6CF7',
+    icon:`<svg width="26" height="26" fill="none" stroke="#4A6CF7" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>`,
+    intro:"Le sommeil est vital pour ta santé mentale et physique. Quand on dort mal, tout paraît plus difficile  - les émotions débordent, la concentration chute. Ici tu trouveras des clés pour mieux dormir.",
+    comprendre:[
+      {id:'sommeil-phone', meta:'Lecture · 4 min', title:'Pourquoi le téléphone avant de dormir perturbe ton cerveau'},
+      {id:'sommeil-hygiene', meta:'Lecture · 5 min', title:'L\'hygiène du sommeil : les habitudes qui changent tout'},
+      {id:'sommeil-reves', meta:'Lecture · 3 min', title:'Ce que tes rêves disent de ton stress'}
+    ],
+    exercices:[
+      {id:'respiration-sommeil', type:'breathing', meta:'Exercice guidé · 4 min', title:'Respiration pour s\'endormir', desc:'Une méthode douce qui prépare ton corps au sommeil en ralentissant ton rythme cardiaque.'},
+      {id:'scan-corporel', type:'scan', meta:'Méditation guidée · 8 min', title:'Scan corporel pour le soir', desc:'Parcours ton corps de la tête aux pieds pour relâcher les tensions accumulées dans la journée et t\'endormir plus facilement.'}
+    ],
+    temoignages:[
+      {q:'"Je scrollais jusqu\'à 2h du matin. Arrêter le téléphone une heure avant a été le plus grand changement que j\'ai fait pour mon sommeil."', who:'Kossi, 21 ans · Lomé'},
+      {q:'"Le scan corporel guidé m\'a semblé bizarre au début. Maintenant je m\'endors avant même d\'avoir fini."', who:'Kafui, 19 ans · Tsévié'}
+    ]
+  },
+  {
+    id:'confiance', name:'Confiance en soi', ressources:3, exos:1,
+    color:'#FDF3DC', stroke:'#B8860B',
+    icon:`<svg width="26" height="26" fill="none" stroke="#B8860B" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+    intro:"Se sentir bien dans sa peau dans un monde qui compare constamment, ça ne va pas de soi. La confiance en soi se construit  - elle n'est pas innée. Tu mérites de te sentir capable et à ta place.",
+    comprendre:[
+      {id:'confiance-reseaux', meta:'Lecture · 5 min', title:'Les réseaux sociaux et l\'estime de soi'},
+      {id:'confiance-echec', meta:'Lecture · 4 min', title:'Apprendre de l\'échec sans se détruire'},
+      {id:'confiance-critique', meta:'Lecture · 4 min', title:'Se protéger de la critique sans se fermer au monde'}
+    ],
+    exercices:[
+      {id:'gratitude', type:'journal', meta:'Exercice · 5 min', title:'Journal de gratitude', desc:'Chaque jour, noter 3 choses positives sur toi-même réoriente progressivement ton regard intérieur. Cet exercice guidé te pose les questions une par une.'}
+    ],
+    temoignages:[
+      {q:'"Je me comparais tout le temps à d\'autres sur Instagram. J\'ai désinstallé l\'appli pendant un mois. Ça m\'a sauvé la tête."', who:'Yawa, 19 ans · Atakpamé'},
+      {q:'"J\'ai échoué à mon concours d\'entrée deux fois. La troisième fois, j\'y suis arrivé. L\'échec m\'a appris plus que la réussite."', who:'Adjoa, 22 ans · Lomé'}
+    ]
+  },
+  {
+    id:'relations', name:'Relations & amitié', ressources:3, exos:3,
+    color:'#E6F0E7', stroke:'#5F8265',
+    icon:`<svg width="26" height="26" fill="none" stroke="#5F8265" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
+    intro:"Les relations  - avec ta famille, tes ami·e·s, ton ou ta partenaire  - ont un impact énorme sur ta santé mentale. Apprendre à communiquer, à poser des limites, à surmonter les conflits : c'est ici.",
+    comprendre:[
+      {id:'relations-limites', meta:'Lecture · 4 min', title:'Poser des limites sans se sentir coupable'},
+      {id:'relations-conflit', meta:'Lecture · 3 min', title:'Gérer un conflit avec quelqu\'un qu\'on aime'},
+      {id:'relations-communication', meta:'Lecture · 5 min', title:'Communiquer sans blesser : la CNV en pratique'}
+    ],
+    exercices:[
+      {id:'ecoute-active', type:'ecoute', meta:'Exercice · 5 min', title:'L\'écoute active', desc:'Apprendre à vraiment écouter sans interrompre, sans juger. Des scénarios différents à chaque fois pour t\'entraîner.'},
+      {id:'limites', type:'limites', meta:'Exercice · 6 min', title:'Poser des limites', desc:'Dire non, exprimer un besoin, défendre ton espace sans te sentir coupable. Des mises en situation concrètes pour t\'entraîner.'},
+      {id:'journal-relations', type:'journal', meta:'Réflexion · 5 min', title:'Journal des relations', desc:'Prends le temps de réfléchir à une relation qui te tient à cœur. 3 questions pour mieux comprendre ce que tu vis.'}
+    ],
+    temoignages:[
+      {q:'"Je n\'osais jamais dire non à ma famille. J\'ai compris que dire non c\'est aussi me respecter moi. Ça m\'a pris du temps, mais maintenant je me sens plus libre."', who:'Mawuli, 22 ans · Sokodé'},
+      {q:'"Mon ami et moi on s\'est disputés et je ne savais pas comment réparer. J\'ai essayé de l\'écouter vraiment pour la première fois. On s\'est réconciliés."', who:'Séna, 18 ans · Lomé'}
+    ]
+  },
+  {
+    id:'deuil', name:'Deuil & perte', ressources:2, exos:1,
+    color:'#EDE8F5', stroke:'#7B68C8',
+    icon:`<svg width="26" height="26" fill="none" stroke="#7B68C8" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
+    intro:"Perdre quelqu'un ou quelque chose qu'on aimait  - une personne, une relation, une opportunité  - fait partie de la vie mais peut être très douloureux. Le deuil prend du temps, et il n'y a pas de bonne façon de le traverser.",
+    comprendre:[
+      {id:'deuil-etapes', meta:'Lecture · 5 min', title:'Les étapes du deuil : un guide bienveillant'},
+      {id:'deuil-soutien', meta:'Lecture · 4 min', title:'Comment soutenir quelqu\'un qui vit un deuil'}
+    ],
+    exercices:[
+      {id:'lettre-deuil', type:'ecriture', meta:'Exercice · 10 min', title:'Écrire une lettre', desc:'Mettre des mots sur ce que tu ressens peut libérer des émotions bloquées. Cet espace est privé  - écris librement, sans chercher à bien formuler.'}
+    ],
+    temoignages:[
+      {q:'"J\'ai perdu ma grand-mère et je n\'arrivais pas à pleurer. J\'avais honte. On m\'a dit que chacun vit le deuil à sa façon, et j\'ai commencé à me pardonner."', who:'Abla, 17 ans · Lomé'},
+      {q:'"J\'ai écrit une lettre à mon père après sa mort. Je ne l\'ai jamais envoyée évidemment. Mais ça m\'a soulagé d\'une manière que je ne saurais pas expliquer."', who:'Théo, 24 ans · Atakpamé'}
+    ]
+  },
+  {
+    id:'identite', name:'Identité & culture', ressources:2, exos:1,
+    color:'#FFE8E8', stroke:'#D94040',
+    icon:`<svg width="26" height="26" fill="none" stroke="#D94040" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg>`,
+    intro:"Grandir au Togo, naviguer entre traditions et modernité, trouver sa place  - c'est un chemin unique. Tu peux être fier·ère de qui tu es tout en questionnant ce qui te définit.",
+    comprendre:[
+      {id:'identite-culture', meta:'Lecture · 5 min', title:'Entre tradition et modernité : trouver son équilibre'},
+      {id:'identite-pression', meta:'Lecture · 4 min', title:'La pression familiale et ta santé mentale'}
+    ],
+    exercices:[
+      {id:'valeurs', type:'valeurs', meta:'Exercice · 6 min', title:'Clarifier tes valeurs', desc:'Parmi une liste de valeurs, tu choisis celles qui comptent vraiment pour toi  - pas celles que les autres attendent. Un exercice de tri guidé pour mieux te connaître.'}
+    ],
+    temoignages:[
+      {q:'"Ma famille voulait que je fasse la médecine. Moi je voulais être artiste. Clarifier mes valeurs m\'a aidé à défendre mes rêves avec calme."', who:'Kofi, 23 ans · Lomé'},
+      {q:'"Je me sentais déchiré entre ce que mes parents attendent et ce que je veux vraiment. J\'ai réalisé qu\'on peut respecter sa famille et quand même choisir sa vie."', who:'Ama, 21 ans · Kpalimé'}
+    ]
+  },
+  {
+    id:'concentration', name:'Concentration & études', ressources:3, exos:2,
+    color:'#E8F4FD', stroke:'#2196F3',
+    icon:`<svg width="26" height="26" fill="none" stroke="#2196F3" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>`,
+    intro:"Se concentrer quand tout distrait  - le téléphone, les bruits, les inquiétudes  - c'est un vrai défi. Apprendre à gérer ton attention est l'une des compétences les plus précieuses que tu puisses développer.",
+    comprendre:[
+      {id:'concentration-pomodoro', meta:'Lecture · 3 min', title:'La méthode Pomodoro pour mieux étudier'},
+      {id:'concentration-distraction', meta:'Lecture · 4 min', title:'Pourquoi le téléphone détruit ta concentration'},
+      {id:'concentration-espace', meta:'Lecture · 3 min', title:'Créer un espace de travail qui aide à se concentrer'}
+    ],
+    exercices:[
+      {id:'respiration-concentration', type:'breathing', meta:'Exercice · 3 min', title:'Respiration pour se recentrer', desc:'2 minutes de respiration structurée avant une session d\'étude pour préparer ton cerveau à la concentration. Simple et efficace.'},
+      {id:'pomodoro', type:'pomodoro', meta:'Outil · en continu', title:'Minuteur Pomodoro', desc:'25 minutes de travail, 5 minutes de pause. Travaille en cycles courts pour rester concentré·e sans t\'épuiser.'}
+    ],
+    temoignages:[
+      {q:'"J\'avais mon téléphone à portée de main pendant que j\'étudiais. Je l\'ai mis dans une autre pièce. En une semaine j\'ai rattrapé tout mon retard."', who:'Séna, 20 ans · Lomé'}
+    ]
+  },
+  {
+    id:'emotions', name:'Gérer ses émotions', ressources:3, exos:2,
+    color:'#FDEBD0', stroke:'#E67E22',
+    icon:`<svg width="26" height="26" fill="none" stroke="#E67E22" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>`,
+    intro:"Les émotions ne sont ni bonnes ni mauvaises  - elles sont des informations. Colère, tristesse, joie, peur : apprendre à les reconnaître, les accueillir et les exprimer sainement, c'est une force.",
+    comprendre:[
+      {id:'emotions-colere', meta:'Lecture · 4 min', title:'Comprendre et accueillir sa colère'},
+      {id:'emotions-tristesse', meta:'Lecture · 4 min', title:'La tristesse n\'est pas la dépression'},
+      {id:'emotions-joie', meta:'Lecture · 3 min', title:'Cultiver la joie même dans les moments difficiles'}
+    ],
+    exercices:[
+      {id:'journal-emotions', type:'journal', meta:'Exercice · 5 min', title:'Journal des émotions', desc:'Répondre à quelques questions guidées sur ce que tu ressens aujourd\'hui aide à mieux te comprendre et à mettre des mots sur l\'invisible.'},
+      {id:'respiration-colere', type:'breathing', meta:'Exercice · 3 min', title:'Respirer quand la colère monte', desc:'Une technique rapide et discrète pour éviter d\'exploser  - tu peux la pratiquer dans n\'importe quelle situation difficile.'}
+    ],
+    temoignages:[
+      {q:'"Je ne savais pas comment nommer ce que je ressentais. Écrire mes émotions chaque soir m\'a aidé à me comprendre moi-même."', who:'Dzidzor, 18 ans · Kara'},
+      {q:'"Je criais tout le temps sur mes petits frères. J\'ai appris à respirer avant de réagir. Maintenant la maison est plus calme."', who:'Komlan, 17 ans · Lomé'}
+    ]
+  }
+];
+
+/* ══════════════ ARTICLES ══════════════ */
+const ARTICLES = {
+  'anxiete-coeur': {
+    meta:'Lecture · 4 min · Anxiété & stress',
+    title:'Pourquoi mon cœur s\'accélère quand je stresse',
+    body:`
+      <p>Tu as déjà ressenti ce moment où ton cœur bat fort, où tes mains deviennent moites, où tu as du mal à respirer  - alors que tu n'as fait aucun effort physique ? C'est la réponse de ton corps au stress. Et c'est complètement normal.</p>
+
+      <h2>Ton cerveau et le "mode urgence"</h2>
+      <p>Quand ton cerveau perçoit une menace  - un examen difficile, un conflit, une peur  - il envoie un signal d'alarme. Ton corps produit alors de l'adrénaline et du cortisol, les hormones du stress. Ces hormones ont un seul objectif : te préparer à "fuir ou combattre".</p>
+      <p>C'est un mécanisme très ancien, prévu pour les prédateurs. Aujourd'hui, le "prédateur" c'est souvent un professeur, un entretien ou un message non répondu  - mais ton corps réagit pareil.</p>
+
+      <div class="article-pullquote">L'anxiété n'est pas une faiblesse. C'est ton cerveau qui fait son travail  - parfois un peu trop bien.</div>
+
+      <h2>Ce qui se passe dans ton corps</h2>
+      <p>Quand l'adrénaline arrive :</p>
+      <ul>
+        <li>Ton cœur bat plus vite pour envoyer plus de sang aux muscles</li>
+        <li>Ta respiration s'accélère pour amener plus d'oxygène</li>
+        <li>Tes muscles se contractent, prêts à réagir</li>
+        <li>Ta digestion ralentit (ton corps la juge non prioritaire)</li>
+      </ul>
+
+      <h2>Pourquoi ça devient problématique</h2>
+      <p>Le problème, c'est que ce système d'alarme peut se déclencher même sans danger réel. Si tu vis dans un environnement stressant  - problèmes familiaux, pression scolaire, insécurité économique  - ton corps peut rester en "mode urgence" presque en permanence. Sur le long terme, ça épuise.</p>
+
+      <h2>Ce que tu peux faire</h2>
+      <p>La bonne nouvelle : tu peux apprendre à "désactiver" ce mode urgence. La respiration lente est l'outil le plus puissant  - quand tu respires profondément et lentement, tu envoies un signal à ton cerveau que le danger est passé. Ton cœur ralentit, tes muscles se détendent.</p>
+      <p>Essaie l'exercice de respiration 4-7-8 dans la rubrique Anxiété & stress. Beaucoup de jeunes de Lomé nous ont dit que ça les a aidés à affronter les examens plus sereinement.</p>
+    `
+  },
+  'anxiete-normal': {
+    meta:'Lecture · 3 min · Anxiété & stress',
+    title:'L\'anxiété est normale  - mais pas toujours',
+    body:`
+      <p>Il y a une différence entre l'anxiété ordinaire et un trouble anxieux. Comprendre cette différence peut t'aider à savoir si tu as besoin d'aide professionnelle.</p>
+
+      <h2>L'anxiété ordinaire</h2>
+      <p>Se sentir nerveux·se avant un examen, inquiet·e pour un proche malade, ou stressé·e avant une présentation  - c'est de l'anxiété normale. Elle apparaît dans un contexte précis, dure un temps limité, et disparaît une fois la situation résolue.</p>
+
+      <h2>Quand ça devient différent</h2>
+      <p>Il faut consulter un professionnel quand l'anxiété :</p>
+      <ul>
+        <li>Est présente presque tous les jours, sans raison claire</li>
+        <li>T'empêche de faire des choses importantes (aller à l'école, voir des amis)</li>
+        <li>Provoque des crises de panique (cœur qui s'emballe, sensation d'étouffer)</li>
+        <li>T'amène à éviter de plus en plus de situations</li>
+      </ul>
+
+      <div class="article-pullquote">Chercher de l'aide n'est pas un signe de faiblesse. C'est l'acte le plus courageux qu'on puisse faire pour soi-même.</div>
+
+      <h2>À Lomé, tu peux consulter</h2>
+      <p>Le CPASE (Centre Psychosocial) propose des consultations gratuites ou à tarif réduit. Tu n'as pas besoin d'une ordonnance pour prendre rendez-vous. Si tu n'es pas à Lomé, les médecins généralistes peuvent aussi t'orienter.</p>
+    `
+  },
+  'anxiete-ecole': {
+    meta:'Lecture · 5 min · Anxiété & stress',
+    title:'Gérer l\'anxiété avant les examens',
+    body:`
+      <p>Les examens au Togo, c'est souvent une pression énorme  - sur toi, sur ta famille. Le BEPC, le BAC, les concours… Ces moments peuvent déclencher une anxiété intense. Voici comment la traverser sans te laisser submerger.</p>
+
+      <h2>Comprends ce que tu ressens</h2>
+      <p>L'anxiété avant un examen vient souvent de la peur  - peur de décevoir, peur de l'échec, peur de l'avenir incertain. Ces peurs sont réelles et légitimes. Les nommer aide déjà à les apprivoiser.</p>
+
+      <h2>Ce qui aggrave l'anxiété</h2>
+      <ul>
+        <li>Réviser jusqu'à 2h ou 3h du matin la veille (ton cerveau ne fixe pas bien les informations quand il est épuisé)</li>
+        <li>Comparer ta préparation à celle de tes camarades</li>
+        <li>Catastrophiser ("si je rate, ma vie est foutue")</li>
+      </ul>
+
+      <h2>Ce qui aide vraiment</h2>
+      <ul>
+        <li><strong>Dormir suffisamment</strong> la semaine des examens</li>
+        <li>Faire des pauses régulières pendant les révisions (méthode Pomodoro : 25 min de travail + 5 min de pause)</li>
+        <li>Pratiquer une technique de respiration le matin de l'examen</li>
+        <li>Te rappeler que tu as fait de ton mieux et que c'est ce qui compte</li>
+      </ul>
+
+      <div class="article-pullquote">Un seul examen ne définit pas qui tu es, ni ce que tu peux accomplir dans ta vie.</div>
+
+      <h2>Le jour J</h2>
+      <p>Mange quelque chose avant d'entrer dans la salle. Respire profondément avant de commencer à lire les questions. Si tu bloques sur une question, passe à la suivante et reviens-y. Ton cerveau continue de travailler même quand tu ne t'en rends pas compte.</p>
+    `
+  },
+  'sommeil-phone': {
+    meta:'Lecture · 4 min · Sommeil',
+    title:'Pourquoi le téléphone avant de dormir perturbe ton cerveau',
+    body:`
+      <p>Tu regardes ton téléphone au lit, tu te dis "juste 5 minutes" et il est minuit. Ça t'arrive ? Tu n'es pas seul·e. Mais comprendre pourquoi ça perturbe ton sommeil peut t'aider à changer cette habitude.</p>
+
+      <h2>La lumière bleue</h2>
+      <p>L'écran de ton téléphone émet de la lumière bleue. Le problème : ton cerveau interprète cette lumière comme de la lumière du jour. Il réduit alors la production de mélatonine  - l'hormone qui te dit qu'il est temps de dormir. Résultat : ton corps ne "sait plus" qu'il fait nuit.</p>
+
+      <h2>La stimulation du contenu</h2>
+      <p>Mais ce n'est pas seulement la lumière. Le contenu que tu regardes  - vidéos, réseaux sociaux, informations  - maintient ton cerveau en éveil actif. Chaque notification, chaque post intéressant déclenche une petite dose de dopamine. Ton cerveau reste en mode "exploration" au lieu de passer en mode "repos".</p>
+
+      <div class="article-pullquote">Mettre ton téléphone en dehors de la chambre est l'une des meilleures choses que tu puisses faire pour ton sommeil.</div>
+
+      <h2>Ce que tu peux faire</h2>
+      <p>Tu n'as pas besoin d'arrêter le téléphone définitivement. Essaie :</p>
+      <ul>
+        <li>Ne plus regarder ton écran 30-60 minutes avant de dormir</li>
+        <li>Activer le mode nuit (écran plus chaud) sur ton téléphone</li>
+        <li>Laisser le téléphone hors de ta chambre (ou le mettre en mode avion)</li>
+        <li>Remplacer le scroll du soir par la lecture, la musique douce ou une conversation</li>
+      </ul>
+      <p>Kossi, 21 ans à Lomé, nous a dit qu'il a commencé à s'endormir 45 minutes plus tôt après avoir arrêté le téléphone une heure avant de se coucher. Petit changement, grand effet.</p>
+    `
+  },
+  'relations-limites': {
+    meta:'Lecture · 4 min · Relations & amitié',
+    title:'Poser des limites sans se sentir coupable',
+    body:`
+      <p>Dans notre culture, dire non à quelqu'un qu'on aime peut sembler irrespectueux  - surtout envers la famille ou les aîné·e·s. Mais apprendre à poser des limites saines, c'est apprendre à te respecter toi-même, et paradoxalement, à mieux respecter les autres.</p>
+
+      <h2>Qu'est-ce qu'une limite ?</h2>
+      <p>Une limite n'est pas un mur. C'est une frontière que tu poses pour protéger ton bien-être  - ton temps, ton énergie, ton espace, tes valeurs. Ça peut être : refuser de prêter de l'argent que tu n'as pas, dire que tu ne peux pas aider ce soir, ou demander qu'on ne te parle pas sur ce ton.</p>
+
+      <h2>Pourquoi on se sent coupable</h2>
+      <p>On nous a souvent appris que le bien des autres passe avant le nôtre. Cette idée peut être belle  - mais poussée à l'extrême, elle t'épuise. Tu ne peux pas aider les autres si tu te vides.</p>
+
+      <div class="article-pullquote">Dire non à ce qui te détruit, c'est dire oui à ce qui te construit.</div>
+
+      <h2>Comment poser une limite avec douceur</h2>
+      <ul>
+        <li>Sois direct·e et calme : "Je ne peux pas faire ça" plutôt que "C'est compliqué…"</li>
+        <li>Tu n'as pas à te justifier longuement  - une explication courte suffit</li>
+        <li>Répète la limite si la personne insiste, sans hausser le ton</li>
+        <li>Si la relation ne survit pas à un seul "non", c'est une information importante sur cette relation</li>
+      </ul>
+
+      <h2>Et dans la famille ?</h2>
+      <p>C'est souvent plus difficile avec la famille. L'idéal : choisir un moment calme pour exprimer ton besoin, utiliser "je" (je me sens épuisé·e quand…) plutôt que "tu" (tu me demandes toujours…), et rappeler que tu aimes la personne même en posant la limite.</p>
+    `
+  },
+  'confiance-reseaux': {
+    meta:'Lecture · 5 min · Confiance en soi',
+    title:'Les réseaux sociaux et l\'estime de soi',
+    body:`
+      <p>Tu ouvres Instagram et tu vois des gens beaux, riches, heureux. Tu refermes le téléphone et tu te sens… moins bien qu'avant. C'est la comparaison sociale, et les réseaux sociaux l'amplifient à un niveau que notre cerveau n'a jamais connu avant.</p>
+
+      <h2>Le problème de la vitrine</h2>
+      <p>Les gens publient leurs meilleurs moments  - leurs voyages, leur apparence au mieux, leurs succès. Tu vois leur vitrine, pas leur cuisine. Mais ton cerveau compare inconsciemment leur vitrine à ta réalité quotidienne. C'est une comparaison fondamentalement injuste.</p>
+
+      <h2>Le piège de l'algorithme</h2>
+      <p>Les algorithmes des réseaux sont conçus pour te garder accroché·e le plus longtemps possible. Ils te montrent du contenu qui déclenche des émotions fortes  - y compris l'envie, la jalousie, l'inadéquation. Ce n'est pas un accident. C'est du business.</p>
+
+      <div class="article-pullquote">Tu vois la vie de quelqu'un à travers un filtre. Ne compare pas ton quotidien à sa mise en scène.</div>
+
+      <h2>Ce que tu peux faire</h2>
+      <ul>
+        <li>Remarque comment tu te sens <em>après</em> avoir regardé les réseaux. Si c'est régulièrement mal, c'est un signal</li>
+        <li>Unfollow les comptes qui te font te sentir insuffisant·e</li>
+        <li>Limite ton temps quotidien sur les réseaux (utilise le minuteur d'application)</li>
+        <li>Rappelle-toi que les influenceurs ont des équipes, des filtres, et des mauvaises journées qu'ils ne montrent jamais</li>
+        <li>Remplis ton temps par des activités qui construisent de vraies compétences  - lecture, sport, art, conversations profondes</li>
+      </ul>
+    `
+  },
+  'identite-culture': {
+    meta:'Lecture · 5 min · Identité & culture',
+    title:'Entre tradition et modernité : trouver son équilibre',
+    body:`
+      <p>Grandir au Togo aujourd'hui, c'est naviguer entre deux mondes : les valeurs, les traditions et les attentes de ta famille et de ta communauté d'un côté ; et l'influence du monde global, des réseaux sociaux, des modes de vie que tu vois ailleurs de l'autre. Cette tension peut être source d'anxiété  - mais aussi de richesse.</p>
+
+      <h2>L'identité n'est pas fixe</h2>
+      <p>Tu n'as pas à choisir entre "tout traditionnel" et "tout moderne". L'identité est quelque chose qu'on construit toute sa vie, en piochant dans ses racines et dans ce qu'on découvre. Être éwé et aimer le rap américain. Respecter les aînés et vouloir choisir sa voie professionnelle. Tout ça peut coexister.</p>
+
+      <h2>La pression familiale</h2>
+      <p>La famille, au Togo, c'est central. Et les attentes peuvent être lourdes  - choix d'études, mariage, rôles de genre. Ces attentes viennent souvent de l'amour, de la peur pour ton avenir, ou de traditions profondément ancrées. Les reconnaître avec compassion (pas avec colère) aide à y répondre avec plus de sérénité.</p>
+
+      <div class="article-pullquote">Tu peux honorer d'où tu viens tout en choisissant où tu vas.</div>
+
+      <h2>Trouver ton équilibre</h2>
+      <ul>
+        <li>Identifie tes propres valeurs  - pas celles qu'on t'a imposées, pas celles vues en ligne, les tiennes</li>
+        <li>Cherche des espaces où tu peux être pleinement toi-même</li>
+        <li>Trouve des modèles inspirants dans ta propre culture  - des Togolais·es qui ont su allier tradition et modernité</li>
+        <li>Parle de ces tensions avec quelqu'un en qui tu as confiance</li>
+      </ul>
+    `
+  },
+  'emotions-colere': {
+    meta:'Lecture · 4 min · Gérer ses émotions',
+    title:'Comprendre et accueillir sa colère',
+    body:`
+      <p>La colère a mauvaise réputation. On la réprime, on a honte d'elle, on essaie de la faire taire. Pourtant, la colère est une émotion légitime  - et quand on l'écoute bien, elle nous dit quelque chose d'important.</p>
+
+      <h2>Ce que dit la colère</h2>
+      <p>La colère apparaît souvent quand une de nos limites est franchie, quand on se sent traité·e injustement, ou quand quelque chose d'important pour nous est menacé. C'est une alarme  - pas une catastrophe.</p>
+
+      <h2>Le problème : l'explosion ou la répression</h2>
+      <p>Il y a deux réponses extrêmes à la colère, toutes deux problématiques : l'exploser (dire ou faire des choses qu'on regrettera) ou l'avaler (laisser la colère pourrir à l'intérieur et ressortir plus tard, plus forte). La voie du milieu : accueillir et exprimer sainement.</p>
+
+      <div class="article-pullquote">La colère n'est pas ton ennemie. C'est un message que tu dois apprendre à lire.</div>
+
+      <h2>Accueillir la colère</h2>
+      <ul>
+        <li>Remarque les signaux physiques : chaleur dans la poitrine, mâchoire serrée, voix qui monte</li>
+        <li>Nomme-la : "Je suis en colère"</li>
+        <li>Donne-toi le temps de te calmer avant de réagir  - une pause de 5 minutes peut tout changer</li>
+        <li>Identifie ce qui l'a déclenchée : quelle limite a été franchie ?</li>
+        <li>Exprime-la clairement, sans attaquer : "Je me suis senti·e blessé·e quand tu as dit ça"</li>
+      </ul>
+
+      <h2>Les sorties saines de la colère</h2>
+      <p>Quand la colère est là et qu'elle est forte, certaines sorties physiques aident à la traverser sans la retourner contre toi ou contre les autres : marcher vite, taper dans un coussin, écrire ce que tu ressens sur un papier que tu peux déchirer ensuite. Ce n'est pas de la faiblesse  - c'est de la sagesse.</p>
+    `
+  },
+
+  /* ── ANXIÉTÉ ── */
+  'anxiete-sociale': {
+    meta:'Lecture · 4 min · Anxiété & stress',
+    title:'L\'anxiété sociale : quand les autres font peur',
+    body:`
+      <p>L'anxiété sociale, c'est la peur intense d'être jugé·e, humilié·e ou observé·e dans les situations sociales. Ce n'est pas de la timidité ordinaire  - c'est une peur qui peut paralyser et pousser à éviter de plus en plus de situations.</p>
+
+      <h2>Comment elle se manifeste</h2>
+      <p>Tu peux ressentir de l'anxiété sociale dans des situations comme :</p>
+      <ul>
+        <li>Parler devant un groupe ou prendre la parole en classe</li>
+        <li>Rencontrer de nouvelles personnes ou aller à une fête</li>
+        <li>Manger ou boire devant d'autres</li>
+        <li>Faire quelque chose avec des gens qui regardent</li>
+        <li>Passer un coup de téléphone ou interagir avec des inconnus</li>
+      </ul>
+
+      <div class="article-pullquote">L'anxiété sociale te dit que tu vas être jugé·e. Mais le plus souvent, les gens sont bien trop occupés par leurs propres inquiétudes pour te regarder autant que tu le crois.</div>
+
+      <h2>Le piège de l'évitement</h2>
+      <p>La réaction naturelle est d'éviter ces situations. Mais chaque fois qu'on évite, on confirme à notre cerveau que la situation était vraiment dangereuse  - et l'anxiété grandit. C'est un cercle vicieux. La sortie passe souvent par l'exposition progressive : affronter les situations petit à petit, dans un ordre qu'on choisit soi-même.</p>
+
+      <h2>Ce qui aide</h2>
+      <ul>
+        <li>Remettre en question les pensées catastrophistes : "Est-ce que j'ai une preuve que les gens me jugent ?"</li>
+        <li>Se concentrer sur l'extérieur, pas sur soi-même (sur la conversation, pas sur comment tu apparais)</li>
+        <li>Pratiquer des situations sociales simples régulièrement, sans pression</li>
+        <li>Consulter un professionnel si l'anxiété sociale limite vraiment ta vie</li>
+      </ul>
+
+      <h2>À savoir</h2>
+      <p>L'anxiété sociale est l'un des troubles les plus fréquents  - environ 1 personne sur 8 en souffre à un moment de sa vie. Elle répond bien aux accompagnements psychologiques. Tu n'as pas à vivre avec ça indéfiniment.</p>
+    `
+  },
+
+  /* ── SOMMEIL ── */
+  'sommeil-hygiene': {
+    meta:'Lecture · 5 min · Sommeil',
+    title:'L\'hygiène du sommeil : les habitudes qui changent tout',
+    body:`
+      <p>L'hygiène du sommeil, c'est l'ensemble des habitudes qui favorisent un sommeil de qualité. Beaucoup de problèmes de sommeil ne viennent pas d'une maladie  - ils viennent de comportements qu'on peut changer.</p>
+
+      <h2>Pourquoi le sommeil est si important</h2>
+      <p>Pendant que tu dors, ton cerveau fait un travail crucial : il consolide les souvenirs, élimine les toxines accumulées dans la journée, régule les émotions et répare les tissus. Un sommeil insuffisant ou de mauvaise qualité affecte ta concentration, ton humeur, ton système immunitaire et ta gestion du stress.</p>
+
+      <h2>Les règles de base</h2>
+      <ul>
+        <li><strong>Horaires réguliers :</strong> se coucher et se lever à la même heure tous les jours, même le week-end. C'est la règle la plus importante. Ton corps a une "horloge biologique" qui adore la régularité.</li>
+        <li><strong>La chambre est pour dormir :</strong> évite de travailler, manger ou regarder des vidéos dans ton lit. Ton cerveau doit associer le lit au sommeil, pas à l'activité.</li>
+        <li><strong>Température fraîche :</strong> une pièce légèrement fraîche (18-20°C) favorise l'endormissement.</li>
+        <li><strong>Obscurité totale :</strong> même une petite lumière peut perturber la mélatonine.</li>
+      </ul>
+
+      <div class="article-pullquote">Le sommeil n'est pas une perte de temps. C'est l'investissement le plus rentable que tu puisses faire pour ta santé mentale et physique.</div>
+
+      <h2>Ce qu'il faut éviter avant de dormir</h2>
+      <ul>
+        <li>Les écrans au moins 30 minutes avant (idéalement 1 heure)</li>
+        <li>La caféine après 14h (café, thé fort, boissons énergisantes)</li>
+        <li>Les repas très lourds ou très sucrés le soir</li>
+        <li>L'alcool  - il perturbe les phases profondes du sommeil même s'il facilite l'endormissement</li>
+        <li>Les conversations ou contenus stressants juste avant de dormir</li>
+      </ul>
+
+      <h2>Des rituels qui aident</h2>
+      <p>Un rituel du soir signale à ton cerveau que le moment de dormir approche. Ça peut être : prendre une douche tiède, lire quelques pages d'un livre physique, faire du stretching léger, écrire 3 choses positives de la journée, ou pratiquer le scan corporel. L'important, c'est la régularité  - ton cerveau apprendra à reconnaître le signal.</p>
+
+      <h2>Et si tu ne t'endors pas ?</h2>
+      <p>Si tu n'arrives pas à dormir après 20-30 minutes, lève-toi. Aller dans une autre pièce, faire quelque chose de calme (lire, dessiner, écouter de la musique douce), puis retourner au lit quand la somnolence arrive. Rester allongé à ruminer renforce l'association "lit = éveil".</p>
+    `
+  },
+  'sommeil-reves': {
+    meta:'Lecture · 3 min · Sommeil',
+    title:'Ce que tes rêves disent de ton stress',
+    body:`
+      <p>Les rêves sont une des fonctions les plus mystérieuses du cerveau humain. Ils surviennent surtout pendant la phase de sommeil paradoxal (REM) et jouent un rôle important dans le traitement émotionnel.</p>
+
+      <h2>Pourquoi on fait des cauchemars quand on est stressé·e</h2>
+      <p>Quand tu vis une période difficile  - examens, conflits, incertitude  - ton cerveau continue à traiter ces émotions la nuit. Les cauchemars sont une façon pour lui de "digérer" les expériences difficiles. C'est désagréable, mais ce n'est pas sans utilité.</p>
+
+      <div class="article-pullquote">Un cauchemar récurrent est souvent le signal que ton cerveau essaie de traiter quelque chose d'important. Écoute-le.</div>
+
+      <h2>Rêves récurrents et anxiété</h2>
+      <p>Faire le même rêve (ou le même type de rêve) à répétition peut indiquer un niveau de stress élevé ou une situation non résolue. Les thèmes courants chez les jeunes : être en retard à un examen, se retrouver nu en public, être poursuivi, tomber. Ces rêves reflètent souvent des peurs de l'échec, du jugement ou du manque de contrôle.</p>
+
+      <h2>Ce que tu peux faire</h2>
+      <ul>
+        <li>Tenir un journal de rêves : noter ses rêves au réveil aide à identifier des patterns</li>
+        <li>S'attaquer à la source de stress pendant la journée  - les cauchemars s'atténuent souvent</li>
+        <li>Pratiquer des techniques de relaxation avant de dormir pour aider le cerveau à entrer dans un état plus calme</li>
+        <li>Si les cauchemars sont très perturbants et fréquents, en parler à un professionnel</li>
+      </ul>
+
+      <h2>Les rêves lucides</h2>
+      <p>Certaines personnes apprennent à réaliser qu'elles rêvent pendant le rêve  - c'est le rêve lucide. Cela permet parfois de modifier le contenu d'un cauchemar. C'est une technique qui s'apprend avec de la pratique.</p>
+    `
+  },
+
+  /* ── CONFIANCE ── */
+  'confiance-echec': {
+    meta:'Lecture · 4 min · Confiance en soi',
+    title:'Apprendre de l\'échec sans se détruire',
+    body:`
+      <p>L'échec fait partie de tout parcours. Aucune personne qui a réussi n'a fait ça sans rater. Mais la façon dont tu te parles après un échec peut soit t'aider à rebondir, soit t'enfoncer encore plus.</p>
+
+      <h2>Deux façons de réagir à l'échec</h2>
+      <p>Il y a une différence entre deux façons de voir l'échec : <em>fixe</em> ou <em>évolutif</em>. La vision fixe dit "j'ai raté, donc je suis nul·le." La vision évolutive dit "j'ai raté, donc je sais ce qui ne marche pas." La deuxième version est celle qui permet d'apprendre.</p>
+
+      <div class="article-pullquote">L'échec ne définit pas qui tu es. C'est juste une information sur ce qui n'a pas fonctionné cette fois-ci.</div>
+
+      <h2>Le discours intérieur après un échec</h2>
+      <p>Remarque ce que tu te dis. Si tu entends des pensées comme "je suis incompétent·e", "je ne réussirai jamais", "j'aurais dû savoir"  - c'est la critique intérieure qui parle. Elle n'est pas objective. Elle amplifie et généralise.</p>
+      <p>Essaie de te parler comme tu parlerais à un·e ami·e : "C'est dommage que ça n'ait pas marché. Qu'est-ce qu'on peut faire différemment la prochaine fois ?"</p>
+
+      <h2>Ce que l'échec t'apprend</h2>
+      <ul>
+        <li>Ce qui ne marche pas pour toi (information précieuse)</li>
+        <li>Tes limites actuelles  - qui peuvent changer</li>
+        <li>Ta résilience : chaque fois que tu te relèves, tu la renforces</li>
+        <li>Ce que tu veux vraiment  - parfois un échec te redirige vers quelque chose de mieux</li>
+      </ul>
+
+      <h2>Après l'échec, concrètement</h2>
+      <p>Accorde-toi un temps pour ressentir la déception  - ne saute pas dessus immédiatement pour analyser. Ensuite, quand tu es prêt·e : identifie une chose que tu ferais différemment. Une seule. Et avance avec ça.</p>
+    `
+  },
+  'confiance-critique': {
+    meta:'Lecture · 4 min · Confiance en soi',
+    title:'Se protéger de la critique sans se fermer au monde',
+    body:`
+      <p>Recevoir des critiques fait partie de la vie sociale. Mais toutes les critiques ne se valent pas, et certaines blessent plus qu'elles n'aident. Apprendre à faire le tri est une compétence qui te protège tout en te permettant de continuer à grandir.</p>
+
+      <h2>La critique constructive vs la critique destructrice</h2>
+      <p>La critique constructive parle d'un comportement précis, dans un contexte précis, et propose une direction. Ex : "Je pense que ta présentation serait plus claire si tu utilisais moins de texte sur chaque diapositive." La critique destructrice attaque la personne, pas le comportement. Ex : "Tu es vraiment nul·le pour ça."</p>
+
+      <div class="article-pullquote">Tu n'as pas à accepter chaque critique comme une vérité. Tu as le droit d'évaluer si elle vient d'un endroit bienveillant et compétent.</div>
+
+      <h2>Comment évaluer une critique</h2>
+      <ul>
+        <li>Cette personne a-t-elle les compétences pour juger ça ?</li>
+        <li>Est-ce qu'elle dit ça pour m'aider ou pour me blesser ou se valoriser ?</li>
+        <li>Est-ce que d'autres personnes de confiance ont dit quelque chose de similaire ?</li>
+        <li>Y a-t-il quelque chose d'utile à en tirer, même si la façon de le dire était blessante ?</li>
+      </ul>
+
+      <h2>Recevoir une critique sans s'effondrer</h2>
+      <p>Quand une critique arrive et que ça pique, prends un moment avant de répondre. Respire. Tu peux dire "Merci pour ce retour, j'y réfléchis." Cela te donne le temps de décider si tu veux en faire quelque chose ou non.</p>
+
+      <h2>Et les critiques en ligne ?</h2>
+      <p>Les commentaires sur les réseaux sociaux sont souvent anonymes, non sollicités, et écrits sans empathie. Ils méritent rarement autant d'attention qu'on leur en donne. Un commentaire négatif d'un inconnu ne dit rien de ta valeur.</p>
+    `
+  },
+
+  /* ── RELATIONS ── */
+  'relations-conflit': {
+    meta:'Lecture · 3 min · Relations & amitié',
+    title:'Gérer un conflit avec quelqu\'un qu\'on aime',
+    body:`
+      <p>Les conflits sont inévitables dans toute relation proche. Ce n'est pas leur présence qui définit la qualité d'une relation  - c'est la façon dont on les traverse ensemble.</p>
+
+      <h2>Ce qui aggrave un conflit</h2>
+      <ul>
+        <li>Attaquer la personne plutôt que le problème ("Tu es toujours comme ça")</li>
+        <li>Accumuler les griefs et tout sortir en même temps</li>
+        <li>Chercher à "gagner" plutôt qu'à comprendre</li>
+        <li>Se défendre sans écouter</li>
+        <li>Fuir ou faire la tête pendant des jours</li>
+      </ul>
+
+      <div class="article-pullquote">Un conflit résolu avec respect renforce une relation. Un conflit évité longtemps l'affaiblit.</div>
+
+      <h2>La règle du "Je"</h2>
+      <p>Plutôt que de dire "Tu ne m'écoutes jamais"  - qui accuse  - essaie "Je me sens ignoré·e quand tu regardes ton téléphone pendant qu'on parle." Même information, mais exprimée à partir de toi, pas contre l'autre. C'est plus facile à entendre.</p>
+
+      <h2>Quand le ton monte</h2>
+      <p>Si l'un ou l'autre commence à crier ou à dire des choses blessantes, il vaut mieux faire une pause. "Je veux qu'on règle ça, mais là j'ai besoin de 20 minutes. On peut reprendre après ?" Ce n'est pas fuir  - c'est éviter l'irréparable.</p>
+
+      <h2>Après le conflit</h2>
+      <p>Se réconcilier, c'est aussi s'assurer que chacun·e a été entendu·e, pas juste mettre fin à la dispute. Une conversation courte après une dispute ("Comment tu vas ?") peut beaucoup aider.</p>
+    `
+  },
+  'relations-communication': {
+    meta:'Lecture · 5 min · Relations & amitié',
+    title:'Communiquer sans blesser : la CNV en pratique',
+    body:`
+      <p>La Communication Non Violente (CNV) est une méthode développée par le psychologue Marshall Rosenberg. Son idée centrale : nos actes et nos paroles viennent toujours de besoins que nous essayons de satisfaire. Quand on comprend ça  - pour soi et pour l'autre  - la communication devient plus humaine.</p>
+
+      <h2>Les 4 étapes de la CNV</h2>
+      <p>La CNV propose 4 étapes pour exprimer quelque chose de difficile ou pour répondre à quelqu'un qui est en difficulté :</p>
+      <ul>
+        <li><strong>Observation :</strong> décrire les faits sans jugement. "Quand tu rentres à la maison et que tu ne dis pas bonjour…" (pas "Quand tu es impoli·e…")</li>
+        <li><strong>Sentiment :</strong> exprimer ce qu'on ressent. "…je me sens invisible…"</li>
+        <li><strong>Besoin :</strong> identifier le besoin derrière le sentiment. "…parce que j'ai besoin de me sentir accueilli·e et connecté·e à toi…"</li>
+        <li><strong>Demande :</strong> faire une demande concrète et négociable. "…est-ce que tu pourrais me dire bonjour quand tu rentres ?"</li>
+      </ul>
+
+      <div class="article-pullquote">Derrière chaque reproche, il y a un besoin non exprimé. La CNV apprend à dire le besoin directement.</div>
+
+      <h2>Exemple concret</h2>
+      <p>Sans CNV : "Tu ne penses jamais à moi. Tu es égoïste."</p>
+      <p>Avec CNV : "Quand tu as annulé notre rendez-vous sans m'expliquer, je me suis senti·e mis·e de côté. J'ai besoin de savoir que je compte pour toi. Est-ce qu'on peut en parler ?"</p>
+
+      <h2>Écouter avec la CNV</h2>
+      <p>La CNV, c'est aussi une façon d'écouter. Quand quelqu'un exprime sa colère ou sa douleur, essaie de chercher le besoin derrière : "Elle est en colère parce qu'elle a besoin de respect" ou "Il est triste parce qu'il a besoin de connexion." Cette lecture change complètement comment tu réponds.</p>
+
+      <h2>Ce que la CNV ne dit pas</h2>
+      <p>La CNV ne dit pas qu'il faut toujours être doux·ce, ni accepter tout comportement. On peut poser des limites fermement avec la CNV. Ce qu'elle évite, c'est d'attaquer la personne plutôt que le comportement.</p>
+    `
+  },
+
+  /* ── DEUIL ── */
+  'deuil-etapes': {
+    meta:'Lecture · 5 min · Deuil & perte',
+    title:'Les étapes du deuil : un guide bienveillant',
+    body:`
+      <p>Perdre quelqu'un ou quelque chose qu'on aimait  - une personne, une relation, un rêve  - provoque un processus qu'on appelle le deuil. Ce n'est pas une maladie. C'est la réponse naturelle de l'être humain à la perte.</p>
+
+      <h2>Le modèle de Kübler-Ross</h2>
+      <p>La psychiatre Elisabeth Kübler-Ross a décrit 5 étapes que beaucoup de personnes traversent dans le deuil. Elles ne se suivent pas toujours dans l'ordre, et tout le monde ne les vit pas toutes.</p>
+      <ul>
+        <li><strong>Le déni :</strong> "Ce n'est pas vrai. Ce n'est pas possible." Une protection temporaire contre le choc.</li>
+        <li><strong>La colère :</strong> "Pourquoi moi ? Ce n'est pas juste." La douleur cherche un responsable.</li>
+        <li><strong>Le marchandage :</strong> "Si seulement j'avais fait autrement…" On rejoue mentalement ce qui aurait pu changer les choses.</li>
+        <li><strong>La dépression :</strong> Une profonde tristesse, un sentiment de vide. Ce n'est pas une dépression clinique  - c'est la réalité de la perte qui s'installe.</li>
+        <li><strong>L'acceptation :</strong> Apprendre à vivre avec la perte, sans oublier. Ce n'est pas aller mieux  - c'est intégrer.</li>
+      </ul>
+
+      <div class="article-pullquote">Il n'y a pas de bonne façon de vivre le deuil. Il y a ta façon à toi  - et elle mérite d'être respectée.</div>
+
+      <h2>Ce que le deuil n'est pas</h2>
+      <p>Le deuil n'est pas : pleurer tous les jours pendant un temps fixe, puis "passer à autre chose". Il n'y a pas d'horloge. Certaines personnes ne pleurent pas beaucoup  - et ce n'est pas un signe qu'elles ne souffrent pas ou qu'elles ne s'y attachaient pas. Le deuil prend la forme qu'il prend.</p>
+
+      <h2>Quand chercher de l'aide</h2>
+      <p>Un deuil qui dure longtemps et qui empêche de fonctionner, de prendre soin de soi, de retrouver un peu de vie peut nécessiter un accompagnement professionnel. C'est ce qu'on appelle le deuil compliqué. Il n'y a aucune honte à avoir besoin d'aide pour traverser quelque chose d'aussi lourd.</p>
+    `
+  },
+  'deuil-soutien': {
+    meta:'Lecture · 4 min · Deuil & perte',
+    title:'Comment soutenir quelqu\'un qui vit un deuil',
+    body:`
+      <p>Quand quelqu'un qu'on aime souffre, on veut aider. Mais souvent on ne sait pas quoi dire ou faire. Et parfois, maladroitement, on dit des choses qui blessent sans le vouloir.</p>
+
+      <h2>Ce qu'on pense aider mais qui ne l'aide pas</h2>
+      <ul>
+        <li>"Il/elle est mieux là où il/elle est." (Peut sembler minimiser la douleur)</li>
+        <li>"Tu dois être fort·e." (La personne a le droit de s'effondrer)</li>
+        <li>"Je sais ce que tu ressens." (Non  - on ne sait pas vraiment)</li>
+        <li>"Le temps arrange les choses." (Vrai, mais pas utile à dire dans l'immédiat)</li>
+        <li>"Occupe-toi l'esprit." (Fuir la douleur n'est pas la traverser)</li>
+      </ul>
+
+      <div class="article-pullquote">La présence vaut plus que les mots parfaits. Être là  - vraiment là  - c'est souvent plus que suffisant.</div>
+
+      <h2>Ce qui aide vraiment</h2>
+      <ul>
+        <li>Être présent·e physiquement, sans pression à "être bien"</li>
+        <li>Écouter sans chercher à résoudre ou à consoler trop vite</li>
+        <li>Permettre à la personne de parler du défunt, de sa perte  - autant de fois qu'elle en a besoin</li>
+        <li>Aider concrètement : préparer à manger, accompagner quelque part, s'occuper d'une démarche</li>
+        <li>Garder contact dans les semaines et mois qui suivent  - pas seulement juste après</li>
+      </ul>
+
+      <h2>Et si la personne ne veut pas parler ?</h2>
+      <p>Respecte ça. Dis simplement : "Je suis là si tu as besoin." Et sois là. La présence sans mots peut être un cadeau en soi.</p>
+    `
+  },
+
+  /* ── IDENTITÉ ── */
+  'identite-pression': {
+    meta:'Lecture · 4 min · Identité & culture',
+    title:'La pression familiale et ta santé mentale',
+    body:`
+      <p>Dans beaucoup de familles togolaises, les attentes sont fortes : réussir scolairement, faire des études "sérieuses", se marier à un certain âge, respecter certains rôles. Ces attentes viennent souvent d'un amour sincère et d'une volonté de te voir stable et heureux·se. Mais parfois, elles pèsent lourd.</p>
+
+      <h2>Pourquoi la pression familiale affecte la santé mentale</h2>
+      <p>Quand les attentes familiales sont très différentes de ce qu'on est ou de ce qu'on veut, ça crée une tension interne constante. On peut vivre avec le sentiment de devoir choisir entre soi-même et sa famille. Ce conflit intérieur est épuisant et peut générer de l'anxiété, de la tristesse, ou une perte de sens.</p>
+
+      <div class="article-pullquote">Respecter ta famille et te respecter toi-même ne sont pas toujours deux choses opposées. Il faut parfois du courage pour les réconcilier.</div>
+
+      <h2>Différencier l'amour et le contrôle</h2>
+      <p>Une famille qui t'aime peut quand même exercer une pression malsaine, souvent sans s'en rendre compte. L'amour dit : "Je veux ce qui est bien pour toi." Le contrôle dit : "Tu dois faire ce que je décide pour toi." Les deux peuvent coexister dans la même famille, dans la même personne.</p>
+
+      <h2>Ce que tu peux faire</h2>
+      <ul>
+        <li>Identifier clairement ce que tu veux  - sans les voix de ta famille dans la tête</li>
+        <li>Choisir des moments calmes pour parler de tes besoins, pas en plein conflit</li>
+        <li>Utiliser "je" plutôt que "tu"  - exprimer ton ressenti sans accuser</li>
+        <li>Chercher un espace extérieur (ami·e de confiance, conseiller·e) pour traiter ces tensions</li>
+        <li>Reconnaître que tu ne peux pas tout changer tout de suite  - et que c'est ok</li>
+      </ul>
+    `
+  },
+
+  /* ── CONCENTRATION ── */
+  'concentration-pomodoro': {
+    meta:'Lecture · 3 min · Concentration & études',
+    title:'La méthode Pomodoro pour mieux étudier',
+    body:`
+      <p>La méthode Pomodoro a été créée dans les années 80 par Francesco Cirillo. Son principe est simple : travailler en blocs de 25 minutes concentrées, séparés par des pauses courtes. Et ça change vraiment la façon d'étudier.</p>
+
+      <h2>Pourquoi ça marche</h2>
+      <p>Notre cerveau ne peut pas rester concentré indéfiniment. Après environ 25-30 minutes d'effort intense, la concentration baisse. Les Pomodoros respectent ce rythme naturel plutôt que de lutter contre lui. La limite de temps crée aussi un sentiment d'urgence qui aide à démarrer.</p>
+
+      <h2>Comment faire un Pomodoro</h2>
+      <ul>
+        <li><strong>Étape 1 :</strong> Choisis une tâche précise (pas "réviser la physique"  - "faire les exercices 5 à 10 du chapitre 3")</li>
+        <li><strong>Étape 2 :</strong> Lance un minuteur de 25 minutes</li>
+        <li><strong>Étape 3 :</strong> Travaille uniquement sur cette tâche jusqu'au signal</li>
+        <li><strong>Étape 4 :</strong> Fais une pause de 5 minutes (lève-toi, étire-toi, bois de l'eau)</li>
+        <li><strong>Étape 5 :</strong> Après 4 Pomodoros, fais une longue pause de 15-30 minutes</li>
+      </ul>
+
+      <div class="article-pullquote">25 minutes de vraie concentration valent plus que 3 heures à regarder ses notes en scrollant sur son téléphone.</div>
+
+      <h2>Les règles importantes</h2>
+      <p>Pendant un Pomodoro : téléphone en mode silence dans une autre pièce. Si une idée parasite arrive ("ah, je dois répondre à ce message"), note-la sur un papier et reviens à ton travail. L'interrompre à cause d'une distraction annule le Pomodoro.</p>
+
+      <h2>Adapte la méthode</h2>
+      <p>Si 25 minutes te semblent trop long au début, essaie 15 minutes. L'important c'est la structure : un bloc de travail + une pause. L'outil Pomodoro est disponible dans la rubrique Concentration de DHIKI  - tu peux l'utiliser directement.</p>
+    `
+  },
+  'concentration-distraction': {
+    meta:'Lecture · 4 min · Concentration & études',
+    title:'Pourquoi le téléphone détruit ta concentration',
+    body:`
+      <p>Tu poses ton téléphone. Tu commences à étudier. 3 minutes plus tard, tu vérifies juste "une notification". 20 minutes après, tu n'as pas avancé. Ça te parle ? Ce n'est pas un manque de volonté. C'est de la neurologie.</p>
+
+      <h2>Le coût des interruptions</h2>
+      <p>Des études ont montré qu'après une interruption, le cerveau met en moyenne 23 minutes pour retrouver le même niveau de concentration qu'avant. Chaque fois que tu regardes ton téléphone  - même une seconde  - tu perds potentiellement 20 minutes de travail réel.</p>
+
+      <div class="article-pullquote">Ton téléphone n'est pas une distraction parmi d'autres. Il est conçu par des ingénieurs dont le seul travail est de capter ton attention.</div>
+
+      <h2>Pourquoi c'est si difficile de résister</h2>
+      <p>Les applications sociales sont conçues pour déclencher une libération de dopamine à chaque notification, like ou message. Ton cerveau apprend à chercher cette stimulation. Avec le temps, il devient difficile de rester dans une activité sans récompense immédiate  - comme étudier.</p>
+
+      <h2>Ce qui fonctionne vraiment</h2>
+      <ul>
+        <li><strong>Distance physique :</strong> Mettre le téléphone dans une autre pièce (pas juste retourné sur la table). Sa seule présence visible réduit la capacité cognitive.</li>
+        <li><strong>Mode avion ou Ne pas déranger :</strong> Elimine les notifications à la source.</li>
+        <li><strong>Session dédiée :</strong> Fixe un temps précis pour regarder les messages (après chaque Pomodoro, par exemple).</li>
+        <li><strong>Application de blocage :</strong> Certaines apps bloquent d'autres apps pendant une durée définie.</li>
+      </ul>
+
+      <h2>Et les autres distractions ?</h2>
+      <p>La musique : elle aide certaines personnes, en distrait d'autres. Si tu mets des paroles en travaillant, tu divises ta capacité de traitement du langage. Essaie la musique instrumentale ou le silence. Le bruit ambiant (café, marché) gêne certains, aide d'autres  - expérimente.</p>
+    `
+  },
+  'concentration-espace': {
+    meta:'Lecture · 3 min · Concentration & études',
+    title:'Créer un espace de travail qui aide à se concentrer',
+    body:`
+      <p>L'environnement dans lequel tu travailles influence directement ta capacité à te concentrer. Ton cerveau associe des lieux à des comportements  - et tu peux utiliser ça à ton avantage.</p>
+
+      <h2>Le principe d'association</h2>
+      <p>Si tu travailles souvent dans ton lit, ton cerveau finit par associer ce lieu au repos ET au travail  - et passe difficilement dans le mode "concentration". Avoir un espace dédié, même petit, aide ton cerveau à basculer en mode travail dès que tu t'y installe.</p>
+
+      <h2>Ce qui fait un bon espace de travail</h2>
+      <ul>
+        <li><strong>Propreté et ordre :</strong> un bureau encombré surcharge visuellement le cerveau. 5 minutes à ranger avant de commencer est un investissement.</li>
+        <li><strong>Lumière naturelle :</strong> si possible, oriente-toi vers une fenêtre. La lumière naturelle améliore l'humeur et la vigilance.</li>
+        <li><strong>Chaise confortable mais droite :</strong> s'avachir réduit l'afflux de sang au cerveau et la vigilance.</li>
+        <li><strong>Eau à portée de main :</strong> la déshydratation légère affecte la concentration.</li>
+        <li><strong>Température agréable :</strong> ni trop chaud (somnolence) ni trop froid (distraction).</li>
+      </ul>
+
+      <div class="article-pullquote">Tu n'as pas besoin d'un bureau parfait. Tu as besoin d'un espace que ton cerveau reconnaît comme "le lieu où je travaille".</div>
+
+      <h2>Si tu n'as pas d'espace dédié</h2>
+      <p>Ça arrive souvent  - petite maison, peu d'intimité. Quelques astuces : définir un signal de début (mettre des écouteurs, allumer une petite lampe, ranger la table) et de fin de session. Un même signal, répété, crée l'association. La bibliothèque ou un café calme peuvent aussi devenir ton "espace de travail" si tu y vas régulièrement.</p>
+    `
+  },
+
+  /* ── ÉMOTIONS ── */
+  'emotions-tristesse': {
+    meta:'Lecture · 4 min · Gérer ses émotions',
+    title:'La tristesse n\'est pas la dépression',
+    body:`
+      <p>Il arrive à tout le monde de se sentir triste. Après une déception, une perte, un moment difficile  - la tristesse fait partie de la vie humaine. Mais il y a une différence entre la tristesse ordinaire et la dépression, et comprendre cette différence est important.</p>
+
+      <h2>La tristesse ordinaire</h2>
+      <p>La tristesse ordinaire est liée à un événement : une rupture, un deuil, un échec, une déception. Elle apparaît dans un contexte, dure un temps et tend à s'atténuer avec le temps. Elle est douloureuse, mais elle est normale et même utile  - elle nous dit que quelque chose comptait pour nous.</p>
+
+      <h2>La dépression</h2>
+      <p>La dépression est différente. Elle :</p>
+      <ul>
+        <li>Dure plusieurs semaines, presque tous les jours</li>
+        <li>Arrive sans raison apparente ou est disproportionnée par rapport à son déclencheur</li>
+        <li>S'accompagne souvent de fatigue intense, de perte d'intérêt pour tout, de troubles du sommeil et de l'appétit</li>
+        <li>Peut inclure des pensées négatives sur soi-même ou l'avenir persistantes</li>
+        <li>Empêche de fonctionner normalement</li>
+      </ul>
+
+      <div class="article-pullquote">Être triste n'est pas une faiblesse. C'est être humain·e. Mais si la tristesse dure et s'approfondit, c'est le moment de chercher de l'aide.</div>
+
+      <h2>Ce qu'on peut faire avec la tristesse</h2>
+      <ul>
+        <li>L'accueillir sans la fuir  - la tristesse qu'on refoule revient plus fort</li>
+        <li>En parler à quelqu'un en qui on a confiance</li>
+        <li>S'autoriser à pleurer  - ça libère vraiment</li>
+        <li>Prendre soin de soi : manger, dormir, bouger un peu</li>
+        <li>Éviter de s'isoler complètement</li>
+      </ul>
+
+      <h2>Quand consulter</h2>
+      <p>Si tu te sens triste presque tous les jours depuis plus de deux semaines, si ça t'empêche de fonctionner ou si tu as des pensées sombres, parle à un professionnel. Le CPASE à Lomé propose des consultations gratuites ou à tarif réduit.</p>
+    `
+  },
+  'emotions-joie': {
+    meta:'Lecture · 3 min · Gérer ses émotions',
+    title:'Cultiver la joie même dans les moments difficiles',
+    body:`
+      <p>La joie ne signifie pas que tout va bien. Et les moments difficiles ne signifient pas que la joie est inaccessible. La joie peut coexister avec la douleur, l'inquiétude, l'incertitude. Elle se cultive  - elle ne tombe pas du ciel.</p>
+
+      <h2>Ce qu'est vraiment la joie</h2>
+      <p>La joie n'est pas le bonheur permanent ou l'enthousiasme constant  - ça, c'est une image des réseaux sociaux. La joie authentique, c'est un sentiment de plénitude, de présence, de connexion. Elle peut être discrète : un moment de paix, un repas partagé, une conversation qui compte.</p>
+
+      <div class="article-pullquote">La joie ne s'attend pas  - elle se remarque. Et parfois elle se crée, délibérément, un petit geste à la fois.</div>
+
+      <h2>Pourquoi la joie disparaît dans les moments difficiles</h2>
+      <p>Sous pression, le cerveau se focalise sur les menaces  - c'est sa façon de survivre. Il filtre automatiquement ce qui est beau ou plaisant. C'est utile en cas de danger réel, mais quand le stress est chronique, on finit par ne plus percevoir ce qui est bien.</p>
+
+      <h2>Comment la cultiver activement</h2>
+      <ul>
+        <li><strong>Remarquer les petits moments :</strong> la lumière du matin, le goût d'un repas, le rire d'un ami. Ralentir pour les percevoir vraiment.</li>
+        <li><strong>Faire des choses qu'on aime :</strong> pas "quand j'aurai le temps"  - maintenant, même 10 minutes.</li>
+        <li><strong>Connexion :</strong> les moments de vraie connexion avec d'autres personnes sont l'une des sources les plus fiables de joie.</li>
+        <li><strong>Mouvement :</strong> bouger son corps libère des endorphines. Même une marche courte change l'état.</li>
+        <li><strong>La gratitude :</strong> noter régulièrement ce qui s'est passé de bien entraîne le cerveau à mieux remarquer le positif.</li>
+      </ul>
+
+      <h2>La joie n'annule pas la douleur</h2>
+      <p>Permettre la joie dans des périodes difficiles n'est pas de la trahison, ni de l'inconscience. C'est se ressourcer pour continuer à avancer. Tu mérites des moments de légèreté, même maintenant.</p>
+    `
+  }
+};
+
+/* ══════════════ ROUTING ══════════════ */
+let currentScreen = 's-home';
+const navHistory = [];
+
+function showScreen(id) {
+  navHistory.push(currentScreen);
+  document.getElementById(currentScreen).classList.remove('on');
+  document.getElementById(id).classList.add('on');
+  currentScreen = id;
+  window.scrollTo(0,0);
+  updateNav(id);
+  if(id === 's-ecrits') showEcrits();
+}
+
+function goBack() {
+  stopExerciseAudio();
+  if(navHistory.length === 0){goHome();return;}
+  const prev = navHistory.pop();
+  document.getElementById(currentScreen).classList.remove('on');
+  document.getElementById(prev).classList.add('on');
+  currentScreen = prev;
+  window.scrollTo(0,0);
+  updateNav(prev);
+}
+
+function goHome() {
+  navHistory.length = 0;
+  document.getElementById(currentScreen).classList.remove('on');
+  document.getElementById('s-home').classList.add('on');
+  currentScreen = 's-home';
+  window.scrollTo(0,0);
+  updateNav('s-home');
+}
+
+function updateNav(id) {
+  const map = {'s-home':'nav-accueil','s-rubriques':'nav-rub','s-qa':'nav-qa','s-flp':'nav-flp','s-apropos':'nav-apropos'};
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  const aproposBtn = document.getElementById('nav-apropos');
+  if(aproposBtn) aproposBtn.style.background = '';
+  if(id === 's-apropos' && aproposBtn) aproposBtn.style.background = 'var(--tc)', aproposBtn.style.color = '#fff';
+  if(map[id] && map[id] !== 'nav-apropos') document.getElementById(map[id]).classList.add('active');
+}
+
+/* ══════════════ RUBRIQUES ══════════════ */
+function buildRubGrid() {
+  const grid = document.getElementById('rub-grid');
+  grid.innerHTML = RUBRIQUES.map(r=>`
+    <div class="rub-card" onclick="openRubrique('${r.id}')">
+      <div class="rub-icon" style="background:${r.color}">${r.icon}</div>
+      <h3>${r.name}</h3>
+      <p>${r.ressources} ressources · ${r.exos} exercices</p>
+    </div>
+  `).join('');
+}
+buildRubGrid();
+
+function openRubrique(id) {
+  const r = RUBRIQUES.find(x=>x.id===id);
+  if(!r) return;
+  const el = document.getElementById('rub-detail-content');
+  el.innerHTML = `
+    <div class="rub-hero">
+      <div class="rub-hero-top">
+        <div class="rub-hero-icon" style="background:${r.color}">${r.icon}</div>
+        <h1>${r.name}</h1>
+      </div>
+      <p>${r.intro}</p>
+      <div class="rub-stats">
+        <span class="rub-stat">📚 ${r.ressources} ressources</span>
+        <span class="rub-stat">🧘 ${r.exos} exercices</span>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'tab-comprendre')">Comprendre</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-exercices')">Exercices</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-temoignages')">Témoignages</button>
+    </div>
+    <div id="tab-comprendre" class="tab-pane active">
+      <div class="res-list">${r.comprendre.map(c=>`
+        <div class="res-item" onclick="openArticle('${c.id}')">
+          <span class="res-type">Lecture</span>
+          <div class="res-info">
+            <div class="res-meta">${c.meta}</div>
+            <div class="res-title">${c.title}</div>
+          </div>
+          <svg width="18" height="18" fill="none" stroke="#6A544A" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      `).join('')}</div>
+    </div>
+    <div id="tab-exercices" class="tab-pane">
+      <div class="exo-list">${r.exercices.map(e=>`
+        <div class="exo-card">
+          <div class="exo-card-top">
+            <div>
+              <div class="exo-meta">${e.meta}</div>
+              <div class="exo-title">${e.title}</div>
+            </div>
+            <button class="btn-start" onclick="startExercise('${e.id}','${e.type}')">Commencer</button>
+          </div>
+          <div class="exo-desc">${e.desc}</div>
+        </div>
+      `).join('')}</div>
+    </div>
+    <div id="tab-temoignages" class="tab-pane">
+      <div class="temo-list">${r.temoignages.map(t=>`
+        <div class="temo-card">
+          <blockquote>${t.q}</blockquote>
+          <div class="temo-who"> - ${t.who}</div>
+        </div>
+      `).join('')}</div>
+    </div>
+  `;
+  showScreen('s-rubrique');
+}
+
+function switchTab(btn,paneId) {
+  btn.closest('.tabs').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const rub = document.getElementById('rub-detail-content');
+  rub.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById(paneId).classList.add('active');
+}
+
+/* ══════════════ ARTICLES ══════════════ */
+function openArticle(id) {
+  const art = ARTICLES[id];
+  if(!art){alert('Article bientôt disponible.');return;}
+  document.getElementById('article-content').innerHTML = `
+    <div class="article-meta">${art.meta}</div>
+    <h1 class="article-title">${art.title}</h1>
+    <div class="article-body">${art.body}</div>
+    <div style="margin-top:32px;padding-top:24px;border-top:1.5px solid var(--bd)">
+      <p style="font-size:.85rem;color:var(--ts);margin-bottom:12px">Cet article t'a été utile ? Explore les exercices ou pose une question à un professionnel.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-primary" onclick="showScreen('s-qa')">Poser une question</button>
+        <button class="btn-ghost" onclick="goBack()">← Retour</button>
+      </div>
+    </div>
+  `;
+  showScreen('s-article');
+}
+
+/* ══════════════ EXERCICES ══════════════ */
+const BREATHING_EXERCISES = {
+  'respiration-4-7-8': {
+    title:'Respiration 4-7-8',
+    subtitle:'Inhale 4 secondes · Retiens 7 secondes · Expire 8 secondes',
+    phases:[{label:'Inhale',dur:4},{label:'Retiens',dur:7},{label:'Expire',dur:8}],
+    cycles:4
+  },
+  'respiration-sommeil':{
+    title:'Respiration pour s\'endormir',
+    subtitle:'Douce et lente  - pour préparer ton corps au repos',
+    phases:[{label:'Inhale',dur:4},{label:'Retiens',dur:2},{label:'Expire',dur:6}],
+    cycles:5
+  },
+  'respiration-concentration':{
+    title:'Respiration pour se recentrer',
+    subtitle:'Rapide et efficace  - avant une session d\'étude',
+    phases:[{label:'Inhale',dur:4},{label:'Retiens',dur:4},{label:'Expire',dur:4}],
+    cycles:3
+  },
+  'respiration-colere':{
+    title:'Respirer quand la colère monte',
+    subtitle:'Calme ton système nerveux en 3 minutes',
+    phases:[{label:'Inhale',dur:4},{label:'Retiens',dur:1},{label:'Expire',dur:8}],
+    cycles:4
+  },
+  'urgence':{
+    title:'Respiration calme  - urgence',
+    subtitle:'Concentre-toi uniquement sur ta respiration',
+    phases:[{label:'Inhale',dur:4},{label:'Retiens',dur:4},{label:'Expire',dur:6}],
+    cycles:5
+  }
+};
+
+let breathInterval = null;
+
+/* ══ AUDIO MANAGER ══ */
+let dhikiAudio = null;
+function playExerciseAudio(src) {
+  stopExerciseAudio();
+  dhikiAudio = new Audio(src);
+  dhikiAudio.volume = 0.9;
+  const bar = document.getElementById('audio-bar');
+  const btn = document.getElementById('audio-btn');
+  const prog = document.getElementById('audio-progress');
+  const label = document.getElementById('audio-label');
+  dhikiAudio.addEventListener('timeupdate', () => {
+    if(!dhikiAudio.duration) return;
+    const pct = (dhikiAudio.currentTime / dhikiAudio.duration) * 100;
+    if(prog) prog.style.width = pct + '%';
+    const rem = Math.ceil(dhikiAudio.duration - dhikiAudio.currentTime);
+    if(label) label.textContent = rem > 0 ? '-' + rem + 's' : '✓';
+  });
+  dhikiAudio.addEventListener('ended', () => {
+    if(btn) btn.innerHTML = iconPlay;
+    if(prog) prog.style.width = '100%';
+    if(label) label.textContent = '✓';
+  });
+  const p = dhikiAudio.play();
+  if(p && p.catch) p.catch(() => {
+    if(bar) { const hint=document.getElementById('audio-hint'); if(hint) hint.style.display='block'; }
+    if(btn) btn.innerHTML = iconPlay;
+  });
+  if(btn) btn.innerHTML = iconPause;
+}
+function stopExerciseAudio() {
+  if(dhikiAudio) { try{ dhikiAudio.pause(); dhikiAudio.src=''; }catch(e){} dhikiAudio = null; }
+}
+function toggleAudio() {
+  if(!dhikiAudio) return;
+  const btn = document.getElementById('audio-btn');
+  if(dhikiAudio.paused) { dhikiAudio.play(); if(btn) btn.innerHTML = iconPause; }
+  else { dhikiAudio.pause(); if(btn) btn.innerHTML = iconPlay; }
+}
+function seekAudio(e) {
+  if(!dhikiAudio || !dhikiAudio.duration) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  dhikiAudio.currentTime = pct * dhikiAudio.duration;
+}
+const iconPlay  = `<svg viewBox="0 0 16 16"><path d="M3 2l11 6-11 6V2z"/></svg>`;
+const iconPause = `<svg viewBox="0 0 16 16"><rect x="2" y="2" width="4.5" height="12" rx="1"/><rect x="9.5" y="2" width="4.5" height="12" rx="1"/></svg>`;
+
+function startExercise(id, type) {
+  switch(type) {
+    case 'breathing': {
+      const ex = BREATHING_EXERCISES[id] || BREATHING_EXERCISES['respiration-4-7-8'];
+      renderBreathing(ex, false);
+      break;
+    }
+    case 'journal':   renderJournal(id);   break;
+    case 'ancrage':   renderAncrage();      break;
+    case 'scan':      renderScan();         break;
+    case 'valeurs':   renderValeurs();      break;
+    case 'ecriture':  renderEcriture(id);   break;
+    case 'ecoute':    renderEcoute();       break;
+    case 'limites':   renderLimites();      break;
+    case 'pomodoro':  renderPomodoro();     break;
+    default: {
+      const ex = BREATHING_EXERCISES[id] || BREATHING_EXERCISES['respiration-4-7-8'];
+      renderBreathing(ex, false);
+    }
+  }
+}
+
+function startBreathing(id) {
+  const ex = BREATHING_EXERCISES[id] || BREATHING_EXERCISES['respiration-4-7-8'];
+  renderBreathing(ex, true);
+}
+
+/* ── JOURNAL (gratitude + émotions) ── */
+const JOURNAL_DATA = {
+  'gratitude': {
+    title: 'Journal de gratitude',
+    subtitle: 'Chaque réponse réoriente ton regard vers ce qui compte',
+    prompts: [
+      { q: 'Qu\'est-ce qui s\'est passé de bien aujourd\'hui  - même quelque chose de tout petit ?', placeholder: 'Même une tasse de thé chaud, un sourire reçu, un moment calme…' },
+      { q: 'Quelle qualité as-tu utilisée aujourd\'hui  - ta patience, ta générosité, ta persévérance ?', placeholder: 'Aujourd\'hui j\'ai été…' },
+      { q: 'Pour quelle personne ou quelle chose es-tu reconnaissant·e aujourd\'hui ?', placeholder: 'Je suis reconnaissant·e pour…' }
+    ]
+  },
+  'journal-emotions': {
+    title: 'Journal des émotions',
+    subtitle: 'Mettre des mots sur ce que tu ressens, c\'est déjà commencer à aller mieux',
+    prompts: [
+      { q: 'Comment tu te sens en ce moment ? Essaie de nommer l\'émotion (pas seulement "bien" ou "mal").', placeholder: 'Je ressens de la… (joie, tristesse, colère, inquiétude, vide, confusion…)' },
+      { q: 'Qu\'est-ce qui a le plus influencé ton état aujourd\'hui  - un événement, une pensée, une personne ?', placeholder: 'Ce qui a marqué ma journée…' },
+      { q: 'Qu\'est-ce dont tu as besoin là, maintenant ? Du repos, du contact, de la solitude, de te bouger ?', placeholder: 'Ce dont j\'ai besoin…' }
+    ]
+  },
+  'journal-relations': {
+    title: 'Journal des relations',
+    subtitle: 'Une relation qui compte mérite qu\'on y pense vraiment',
+    prompts: [
+      { q: 'Pense à une personne avec qui tu vis quelque chose en ce moment - une tension, une joie, une question. Qui est-ce et qu\'est-ce qui se passe entre vous ?', placeholder: 'C\'est quelqu\'un avec qui je… depuis…' },
+      { q: 'Comment te sens-tu dans cette relation en ce moment ? Est-ce que tu te sens respecté·e, entendu·e, libre d\'être toi-même ?', placeholder: 'Dans cette relation, je me sens…' },
+      { q: 'S\'il y a une chose que tu aimerais que cette relation soit différente, qu\'est-ce que ce serait ? Et y a-t-il quelque chose que toi tu peux changer ?', placeholder: 'Ce que j\'aimerais, c\'est…' }
+    ]
+  }
+};
+
+function renderJournal(id) {
+  const data = JOURNAL_DATA[id] || JOURNAL_DATA['gratitude'];
+  let step = 0;
+  const answers = [];
+
+  const el = document.getElementById('exo-content');
+  showScreen('s-exo');
+
+  function render() {
+    if(step < data.prompts.length) {
+      const p = data.prompts[step];
+      el.innerHTML = `
+        <div class="exo-player" style="text-align:left;max-width:520px;margin:0 auto">
+          <div style="font-size:.78rem;color:var(--ts);text-transform:uppercase;letter-spacing:.08em;margin-bottom:24px;text-align:center">${step+1} / ${data.prompts.length}</div>
+          <h1 style="font-size:1.35rem;margin-bottom:6px">${data.title}</h1>
+          <p class="exo-subtitle" style="margin-bottom:32px">${data.subtitle}</p>
+          <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:22px;margin-bottom:20px">
+            <p style="font-weight:600;font-size:.97rem;color:var(--coal);margin-bottom:16px;line-height:1.5">${p.q}</p>
+            <textarea id="journal-input" placeholder="${p.placeholder}" style="width:100%;border-radius:10px;border:1.5px solid var(--bd);background:var(--white);padding:12px;font-size:.93rem;min-height:110px;outline:none;transition:border-color .18s" onfocus="this.style.borderColor='var(--tc)'" onblur="this.style.borderColor='var(--bd)'">${answers[step]||''}</textarea>
+          </div>
+          <div class="breath-ctrl">
+            ${step > 0 ? `<button class="btn-ghost" onclick="journalBack()">← Précédent</button>` : `<button class="btn-ghost" onclick="goBack()">Annuler</button>`}
+            <button class="btn-primary" onclick="journalNext()">Suivant →</button>
+          </div>
+        </div>`;
+    } else {
+      const journalText = data.prompts.map((p,i)=>`${p.q}\n${answers[i]||''}`).join('\n\n');
+      saveEcrit(data.title, journalText);
+      el.innerHTML = `
+        <div class="exo-player" style="text-align:left;max-width:520px;margin:0 auto">
+          <div style="font-size:2rem;text-align:center;margin-bottom:16px">🌿</div>
+          <h1 style="text-align:center;margin-bottom:8px">Bien joué !</h1>
+          <p class="exo-subtitle" style="text-align:center;margin-bottom:32px">Tu as pris le temps de te regarder de l'intérieur. C'est un acte de soin envers toi-même.</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px">
+            ${data.prompts.map((p,i)=>`
+              <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:18px">
+                <div style="font-size:.78rem;color:var(--ts);margin-bottom:6px">${p.q}</div>
+                <div style="font-size:.95rem;color:var(--coal);font-style:italic">"${answers[i]||' - '}"</div>
+              </div>`).join('')}
+          </div>
+          <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:14px;margin-bottom:24px;font-size:.85rem;color:var(--ts)">
+            💾 Cette entrée a été sauvegardée. Tu peux la retrouver dans <strong>"Mes écrits"</strong> depuis l'accueil.
+          </div>
+          <div class="breath-ctrl" style="flex-wrap:wrap;gap:8px">
+            <button class="btn-ghost" onclick="showScreen('s-ecrits')">Mes écrits</button>
+            <button class="btn-ghost" onclick="exportEcritPDF('${data.title}', \`${data.prompts.map((p,i)=>p.q+'\\n'+(answers[i]||'')).join('\\n\\n').replace(/`/g,"'")}\`)">📄 Exporter en PDF</button>
+            <button class="btn-primary" onclick="step=0;answers.length=0;render()">Recommencer</button>
+          </div>
+        </div>`;
+    }
+  }
+
+  window.journalNext = function() {
+    const val = document.getElementById('journal-input');
+    answers[step] = val ? val.value.trim() : '';
+    step++;
+    render();
+  };
+  window.journalBack = function() {
+    const val = document.getElementById('journal-input');
+    if(val) answers[step] = val.value.trim();
+    step--;
+    render();
+  };
+  render();
+}
+
+/* ── ANCRAGE SENSORIEL 5-4-3-2-1 ── */
+function renderAncrage() {
+  const STEPS = [
+    { n:5, sense:'👁️', label:'que tu vois', instruction:'Regarde autour de toi. Nomme 5 choses que tu peux voir en ce moment.' },
+    { n:4, sense:'✋', label:'que tu touches', instruction:'Touche quelque chose près de toi. Nomme 4 textures ou sensations physiques que tu ressens.' },
+    { n:3, sense:'👂', label:'que tu entends', instruction:'Ferme les yeux un instant. Nomme 3 sons que tu entends, même les plus discrets.' },
+    { n:2, sense:'👃', label:'que tu sens', instruction:'Nomme 2 odeurs que tu peux percevoir  - ou rappelle-toi une odeur que tu aimes.' },
+    { n:1, sense:'👅', label:'que tu goûtes', instruction:'Nomme 1 goût en bouche, ou une saveur que tu apprécies particulièrement.' }
+  ];
+  let step = 0;
+  const answers = [];
+  const el = document.getElementById('exo-content');
+  showScreen('s-exo');
+  playExerciseAudio('audio/ancrage-sensoriel.mp3');
+
+  function render() {
+    if(step < STEPS.length) {
+      const s = STEPS[step];
+      el.innerHTML = `
+        <div class="exo-player" style="text-align:left;max-width:520px;margin:0 auto">
+          <h1 style="text-align:center;font-size:1.35rem;margin-bottom:4px">Ancrage 5-4-3-2-1</h1>
+          <p class="exo-subtitle" style="text-align:center;margin-bottom:28px">Reconnecte-toi au présent, un sens à la fois</p>
+          <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:24px;margin-bottom:20px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+              <div style="font-size:2rem">${s.sense}</div>
+              <div>
+                <div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.5rem;color:var(--tc)">${s.n}</div>
+                <div style="font-size:.85rem;color:var(--ts)">choses ${s.label}</div>
+              </div>
+            </div>
+            <p style="font-size:.93rem;color:var(--coal);margin-bottom:16px;line-height:1.5">${s.instruction}</p>
+            <textarea id="ancrage-input" placeholder="Écris ici ce que tu perçois…" style="width:100%;border-radius:10px;border:1.5px solid var(--bd);background:var(--white);padding:12px;font-size:.93rem;min-height:90px;outline:none;transition:border-color .18s" onfocus="this.style.borderColor='var(--tc)'" onblur="this.style.borderColor='var(--bd)'">${answers[step]||''}</textarea>
+          </div>
+          <div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px">
+            ${STEPS.map((_,i)=>`<div style="width:28px;height:4px;border-radius:2px;background:${i<=step?'var(--tc)':'var(--bd)'}"></div>`).join('')}
+          </div>
+          <div class="breath-ctrl">
+            ${step > 0 ? `<button class="btn-ghost" onclick="ancrageBack()">← Précédent</button>` : `<button class="btn-ghost" onclick="goBack()">Annuler</button>`}
+            <button class="btn-primary" onclick="ancrageNext()">Continuer →</button>
+          </div>
+          <div class="audio-bar" id="audio-bar" style="margin-top:20px">
+            <button class="audio-btn" id="audio-btn" onclick="toggleAudio()" title="Lecture / Pause">${iconPause}</button>
+            <div class="audio-track" onclick="seekAudio(event)">
+              <div class="audio-progress" id="audio-progress"></div>
+            </div>
+            <span class="audio-label" id="audio-label">…</span>
+          </div>
+          <p class="audio-hint" id="audio-hint" style="display:none">Appuie sur ▶ pour lancer le guidage audio</p>
+        </div>`;
+    } else {
+      el.innerHTML = `
+        <div class="exo-player" style="text-align:center;max-width:520px;margin:0 auto">
+          <div style="font-size:2.5rem;margin-bottom:16px">🌿</div>
+          <h1 style="margin-bottom:8px">Tu es ancré·e dans le présent</h1>
+          <p class="exo-subtitle" style="margin-bottom:32px">Tu as traversé les 5 sens. Prends un moment pour remarquer comment tu te sens maintenant par rapport au début.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;text-align:left;margin-bottom:32px">
+            ${STEPS.map((s,i)=>`
+              <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:14px;display:flex;gap:12px;align-items:flex-start">
+                <span style="font-size:1.3rem">${s.sense}</span>
+                <div><div style="font-size:.78rem;color:var(--ts);margin-bottom:3px">${s.n} choses ${s.label}</div><div style="font-size:.9rem;color:var(--coal);font-style:italic">${answers[i]||' - '}</div></div>
+              </div>`).join('')}
+          </div>
+          <div class="breath-ctrl">
+            <button class="btn-ghost" onclick="goBack()">← Retour</button>
+            <button class="btn-primary" onclick="step=0;answers.length=0;render()">Recommencer</button>
+          </div>
+        </div>`;
+    }
+  }
+
+  function syncAudioBar() {
+    if(!dhikiAudio) return;
+    const btn = document.getElementById('audio-btn');
+    const prog = document.getElementById('audio-progress');
+    const label = document.getElementById('audio-label');
+    const hint = document.getElementById('audio-hint');
+    if(btn) btn.innerHTML = dhikiAudio.paused ? iconPlay : iconPause;
+    if(prog && dhikiAudio.duration) prog.style.width = (dhikiAudio.currentTime/dhikiAudio.duration*100)+'%';
+    // Re-bind timeupdate to new elements
+    dhikiAudio.ontimeupdate = () => {
+      if(!dhikiAudio.duration) return;
+      const pct = (dhikiAudio.currentTime / dhikiAudio.duration) * 100;
+      const p = document.getElementById('audio-progress');
+      const l = document.getElementById('audio-label');
+      if(p) p.style.width = pct + '%';
+      const rem = Math.ceil(dhikiAudio.duration - dhikiAudio.currentTime);
+      if(l) l.textContent = rem > 0 ? '-' + rem + 's' : '✓';
+    };
+    if(hint) { hint.style.display = 'none'; }
+  }
+
+  window.ancrageNext = function() {
+    const val = document.getElementById('ancrage-input');
+    answers[step] = val ? val.value.trim() : '';
+    step++;
+    render();
+    if(step < STEPS.length) setTimeout(syncAudioBar, 0);
+  };
+  window.ancrageBack = function() {
+    const val = document.getElementById('ancrage-input');
+    if(val) answers[step] = val.value.trim();
+    step--;
+    render();
+    setTimeout(syncAudioBar, 0);
+  };
+  render();
+  setTimeout(syncAudioBar, 100);
+}
+
+/* ── SCAN CORPOREL ── */
+function renderScan() {
+  const ZONES = [
+    { label:'La tête et le visage', instruction:'Remarque les tensions dans ta mâchoire, ton front, tes yeux. Tu n\'as pas à les changer  - juste les observer. En expirant, laisse-les se relâcher doucement.' },
+    { label:'Le cou et les épaules', instruction:'Beaucoup de stress se loge ici. Remarque si tes épaules sont remontées. En expirant, laisse-les tomber naturellement, loin des oreilles.' },
+    { label:'La poitrine et le dos', instruction:'Sens ton souffle soulever ta cage thoracique. Y a-t-il une pression dans ta poitrine ? Inspire profondément, retiens 2 secondes, expire longuement.' },
+    { label:'Le ventre', instruction:'C\'est ici que le stress se niche souvent. Remarque si ton ventre est contracté. En expirant, laisse-le se détendre complètement.' },
+    { label:'Les bras et les mains', instruction:'Secoue doucement les bras si tu peux. Sens le poids de tes mains. Laisse toute tension partir par le bout de tes doigts.' },
+    { label:'Les jambes et les pieds', instruction:'Sens le contact de tes pieds sur le sol. Tu es soutenu·e. Contracte les mollets légèrement, puis relâche. Remarque la différence.' }
+  ];
+  let step = 0;
+  let timer = null;
+  let secondsLeft = 30;
+  const el = document.getElementById('exo-content');
+  showScreen('s-exo');
+
+  function render() {
+    if(step < ZONES.length) {
+      const z = ZONES[step];
+      secondsLeft = 30;
+      el.innerHTML = `
+        <div class="exo-player" style="text-align:left;max-width:520px;margin:0 auto">
+          <h1 style="text-align:center;font-size:1.35rem;margin-bottom:4px">Scan corporel</h1>
+          <p class="exo-subtitle" style="text-align:center;margin-bottom:28px">Zone ${step+1} sur ${ZONES.length}</p>
+          <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:24px;margin-bottom:20px">
+            <div style="font-family:'Nunito',sans-serif;font-weight:700;font-size:1.1rem;color:var(--tc);margin-bottom:14px">${z.label}</div>
+            <p style="font-size:.95rem;color:var(--coal);line-height:1.65;margin-bottom:20px">${z.instruction}</p>
+            <div style="display:flex;align-items:center;justify-content:center;gap:16px">
+              <div style="width:56px;height:56px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;color:#fff;font-variant-numeric:tabular-nums" id="scan-timer">${secondsLeft}</div>
+              <div style="font-size:.85rem;color:var(--ts)">secondes<br>pour cette zone</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;justify-content:center;margin-bottom:20px">
+            ${ZONES.map((_,i)=>`<div style="width:24px;height:4px;border-radius:2px;background:${i<step?'var(--sage)':i===step?'var(--tc)':'var(--bd)'}"></div>`).join('')}
+          </div>
+          <div class="breath-ctrl">
+            <button class="btn-ghost" onclick="scanStop()">Arrêter</button>
+            <button class="btn-primary" onclick="scanNext()">Zone suivante →</button>
+          </div>
+        </div>`;
+      if(timer) clearInterval(timer);
+      timer = setInterval(()=>{
+        secondsLeft--;
+        const t = document.getElementById('scan-timer');
+        if(t) t.textContent = secondsLeft;
+        if(secondsLeft <= 0) { clearInterval(timer); scanNext(); }
+      }, 1000);
+    } else {
+      if(timer) clearInterval(timer);
+      el.innerHTML = `
+        <div class="exo-player" style="text-align:center;max-width:520px;margin:0 auto">
+          <div style="font-size:2.5rem;margin-bottom:16px">🌿</div>
+          <h1 style="margin-bottom:8px">Scan terminé</h1>
+          <p class="exo-subtitle" style="margin-bottom:28px">Tu as parcouru tout ton corps avec attention. C'est exactement ce qu'il fallait faire.</p>
+          <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:20px;margin-bottom:28px;text-align:left">
+            <p style="font-size:.93rem;color:var(--coal);line-height:1.6">Remarque s'il y a une différence entre comment tu te sentais au début et maintenant. Même un tout petit changement compte. Le scan corporel fonctionne mieux avec la pratique régulière  - essaie-le plusieurs soirs de suite.</p>
+          </div>
+          <div class="breath-ctrl">
+            <button class="btn-ghost" onclick="goBack()">← Retour</button>
+            <button class="btn-primary" onclick="step=0;render()">Recommencer</button>
+          </div>
+        </div>`;
+    }
+  }
+
+  window.scanNext = function() { step++; render(); };
+  window.scanStop = function() { if(timer) clearInterval(timer); goBack(); };
+  render();
+}
+
+/* ── VALEURS ── */
+function renderValeurs() {
+  const VALS = [
+    'Famille','Liberté','Honnêteté','Créativité','Respect','Amitié',
+    'Ambition','Paix intérieure','Justice','Courage','Solidarité','Joie',
+    'Équité','Discipline','Indépendance','Générosité','Curiosité','Responsabilité',
+    'Authenticité','Spiritualité','Sécurité','Épanouissement','Communauté','Intégrité'
+  ];
+  let selected = new Set();
+  const el = document.getElementById('exo-content');
+  showScreen('s-exo');
+
+  function render() {
+    el.innerHTML = `
+      <div class="exo-player" style="text-align:left;max-width:560px;margin:0 auto">
+        <h1 style="text-align:center;font-size:1.35rem;margin-bottom:6px">Clarifier tes valeurs</h1>
+        <p class="exo-subtitle" style="text-align:center;margin-bottom:28px">Choisis jusqu'à 5 valeurs qui comptent vraiment pour toi  - pas celles que les autres attendent</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px" id="val-grid">
+          ${VALS.map(v=>`
+            <button onclick="toggleVal(this,'${v}')" style="padding:9px 16px;border-radius:20px;font-size:.88rem;font-weight:600;border:2px solid ${selected.has(v)?'var(--tc)':'var(--bd)'};background:${selected.has(v)?'var(--tc)':'var(--white)'};color:${selected.has(v)?'#fff':'var(--coal)'};cursor:pointer;transition:all .18s">${v}</button>`).join('')}
+        </div>
+        <div style="font-size:.8rem;color:var(--ts);text-align:center;margin-bottom:20px" id="val-count">${selected.size} / 5 valeurs choisies</div>
+        <div class="breath-ctrl">
+          <button class="btn-ghost" onclick="goBack()">Annuler</button>
+          <button class="btn-primary" ${selected.size===0?'disabled style="opacity:.5"':''} onclick="valeursFinish()">Voir mes valeurs →</button>
+        </div>
+      </div>`;
+  }
+
+  window.toggleVal = function(btn, val) {
+    if(selected.has(val)) { selected.delete(val); }
+    else if(selected.size < 5) { selected.add(val); }
+    else { btn.style.animation='none'; btn.getBoundingClientRect(); btn.style.animation='shake .3s ease'; return; }
+    render();
+  };
+  window.valeursFinish = function() {
+    const list = [...selected];
+    el.innerHTML = `
+      <div class="exo-player" style="text-align:left;max-width:520px;margin:0 auto">
+        <div style="font-size:2rem;text-align:center;margin-bottom:16px">⭐</div>
+        <h1 style="text-align:center;margin-bottom:8px">Tes valeurs fondamentales</h1>
+        <p class="exo-subtitle" style="text-align:center;margin-bottom:28px">Ce sont les piliers de qui tu es et de qui tu veux devenir</p>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px">
+          ${list.map((v,i)=>`
+            <div style="background:var(--sand);border:2px solid var(--tc);border-radius:var(--rad);padding:16px 20px;display:flex;align-items:center;gap:14px">
+              <div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.3rem;color:var(--tc);min-width:28px">${i+1}</div>
+              <div style="font-family:'Nunito',sans-serif;font-weight:700;font-size:1.05rem">${v}</div>
+            </div>`).join('')}
+        </div>
+        <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:18px;margin-bottom:24px">
+          <p style="font-size:.88rem;color:var(--ts);line-height:1.55">Garde ces valeurs en tête quand tu dois prendre une décision difficile. Demande-toi : "Est-ce que ce choix respecte mes valeurs ?" C'est ta boussole intérieure.</p>
+        </div>
+        <div class="breath-ctrl">
+          <button class="btn-ghost" onclick="goBack()">← Retour</button>
+          <button class="btn-primary" onclick="selected=new Set();renderValeurs()">Recommencer</button>
+        </div>
+      </div>`;
+  };
+  render();
+}
+
+/* ── ÉCRITURE LIBRE (deuil) ── */
+function renderEcriture(id) {
+  const el = document.getElementById('exo-content');
+  showScreen('s-exo');
+  el.innerHTML = `
+    <div class="exo-player" style="text-align:left;max-width:560px;margin:0 auto">
+      <h1 style="font-size:1.35rem;margin-bottom:6px">Écrire une lettre</h1>
+      <p class="exo-subtitle" style="margin-bottom:24px">Cet espace est privé. Écris librement, sans chercher à bien formuler. Laisse sortir ce qui est là.</p>
+      <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:20px;margin-bottom:16px">
+        <p style="font-size:.88rem;color:var(--ts);margin-bottom:14px;line-height:1.5">Tu peux écrire à quelqu'un que tu as perdu, à une version de toi-même, à une situation que tu traverses. Il n'y a pas de bonne façon de faire ça.</p>
+        <div style="font-size:.85rem;color:var(--ts);margin-bottom:10px">Pour commencer, tu peux essayer : <em>"Il y a quelque chose que j'aurais voulu te dire…"</em></div>
+      </div>
+      <textarea id="ecriture-input" placeholder="Commence à écrire ici…" style="width:100%;border-radius:var(--rad);border:1.5px solid var(--bd);background:var(--white);padding:18px;font-size:.97rem;min-height:220px;outline:none;line-height:1.7;transition:border-color .18s" onfocus="this.style.borderColor='var(--tc)'" onblur="this.style.borderColor='var(--bd)'"></textarea>
+      <div style="font-size:.78rem;color:var(--ts);margin:10px 0 20px;text-align:right" id="ecriture-chars">0 mots</div>
+      <div class="breath-ctrl">
+        <button class="btn-ghost" onclick="goBack()">← Retour</button>
+        <button class="btn-primary" onclick="ecritureTerminer()">J'ai terminé</button>
+      </div>
+    </div>`;
+
+  document.getElementById('ecriture-input').addEventListener('input', function() {
+    const words = this.value.trim() ? this.value.trim().split(/\s+/).length : 0;
+    const c = document.getElementById('ecriture-chars');
+    if(c) c.textContent = words + ' mot' + (words>1?'s':'');
+  });
+
+  window.ecritureTerminer = function() {
+    const text = document.getElementById('ecriture-input').value.trim();
+    if(!text) { goBack(); return; }
+    window._lastLetterText = text;
+    saveEcrit('Lettre', text);
+    el.innerHTML = `
+      <div class="exo-player" style="text-align:center;max-width:520px;margin:0 auto">
+        <div style="font-size:2.5rem;margin-bottom:16px">💜</div>
+        <h1 style="margin-bottom:8px">Tu l'as fait</h1>
+        <p class="exo-subtitle" style="margin-bottom:24px">Mettre des mots sur ce qui est lourd  - c'est courageux. Prends un moment avant de reprendre ta journée.</p>
+        <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:18px;margin-bottom:28px;text-align:left">
+          <p style="font-size:.9rem;color:var(--ts);line-height:1.6">Ton texte a été sauvegardé sur cet appareil. Tu peux le retrouver à tout moment dans <strong>"Mes écrits"</strong> depuis l'accueil.</p>
+        </div>
+        <div class="breath-ctrl" style="flex-wrap:wrap;gap:8px">
+          <button class="btn-ghost" onclick="showScreen('s-ecrits')">Mes écrits</button>
+          <button class="btn-ghost" onclick="exportEcritPDF('Lettre', window._lastLetterText||'')">📄 Exporter en PDF</button>
+          <button class="btn-primary" onclick="renderEcriture('${id}')">Écrire encore</button>
+        </div>
+      </div>`;
+  };
+}
+
+/* ── POSER DES LIMITES ── */
+function renderLimites() {
+  const ALL_SITUATIONS = [
+    {
+      contexte: 'Un ami t\'appelle à 23h pour parler de ses problèmes. C\'est la troisième fois cette semaine. Tu es épuisé·e.',
+      question: 'Comment répondre en posant une limite tout en restant bienveillant·e ?',
+      choices: [
+        { text: '"Allô ? Oui bien sûr, je t\'écoute..."', ok: false, why: 'Ne pas poser de limite t\'épuise. Une relation saine se construit aussi sur le respect mutuel de l\'espace de chacun.' },
+        { text: '"Je ne peux pas parler maintenant. Je suis fatigué·e et j\'ai besoin de dormir. On peut se parler demain ?"', ok: true, why: 'Tu exprimes ton besoin clairement et tu proposes une alternative. C\'est une limite saine et bienveillante.' },
+        { text: '"Ne m\'appelle plus aussi tard !" (et tu raccroches)', ok: false, why: 'Poser une limite, c\'est bien. Mais sans explication ni alternative, la relation peut être blessée inutilement.' }
+      ]
+    },
+    {
+      contexte: 'Ton cousin te demande de faire ses devoirs à sa place "juste cette fois". Mais ça fait plusieurs fois déjà.',
+      question: 'Comment dire non sans te sentir coupable ?',
+      choices: [
+        { text: '"D\'accord, donne-moi tes affaires."', ok: false, why: 'Tu sacrifies ton temps et tu ne l\'aides pas à apprendre à se débrouiller. Ce n\'est pas lui rendre service.' },
+        { text: '"Je ne peux pas faire ça pour toi. Mais si tu veux, on regarde ensemble comment tu peux t\'y prendre ?"', ok: true, why: 'Tu poses une limite claire et tu offres une alternative positive. C\'est respectueux pour toi et pour lui.' },
+        { text: '"Non je ne fais pas ça." (sans rien ajouter)', ok: false, why: 'C\'est une limite valide, mais ajouter une alternative ou une explication peut éviter un froid inutile.' }
+      ]
+    },
+    {
+      contexte: 'Ta patronne te demande de rester travailler le samedi alors que vous n\'avez pas convenu de ça au départ.',
+      question: 'Comment répondre professionnellement en défendant ton espace personnel ?',
+      choices: [
+        { text: '"Oui, pas de problème." (mais tu bouilles intérieurement)', ok: false, why: 'Accepter sans l\'exprimer nourrit la frustration. Les limites non exprimées s\'accumulent et explosent plus tard.' },
+        { text: '"Je comprends le besoin, mais le samedi est mon temps personnel. Je ne peux pas être disponible ce jour-là. Est-ce qu\'on peut trouver une autre solution ?"', ok: true, why: 'Tu reconnais la situation, tu exprimes ta limite clairement et tu proposes une ouverture. C\'est professionnel et assertif.' },
+        { text: '"Je ne travaille pas le samedi, c\'est comme ça."', ok: false, why: 'La limite est valide, mais le ton peut créer inutilement une tension. Une formulation respectueuse passe mieux.' }
+      ]
+    },
+    {
+      contexte: 'Un proche te pose des questions très personnelles sur ta vie amoureuse lors d\'un repas de famille. Tu n\'as pas envie d\'en parler.',
+      question: 'Comment rediriger sans créer de conflit ?',
+      choices: [
+        { text: '"Ça ne te regarde pas." (devant tout le monde)', ok: false, why: 'La limite est légitime mais la forme peut humilier l\'autre et créer une tension familiale inutile.' },
+        { text: '"C\'est gentil de t\'intéresser, mais je préfère garder ça pour moi pour l\'instant."', ok: true, why: 'Tu poses une limite avec douceur et dignité. Tu n\'as pas à justifier ton choix. C\'est suffisant.' },
+        { text: '"Euh... rien de spécial..." (et tu réponds vaguement)', ok: false, why: 'Éluder n\'est pas poser une limite. L\'autre peut continuer à insister. Être clair·e est plus respectueux.' }
+      ]
+    },
+    {
+      contexte: 'Ton meilleur ami partage régulièrement des choses que tu lui dis en confidence avec d\'autres personnes.',
+      question: 'Comment aborder ce sujet difficile avec lui ?',
+      choices: [
+        { text: '"Tu as encore parlé de moi ! Je ne te fais plus confiance !"', ok: false, why: 'La confrontation directe comme accusation peut mettre l\'autre sur la défensive et fermer la conversation.' },
+        { text: '"Il y a quelque chose qui m\'a blessé·e récemment que j\'aimerais te dire. Est-ce qu\'on peut en parler ?"', ok: true, why: 'Tu ouvres la conversation avec bienveillance. L\'autre peut t\'entendre sans se sentir attaqué·e d\'entrée.' },
+        { text: '"C\'est bon, laisse tomber." (et tu gardes pour toi)', ok: false, why: 'Avaler la blessure sans la nommer nourrit une distance silencieuse. La relation mérite une conversation honnête.' }
+      ]
+    }
+  ];
+
+  function shuffle(arr) {
+    const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;
+  }
+  const SITUATIONS = shuffle(ALL_SITUATIONS).slice(0, 3);
+
+  let sc = 0, chosen = null;
+  const el = document.getElementById('exo-content');
+  showScreen('s-exo');
+
+  function render() {
+    const s = SITUATIONS[sc];
+    el.innerHTML = `
+      <div class="exo-player" style="text-align:left;max-width:540px;margin:0 auto">
+        <h1 style="text-align:center;font-size:1.35rem;margin-bottom:4px">Poser des limites</h1>
+        <p class="exo-subtitle" style="text-align:center;margin-bottom:28px">Situation ${sc+1} sur ${SITUATIONS.length} - Quelle est la meilleure réponse ?</p>
+        <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:20px;margin-bottom:14px">
+          <div style="font-size:.78rem;color:var(--ts);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.05em">La situation</div>
+          <p style="font-size:.93rem;color:var(--coal);line-height:1.6;margin-bottom:10px">${s.contexte}</p>
+          <div style="font-size:.88rem;color:var(--tc);font-weight:700;border-top:1px solid var(--bd);padding-top:10px">${s.question}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+          ${s.choices.map((c,i)=>`
+            <button onclick="limitesChoose(${i})" style="text-align:left;padding:14px 16px;border-radius:var(--rad);border:2px solid var(--bd);background:var(--white);cursor:pointer;font-size:.92rem;color:var(--coal);line-height:1.45;transition:all .18s;${chosen!==null?(c.ok?'border-color:var(--sage);background:#f0f7f0;':'border-color:var(--coral);background:#fff5f3;'):''}">
+              ${c.text}
+              ${chosen!==null?`<div style="font-size:.8rem;margin-top:8px;color:${c.ok?'var(--sage)':'var(--coral)'};font-weight:600">${c.ok?'✓ Bonne approche':'- '+c.why}</div>`:''}
+            </button>`).join('')}
+        </div>
+        ${chosen!==null?`<div style="background:var(--sand);border:1.5px solid var(--sagel);border-radius:var(--rad);padding:16px;margin-bottom:20px;font-size:.88rem;color:var(--coal);line-height:1.5"><strong>Ce qu'on retient ici :</strong> ${s.choices[chosen].ok?s.choices[chosen].why:s.choices.find(c=>c.ok).why}</div>`:''}
+        <div class="breath-ctrl">
+          <button class="btn-ghost" onclick="goBack()">← Retour</button>
+          ${chosen!==null?`<button class="btn-primary" onclick="limitesNext()">Situation suivante →</button>`:''}
+        </div>
+      </div>`;
+  }
+
+  window.limitesChoose = function(i) { chosen = i; render(); };
+  window.limitesNext = function() {
+    sc++; chosen = null;
+    if(sc >= SITUATIONS.length) {
+      el.innerHTML = `
+        <div class="exo-player" style="text-align:center;max-width:520px;margin:0 auto">
+          <div style="font-size:2.5rem;margin-bottom:16px">🦁</div>
+          <h1 style="margin-bottom:8px">Exercice terminé</h1>
+          <p class="exo-subtitle" style="margin-bottom:24px">Poser des limites s'apprend. Plus tu le pratiques, plus ça devient naturel et moins tu culpabilises.</p>
+          <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:18px;margin-bottom:28px;text-align:left">
+            <p style="font-size:.9rem;color:var(--coal);line-height:1.6;margin-bottom:10px"><strong>Les clés pour poser des limites :</strong></p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:8px">
+              <li style="font-size:.88rem;color:var(--ts)">🟢 Exprimer ton besoin avec "Je" (pas "Tu fais toujours...")</li>
+              <li style="font-size:.88rem;color:var(--ts)">🟢 Proposer une alternative quand c'est possible</li>
+              <li style="font-size:.88rem;color:var(--ts)">🟢 Rester calme - une limite s'exprime, pas s'impose</li>
+              <li style="font-size:.88rem;color:var(--ts)">🔴 Tu n'as pas à te justifier longuement</li>
+            </ul>
+          </div>
+          <div class="breath-ctrl">
+            <button class="btn-ghost" onclick="goBack()">← Retour</button>
+            <button class="btn-primary" onclick="renderLimites()">Nouvelles situations →</button>
+          </div>
+        </div>`;
+    } else { render(); }
+  };
+  render();
+}
+
+/* ── ÉCOUTE ACTIVE ── */
+function renderEcoute() {
+  const ALL_SCENARIOS = [
+    {
+      who: 'Ton ami Koffi, 20 ans',
+      msg: '"J\'ai raté mon concours. J\'ai tellement travaillé et ça n\'a pas suffi. Je me sens nul."',
+      choices: [
+        { text: '"T\'inquiète pas, tu vas réussir la prochaine fois !"', ok: false, why: 'Cette réponse minimise la douleur de Koffi. Il a besoin d\'être entendu avant d\'être encouragé.' },
+        { text: '"Tu dois te sentir vraiment déçu. Tu veux me raconter ce qui s\'est passé ?"', ok: true, why: 'Tu nommes son émotion et tu l\'invites à parler. C\'est l\'écoute active : d\'abord comprendre, ensuite aider.' },
+        { text: '"Moi aussi j\'ai raté des choses. C\'est la vie."', ok: false, why: 'Ramener la conversation à toi déplace le focus. Koffi a besoin que l\'espace lui appartienne.' }
+      ]
+    },
+    {
+      who: 'Ta sœur Ama, 16 ans',
+      msg: '"Maman me crie dessus pour tout. Je ne peux rien faire de bien à la maison."',
+      choices: [
+        { text: '"Maman a ses propres problèmes, tu dois comprendre."', ok: false, why: 'Tu expliques les raisons de maman, mais Ama n\'a pas encore eu la place d\'exprimer ce qu\'elle ressent.' },
+        { text: '"C\'est toujours pareil à la maison."', ok: false, why: 'Tu généralises sans explorer ce qu\'Ama vit vraiment. Cela peut la faire sentir incomprise.' },
+        { text: '"Tu te sens épuisée de ne pas te sentir à ta place chez toi. C\'est dur. Qu\'est-ce qui s\'est passé aujourd\'hui ?"', ok: true, why: 'Tu valides son ressenti et tu poses une question ouverte. C\'est exactement ça, écouter vraiment.' }
+      ]
+    },
+    {
+      who: 'Ton camarade Edem, 22 ans',
+      msg: '"Je pense que personne dans le groupe ne m\'aime vraiment. J\'ai l\'impression d\'être juste là."',
+      choices: [
+        { text: '"Mais non, tout le monde t\'aime ! Tu te fais des idées."', ok: false, why: 'Contredire son ressenti risque de le faire se sentir incompris ou ridicule.' },
+        { text: '"Tu te sens seul même entouré. C\'est une sensation très douloureuse. Tu peux m\'en dire plus ?"', ok: true, why: 'Tu reformules sans juger et tu ouvres un espace. Edem peut continuer à parler en sécurité.' },
+        { text: '"Tu devrais faire des efforts pour t\'intégrer."', ok: false, why: 'Ce conseil n\'a pas été demandé. Avant de donner des solutions, il faut d\'abord comprendre la situation.' }
+      ]
+    },
+    {
+      who: 'Ta meilleure amie Abla, 19 ans',
+      msg: '"Je suis tellement fatiguée. J\'ai l\'impression de ne jamais avoir de pause. Je travaille, j\'aide à la maison, je révise... Je n\'en peux plus."',
+      choices: [
+        { text: '"Repose-toi ce week-end, ça va aller !"', ok: false, why: 'Un conseil rapide ne lui laisse pas l\'espace d\'exprimer ce qu\'elle vit vraiment. Elle a besoin d\'être entendue d\'abord.' },
+        { text: '"Tu portes vraiment beaucoup sur tes épaules. Comment tu te sens par rapport à tout ça ?"', ok: true, why: 'Tu reconnais le poids qu\'elle porte et tu l\'invites à en dire plus. Elle se sent vue et pas jugée.' },
+        { text: '"Tout le monde est fatigué en ce moment."', ok: false, why: 'Comparer sa situation à celle des autres minimise ce qu\'elle ressent. Ce qu\'elle vit lui appartient.' }
+      ]
+    },
+    {
+      who: 'Ton grand frère Yao, 26 ans',
+      msg: '"Je me sens bloqué dans ma vie. J\'ai 26 ans et je n\'ai pas avancé. Tout le monde avance sauf moi."',
+      choices: [
+        { text: '"Mais si, tu as avancé ! Tu as un travail, un appartement..."', ok: false, why: 'Lister ses accomplissements sans accueillir son ressenti d\'abord peut le faire sentir incompris ou critiqué.' },
+        { text: '"Ce sentiment d\'être bloqué, ça doit être vraiment lourd à porter. Tu peux me dire ce qui te donne cette impression ?"', ok: true, why: 'Tu valides son ressenti sans le nier ni le corriger, et tu cherches à comprendre. C\'est l\'écoute active.' },
+        { text: '"À 26 ans c\'est normal de ne pas savoir où on en est."', ok: false, why: 'Normaliser trop vite peut sembler condescendant. Yao a besoin d\'être entendu, pas rassuré d\'office.' }
+      ]
+    },
+    {
+      who: 'Ta camarade de classe Kafui, 17 ans',
+      msg: '"J\'ai honte de moi. J\'ai triché à l\'exam et maintenant je ne peux plus me regarder dans la glace."',
+      choices: [
+        { text: '"C\'est mal de tricher. Tu aurais dû mieux préparer."', ok: false, why: 'Ce jugement ne l\'aidera pas. Elle connaît déjà ses erreurs. Ce dont elle a besoin, c\'est d\'être entendue.' },
+        { text: '"Tout le monde triche parfois. C\'est pas si grave."', ok: false, why: 'Minimiser son sentiment de honte l\'empêche de le traverser vraiment. Elle a besoin que son vécu soit pris au sérieux.' },
+        { text: '"Tu portes beaucoup de honte là. C\'est difficile. Qu\'est-ce qui s\'est passé pour que tu en arrives là ?"', ok: true, why: 'Tu accueilles son émotion sans la juger ni la minimiser, et tu l\'aides à explorer ce qui l\'a conduit là.' }
+      ]
+    },
+    {
+      who: 'Ton ami Komlan, 21 ans',
+      msg: '"J\'ai l\'impression que mes parents ne me font pas confiance. Ils contrôlent tout. Je suffoque."',
+      choices: [
+        { text: '"Ils font ça parce qu\'ils t\'aiment. Tu devrais les remercier."', ok: false, why: 'Justifier le comportement des parents sans entendre Komlan d\'abord ne l\'aide pas à se sentir compris.' },
+        { text: '"Tu te sens étouffé, sans espace pour toi. C\'est épuisant. Tu peux m\'en dire plus sur ce qui te pèse le plus ?"', ok: true, why: 'Tu nommes son ressenti précisément et tu l\'invites à approfondir. Il se sent entendu et en sécurité.' },
+        { text: '"Moi aussi mes parents étaient comme ça. Ça va passer."', ok: false, why: 'Ramener l\'expérience à la tienne et promettre que ça passera ne l\'aide pas à se sentir écouté maintenant.' }
+      ]
+    },
+    {
+      who: 'Ta cousine Séna, 15 ans',
+      msg: '"À l\'école, il y a des filles qui parlent de moi dans mon dos. Je ne veux plus y aller."',
+      choices: [
+        { text: '"Ignore-les, elles sont jalouses de toi."', ok: false, why: 'L\'interpréter à sa place sans l\'écouter d\'abord ne l\'aide pas. Elle a besoin que tu accueilles ce qu\'elle vit.' },
+        { text: '"Tu te sens trahie et blessée. C\'est vraiment difficile de se sentir exclue. Tu veux me raconter ce qui se passe ?"', ok: true, why: 'Tu nommes ses émotions avec précision et tu lui ouvres un espace pour parler. Elle ne se sent plus seule.' },
+        { text: '"C\'est normal à cet âge, ça fait partie de la vie."', ok: false, why: 'Dire que c\'est normal banalise sa douleur. Ce qu\'elle ressent est réel et mérite d\'être pris au sérieux.' }
+      ]
+    }
+  ];
+
+  // Mélanger et prendre 3 scénarios au hasard - différents à chaque session
+  function shuffle(arr) {
+    const a = [...arr];
+    for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+    return a;
+  }
+  const SCENARIOS = shuffle(ALL_SCENARIOS).slice(0, 3);
+
+  let sc = 0, chosen = null;
+  const el = document.getElementById('exo-content');
+  showScreen('s-exo');
+
+  function render() {
+    const s = SCENARIOS[sc];
+    el.innerHTML = `
+      <div class="exo-player" style="text-align:left;max-width:540px;margin:0 auto">
+        <h1 style="text-align:center;font-size:1.35rem;margin-bottom:4px">L'écoute active</h1>
+        <p class="exo-subtitle" style="text-align:center;margin-bottom:28px">Scénario ${sc+1} sur ${SCENARIOS.length}  - Quelle est la meilleure réponse ?</p>
+        <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:20px;margin-bottom:20px">
+          <div style="font-size:.78rem;color:var(--ts);margin-bottom:8px">${s.who} te dit :</div>
+          <blockquote style="font-size:1rem;color:var(--coal);font-style:italic;line-height:1.6;border-left:3px solid var(--tc);padding-left:14px;margin:0">${s.msg}</blockquote>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px" id="ecoute-choices">
+          ${s.choices.map((c,i)=>`
+            <button onclick="ecouteChoose(${i})" id="ec-${i}" style="text-align:left;padding:14px 16px;border-radius:var(--rad);border:2px solid var(--bd);background:var(--white);cursor:pointer;font-size:.92rem;color:var(--coal);line-height:1.45;transition:all .18s;${chosen!==null?(c.ok?'border-color:var(--sage);background:#f0f7f0;':'border-color:var(--coral);background:#fff5f3;'):''}">
+              ${c.text}
+              ${chosen!==null?`<div style="font-size:.8rem;margin-top:8px;color:${c.ok?'var(--sage)':'var(--coral)'};font-weight:600">${c.ok?'✓ Bonne réponse':'✗ '+c.why}</div>`:''}
+            </button>`).join('')}
+        </div>
+        ${chosen!==null && chosen>=0 ? `<div style="background:var(--sand);border:1.5px solid var(--sagel);border-radius:var(--rad);padding:16px;margin-bottom:20px;font-size:.88rem;color:var(--coal);line-height:1.5"><strong>Ce qu'on apprend ici :</strong> ${s.choices[chosen].ok?s.choices[chosen].why:s.choices.find(c=>c.ok).why}</div>` : ''}
+        <div class="breath-ctrl">
+          <button class="btn-ghost" onclick="goBack()">← Retour</button>
+          ${chosen!==null?`<button class="btn-primary" onclick="ecouteNext()">Scénario suivant →</button>`:''}
+        </div>
+      </div>`;
+  }
+
+  window.ecouteChoose = function(i) {
+    chosen = i;
+    render();
+  };
+  window.ecouteNext = function() {
+    sc++;
+    chosen = null;
+    if(sc >= SCENARIOS.length) {
+      el.innerHTML = `
+        <div class="exo-player" style="text-align:center;max-width:520px;margin:0 auto">
+          <div style="font-size:2.5rem;margin-bottom:16px">👂</div>
+          <h1 style="margin-bottom:8px">Exercice terminé</h1>
+          <p class="exo-subtitle" style="margin-bottom:24px">L'écoute active, ça s'apprend. Plus tu le pratiques dans ta vraie vie, plus ça devient naturel.</p>
+          <div style="background:var(--sand);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:18px;margin-bottom:28px;text-align:left">
+            <p style="font-size:.9rem;color:var(--coal);line-height:1.6;margin-bottom:10px"><strong>Les clés de l'écoute active :</strong></p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:8px">
+              <li style="font-size:.88rem;color:var(--ts)">🟢 Nommer l'émotion de l'autre ("Tu te sens…")</li>
+              <li style="font-size:.88rem;color:var(--ts)">🟢 Poser des questions ouvertes ("Tu peux m'en dire plus ?")</li>
+              <li style="font-size:.88rem;color:var(--ts)">🔴 Éviter de minimiser ("T'inquiète pas")</li>
+              <li style="font-size:.88rem;color:var(--ts)">🔴 Éviter les conseils non sollicités</li>
+            </ul>
+          </div>
+          <div class="breath-ctrl">
+            <button class="btn-ghost" onclick="goBack()">← Retour</button>
+            <button class="btn-primary" onclick="renderEcoute()">Recommencer</button>
+          </div>
+        </div>`;
+    } else {
+      render();
+    }
+  };
+  render();
+}
+
+/* ── POMODORO ── */
+function renderPomodoro() {
+  let mode = 'work'; // 'work' | 'break'
+  let timeLeft = 25 * 60;
+  let running = false;
+  let interval = null;
+  let cycles = 0;
+
+  const el = document.getElementById('exo-content');
+  showScreen('s-exo');
+
+  function fmt(s) { return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+
+  function renderUI() {
+    const isWork = mode === 'work';
+    const total = isWork ? 25*60 : 5*60;
+    const pct = Math.round((1 - timeLeft/total)*100);
+    el.innerHTML = `
+      <div class="exo-player" style="text-align:center;max-width:440px;margin:0 auto">
+        <h1 style="font-size:1.35rem;margin-bottom:4px">Minuteur Pomodoro</h1>
+        <p class="exo-subtitle" style="margin-bottom:28px">${cycles > 0 ? `${cycles} cycle${cycles>1?'s':''} terminé${cycles>1?'s':''}` : '25 min de travail · 5 min de pause'}</p>
+        <div style="position:relative;width:180px;height:180px;margin:0 auto 24px">
+          <svg width="180" height="180" style="position:absolute;top:0;left:0;transform:rotate(-90deg)">
+            <circle cx="90" cy="90" r="80" fill="none" stroke="var(--bdl)" stroke-width="10"/>
+            <circle cx="90" cy="90" r="80" fill="none" stroke="${isWork?'var(--tc)':'var(--sage)'}" stroke-width="10"
+              stroke-dasharray="${2*Math.PI*80}" stroke-dashoffset="${2*Math.PI*80*(1-pct/100)}"
+              stroke-linecap="round" style="transition:stroke-dashoffset .8s ease"/>
+          </svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div style="font-size:.75rem;color:var(--ts);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">${isWork?'TRAVAIL':'PAUSE'}</div>
+            <div style="font-size:2.4rem;font-weight:800;font-variant-numeric:tabular-nums;color:var(--coal);font-family:'Nunito',sans-serif">${fmt(timeLeft)}</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;margin-bottom:16px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="pomodoroToggle()" style="min-width:110px">${running?'⏸ Pause':'▶ Démarrer'}</button>
+          <button class="btn-ghost" onclick="pomodoroReset()">↺ Réinitialiser</button>
+        </div>
+        <div style="font-size:.82rem;color:var(--ts)">
+          ${isWork?'Focus total. Téléphone rangé, distractions éliminées.':'Lève-toi, étire-toi, bois de l\'eau.'}
+        </div>
+        <div style="margin-top:20px">
+          <button class="btn-ghost" style="font-size:.82rem;padding:6px 14px" onclick="goBack()">← Quitter</button>
+        </div>
+      </div>`;
+  }
+
+  window.pomodoroToggle = function() {
+    if(running) {
+      clearInterval(interval);
+      running = false;
+    } else {
+      running = true;
+      interval = setInterval(()=>{
+        timeLeft--;
+        if(timeLeft <= 0) {
+          clearInterval(interval);
+          running = false;
+          if(mode === 'work') { cycles++; mode = 'break'; timeLeft = 5*60; }
+          else { mode = 'work'; timeLeft = 25*60; }
+          renderUI();
+          return;
+        }
+        renderUI();
+      }, 1000);
+    }
+    renderUI();
+  };
+  window.pomodoroReset = function() {
+    clearInterval(interval);
+    running = false;
+    mode = 'work';
+    timeLeft = 25*60;
+    renderUI();
+  };
+  renderUI();
+}
+
+function renderBreathing(ex, isUrgence) {
+  if(breathInterval) clearInterval(breathInterval);
+  const el = document.getElementById('exo-content');
+  el.innerHTML = `
+    <div class="exo-player">
+      <h1>${ex.title}</h1>
+      <p class="exo-subtitle">${ex.subtitle}</p>
+      <div class="breath-stage">
+        <div class="breath-ring" id="breath-ring"></div>
+        <div class="breath-inner">
+          <div class="breath-label" id="breath-label">${ex.phases[0].label}</div>
+          <div class="breath-count" id="breath-count">${ex.phases[0].dur}</div>
+        </div>
+      </div>
+      <div class="breath-steps" id="breath-steps"></div>
+      <div class="breath-ctrl">
+        <button class="btn-ghost" onclick="stopBreathing()">Arrêter</button>
+        <button class="btn-primary" id="breath-restart" onclick="runBreathing()" style="display:none">Recommencer</button>
+      </div>
+      <div class="breath-cycle-info" id="breath-cycle-info">Cycle 1 sur ${ex.cycles}</div>
+      <div class="audio-bar" id="audio-bar">
+        <button class="audio-btn" id="audio-btn" onclick="toggleAudio()" title="Lecture / Pause">${iconPause}</button>
+        <div class="audio-track" onclick="seekAudio(event)">
+          <div class="audio-progress" id="audio-progress"></div>
+        </div>
+        <span class="audio-label" id="audio-label">…</span>
+      </div>
+      <p class="audio-hint" id="audio-hint" style="display:none">Appuie sur ▶ pour lancer le guidage audio</p>
+    </div>
+  `;
+  if(!isUrgence) showScreen('s-exo');
+  runBreathing();
+  playExerciseAudio('audio/respiration.mp3');
+
+  function runBreathing() {
+    if(breathInterval) clearInterval(breathInterval);
+    document.getElementById('breath-restart').style.display='none';
+    let cycleNum = 0;
+    const phases = ex.phases;
+    let pi = 0, seconds = phases[0].dur;
+
+    updatePhase();
+    breathInterval = setInterval(tick, 1000);
+
+    function tick() {
+      seconds--;
+      const countEl = document.getElementById('breath-count');
+      if(countEl) countEl.textContent = seconds;
+      if(seconds <= 0) {
+        pi++;
+        if(pi >= phases.length) {
+          pi = 0;
+          cycleNum++;
+          if(cycleNum >= ex.cycles) {
+            clearInterval(breathInterval);
+            finish();
+            return;
+          }
+          const ci = document.getElementById('breath-cycle-info');
+          if(ci) ci.textContent = `Cycle ${cycleNum+1} sur ${ex.cycles}`;
+        }
+        seconds = phases[pi].dur;
+        updatePhase();
+      }
+    }
+
+    function updatePhase() {
+      const labelEl = document.getElementById('breath-label');
+      const countEl = document.getElementById('breath-count');
+      const ring = document.getElementById('breath-ring');
+      const stepsEl = document.getElementById('breath-steps');
+      if(!labelEl) return;
+      labelEl.textContent = phases[pi].label;
+      countEl.textContent = seconds;
+      ring.className = 'breath-ring';
+      void ring.offsetWidth;
+      if(pi===0) ring.classList.add('anim-inhale');
+      else if(pi===1) ring.classList.add('anim-hold');
+      else ring.classList.add('anim-exhale');
+      if(stepsEl) {
+        stepsEl.innerHTML = phases.map((p,i)=>`
+          <div class="breath-step ${i===pi?'current':''}">
+            <div class="step-dot ${i===pi?'current':''}"></div>
+            ${p.label} · ${p.dur}s
+          </div>
+        `).join('');
+      }
+    }
+
+    function finish() {
+      const labelEl = document.getElementById('breath-label');
+      const countEl = document.getElementById('breath-count');
+      const ring = document.getElementById('breath-ring');
+      if(labelEl) labelEl.textContent = 'Terminé';
+      if(countEl) countEl.textContent = '✓';
+      if(ring) {ring.className='breath-ring';ring.style.opacity='.3';}
+      const restartBtn = document.getElementById('breath-restart');
+      if(restartBtn) restartBtn.style.display='inline-flex';
+      const ci = document.getElementById('breath-cycle-info');
+      if(ci) ci.textContent = `Exercice terminé  - Bien joué !`;
+      const stepsEl = document.getElementById('breath-steps');
+      if(stepsEl) stepsEl.innerHTML = `<div class="breath-step current">🌿 Tu as complété ${ex.cycles} cycles. Prends un moment.</div>`;
+    }
+  }
+
+  window.runBreathing = runBreathing;
+}
+
+function stopBreathing() {
+  if(breathInterval) clearInterval(breathInterval);
+  stopExerciseAudio();
+  goBack();
+}
+
+/* ══════════════ MES ÉCRITS ══════════════ */
+function saveEcrit(label, content) {
+  try {
+    const all = JSON.parse(localStorage.getItem('dhiki_ecrits') || '[]');
+    all.unshift({
+      label,
+      content,
+      date: new Date().toLocaleDateString('fr-FR', {day:'2-digit', month:'long', year:'numeric'})
+    });
+    if(all.length > 30) all.pop();
+    localStorage.setItem('dhiki_ecrits', JSON.stringify(all));
+    updateHomeEcrits();
+  } catch(e) {}
+}
+
+function loadEcrits() {
+  try { return JSON.parse(localStorage.getItem('dhiki_ecrits') || '[]'); } catch(e) { return []; }
+}
+
+function updateHomeEcrits() {
+  const ecrits = loadEcrits();
+  const section = document.getElementById('home-ecrits-section');
+  const count = document.getElementById('home-ecrits-count');
+  if(!section) return;
+  if(ecrits.length > 0) {
+    section.style.display = 'block';
+    if(count) count.textContent = `${ecrits.length} texte${ecrits.length>1?'s':''} sauvegardé${ecrits.length>1?'s':''}`;
+  } else {
+    section.style.display = 'none';
+  }
+}
+
+function showEcrits() {
+  const ecrits = loadEcrits();
+  const el = document.getElementById('ecrits-list');
+  if(!el) return;
+  if(ecrits.length === 0) {
+    el.innerHTML = `
+      <div class="ecrit-empty">
+        <div class="empty-icon">🖊️</div>
+        <p>Tes écrits apparaîtront ici. Essaie le journal de gratitude ou l'exercice "Écrire une lettre" dans la rubrique Deuil & perte.</p>
+        <button class="btn-primary" style="margin-top:20px" onclick="showScreen('s-home')">Explorer les rubriques</button>
+      </div>`;
+    return;
+  }
+  el.innerHTML = ecrits.map((e, i) => `
+    <div class="ecrit-card">
+      <div class="ecrit-card-top">
+        <span class="ecrit-tag">${e.label}</span>
+        <span class="ecrit-date">${e.date}</span>
+      </div>
+      <div class="ecrit-preview" id="prev-${i}">${e.content.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      <button class="ecrit-read-more" onclick="toggleEcrit(${i})">Lire tout</button>
+    </div>
+  `).join('');
+}
+
+function toggleEcrit(i) {
+  const p = document.getElementById(`prev-${i}`);
+  const btn = p && p.nextElementSibling;
+  if(!p) return;
+  const open = p.classList.toggle('open');
+  if(btn) btn.textContent = open ? 'Réduire' : 'Lire tout';
+}
+
+/* ══════════════ Q&A ══════════════ */
+let qaType = null;
+
+const SAMPLE_QA = [
+  {
+    q:"J'ai tout le temps l'impression que mes amis me jugent. Comment faire pour ne plus penser à ça ?",
+    who:"Publique · Kofi, 21 ans",
+    answered:true,
+    a:"Ce que tu décris ressemble à de l'anxiété sociale  - la peur du jugement des autres. C'est très commun, surtout entre 18 et 25 ans. La bonne nouvelle : ça se travaille. Commence par remarquer quand cette pensée apparaît, et demande-toi : \"Est-ce que j'ai une preuve réelle que mes amis me jugent ?\" La plupart du temps, les autres sont bien trop occupés par leurs propres inquiétudes pour nous juger autant qu'on le croit."
+  },
+  {
+    q:"Je n'arrive pas à dormir depuis 2 semaines. Je pense à tout et je ne peux pas m'arrêter.",
+    who:"Publique · Anonyme",
+    answered:false,
+    a:""
+  }
+];
+
+function loadQA() {
+  let stored = [];
+  try { stored = JSON.parse(localStorage.getItem('dhiki_qa')||'[]'); } catch(e){}
+  const all = [...SAMPLE_QA, ...stored];
+  const el = document.getElementById('qa-list');
+  if(!el) return;
+  el.innerHTML = all.map(q=>`
+    <div class="qa-item">
+      <div class="qa-item-q">${q.q}</div>
+      ${q.answered
+        ? `<div class="qa-item-a">${q.a}</div>`
+        : `<span class="qa-tag-pending">En attente de réponse</span>`}
+      <div class="qa-item-meta">${q.who}</div>
+    </div>
+  `).join('');
+}
+
+function selectQaType(type) {
+  qaType = type;
+  document.getElementById('qa-pub-card').classList.toggle('selected', type==='public');
+  document.getElementById('qa-anon-card').classList.toggle('selected', type==='anon');
+  document.getElementById('qa-form').classList.add('show');
+  document.getElementById('qa-confirm').classList.remove('show');
+  document.getElementById('qa-textarea').value='';
+  if(type==='public'){
+    document.getElementById('qa-form-label').textContent='Ta question publique';
+    document.getElementById('qa-hint').textContent='Ta question sera visible par tous avec ton prénom ou un pseudo. Nos professionnels répondent sous 48h.';
+  } else {
+    document.getElementById('qa-form-label').textContent='Ta question anonyme';
+    document.getElementById('qa-hint').textContent='Personne d\'autre que notre équipe ne verra ta question. Elle est totalement confidentielle.';
+  }
+  document.getElementById('qa-form').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function submitQa() {
+  const text = document.getElementById('qa-textarea').value.trim();
+  if(!text){document.getElementById('qa-textarea').focus();return;}
+  if(qaType==='public') {
+    let stored = [];
+    try { stored = JSON.parse(localStorage.getItem('dhiki_qa')||'[]'); } catch(e){}
+    stored.push({q:text, who:'Publique · Toi', answered:false, a:''});
+    try { localStorage.setItem('dhiki_qa', JSON.stringify(stored)); } catch(e){}
+  }
+  document.getElementById('qa-form').classList.remove('show');
+  document.getElementById('qa-confirm').classList.add('show');
+  document.getElementById('qa-confirm-text').textContent = qaType==='anon'
+    ? 'Ta question est confidentielle et a été transmise à notre équipe. Un professionnel te répondra dans les 48 heures.'
+    : 'Ta question est maintenant visible dans la liste et nous y répondrons sous 48 heures.';
+  loadQA();
+}
+
+function resetQa() {
+  qaType = null;
+  document.getElementById('qa-pub-card').classList.remove('selected');
+  document.getElementById('qa-anon-card').classList.remove('selected');
+  document.getElementById('qa-form').classList.remove('show');
+  document.getElementById('qa-confirm').classList.remove('show');
+}
+
+/* ══════════════ FAIRE LE POINT ══════════════ */
+let flpStep = 0;
+let flpData = {emo:'', intensity:5, chips:[], text:'', aide:''};
+
+function flpNext() {
+  if(flpStep===0 && !flpData.emo){
+    document.querySelector('.emo-grid').style.outline='2px solid var(--tc)';
+    setTimeout(()=>document.querySelector('.emo-grid').style.outline='',1200);
+    return;
+  }
+  if(flpStep===1) flpData.intensity = parseInt(document.getElementById('flp-intensity').value);
+  if(flpStep===2) flpData.chips = [...document.querySelectorAll('.chip.sel')].map(c=>c.textContent);
+  if(flpStep===3) flpData.text = document.getElementById('flp-text').value;
+  if(flpStep < 4) goToFlpStep(flpStep+1);
+  if(flpStep===3) buildFlpResult();
+}
+
+function flpPrev() {
+  if(flpStep > 0) goToFlpStep(flpStep-1);
+}
+
+function goToFlpStep(n) {
+  document.getElementById(`flp-${flpStep}`).classList.remove('on');
+  document.getElementById(`dot-${flpStep}`).classList.remove('curr');
+  document.getElementById(`dot-${flpStep}`).classList.add('done');
+  flpStep = n;
+  document.getElementById(`flp-${n}`).classList.add('on');
+  document.getElementById(`dot-${n}`).classList.add('curr');
+  updateFlpAck(n);
+}
+
+function updateFlpAck(step) {
+  const ack = document.getElementById('flp-ack');
+  if (!ack) return;
+  const EMO_ACK = {
+    calme:   '😌 Calme… c\'est bon à entendre. Cet espace t\'appartient entièrement.',
+    heureux: '😊 Heureux·se — c\'est une belle chose à ressentir. J\'aimerais en savoir un peu plus.',
+    anxieux: '😟 L\'anxiété, c\'est inconfortable à porter. Je t\'entends, et c\'est bien que tu prennes ce moment.',
+    triste:  '😢 La tristesse, ça pèse. Prends tout le temps qu\'il te faut ici.',
+    fatigue: '😴 Fatigué·e… ton corps et ta tête te demandent de ralentir. C\'est déjà bien de le reconnaître.',
+    colere:  '😤 La colère dit quelque chose d\'important sur ce qui compte pour toi. Je t\'entends.',
+    confus:  '😕 Se sentir perdu·e, c\'est difficile à vivre. Tu n\'es pas seul·e dans ça.',
+    espoir:  '🌱 De l\'espoir — c\'est précieux et ça mérite d\'être nourri. Je suis là.'
+  };
+  const EMO_LABELS = {
+    calme:'calme', heureux:'heureux·se', anxieux:'anxieux·se', triste:'triste',
+    fatigue:'fatigué·e', colere:'en colère', confus:'perdu·e', espoir:'plein·e d\'espoir'
+  };
+  let msg = '';
+  if (step === 1 && flpData.emo) {
+    msg = EMO_ACK[flpData.emo] || 'Je t\'entends. On continue ensemble.';
+  } else if (step === 2) {
+    const intensity = parseInt(document.getElementById('flp-intensity')?.value || 5);
+    const emoLabel = EMO_LABELS[flpData.emo] || flpData.emo;
+    if (intensity <= 3) {
+      msg = `Ok — tu te sens ${emoLabel}, mais de façon assez légère pour l'instant. Bien de l'avoir repéré, c'est déjà beaucoup.`;
+    } else if (intensity <= 6) {
+      msg = `Tu te sens ${emoLabel} à ${intensity}/10. C'est quelque chose que tu ressens vraiment — ça mérite qu'on y prête attention.`;
+    } else {
+      msg = `${intensity}/10 — c'est fort, ce que tu portes là. Merci de te donner cet espace pour l'exprimer. Tu fais bien.`;
+    }
+  } else if (step === 3) {
+    const chips = [...document.querySelectorAll('.chip.sel')].map(c => c.textContent);
+    if (chips.length > 0) {
+      msg = `Je vois — ${chips.join(', ')}… Ces zones de vie peuvent vraiment peser. Est-ce qu'il y a quelque chose en particulier que tu veux mettre en mots ?`;
+    } else {
+      msg = `Pas toujours facile de mettre le doigt dessus. C'est ok aussi — l'important, c'est d'être là, présent·e à ce que tu ressens.`;
+    }
+  }
+  if (msg) {
+    ack.textContent = msg;
+    ack.style.animation = 'none';
+    ack.offsetHeight;
+    ack.style.animation = '';
+    ack.classList.add('on');
+  } else {
+    ack.classList.remove('on');
+    ack.textContent = '';
+  }
+}
+
+function selectEmo(el, key) {
+  document.querySelectorAll('.emo-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  flpData.emo = key;
+}
+
+function toggleChip(el) {
+  el.classList.toggle('sel');
+}
+
+function selectYN(v) {
+  flpData.aide = v;
+  document.querySelectorAll('.yn-btn').forEach(b=>b.classList.remove('sel'));
+  document.getElementById(`yn-${v}`).classList.add('sel');
+}
+
+function buildFlpResult() {
+  const EMO_MAP = {
+    calme:{label:'Calme',rubs:['sommeil','emotions']},
+    heureux:{label:'Heureux·se',rubs:['relations','confiance']},
+    anxieux:{label:'Anxieux·se',rubs:['anxiete','concentration']},
+    triste:{label:'Triste',rubs:['deuil','emotions']},
+    fatigue:{label:'Fatigué·e',rubs:['sommeil','concentration']},
+    colere:{label:'En colère',rubs:['emotions','relations']},
+    confus:{label:'Perdu·e',rubs:['identite','confiance']},
+    espoir:{label:'Plein·e d\'espoir',rubs:['confiance','identite']}
+  };
+  const info = EMO_MAP[flpData.emo] || {label:'Variable',rubs:['anxiete','emotions']};
+  const intensity = flpData.intensity;
+
+  /* Trois niveaux par émotion : faible (1-3), modéré (4-6), fort (7-10) */
+  const MESSAGES = {
+    calme: [
+      'Ce calme que tu ressens, c\'est une vraie richesse. Profites-en pour ancrer de bonnes habitudes et explorer ce qui te nourrit vraiment.',
+      'Ton calme intérieur est une ressource solide. Tu peux avancer avec sérénité - continue à cultiver cet espace de paix en toi.',
+      'Un calme aussi profond est précieux, mais veille à ne pas le confondre avec une mise à distance de tes émotions. Reste en contact avec toi-même et avec les personnes qui comptent pour toi.'
+    ],
+    heureux: [
+      'C\'est beau de se sentir heureuse comme ça. Savoure ce moment - ces instants de joie légère sont une réserve d\'énergie pour les jours plus difficiles.',
+      'Le bonheur que tu ressens est réel et tu mérites de le vivre pleinement. Partage-le, profites-en - il te revient entièrement.',
+      'Quand le bonheur est aussi intense, il peut parfois venir avec la peur de le perdre. Tu n\'as pas à le tenir - permets-toi juste d\'être là, dans ce moment, sans pression.'
+    ],
+    anxieux: [
+      'L\'anxiété que tu ressens, même légère, mérite d\'être écoutée. Elle te dit quelque chose - essaie de repérer ce qui la déclenche.',
+      'Ce niveau d\'anxiété peut peser lourd au quotidien. Tu n\'es pas seul·e dans ce que tu vis, et il y a des outils concrets pour t\'aider à souffler.',
+      'Ce que tu ressens là est intense et réel. C\'est courageux de le reconnaître. Prendre soin de toi maintenant, c\'est une priorité - et si tu en as besoin, parler à quelqu\'un est une force, pas une faiblesse.'
+    ],
+    triste: [
+      'Une petite tristesse peut s\'installer sans raison apparente. C\'est humain. Accueille ce que tu ressens avec douceur, sans te forcer à aller bien.',
+      'La tristesse que tu portes est réelle, et elle mérite ta compassion - envers toi-même d\'abord. Prends le temps dont tu as besoin, sans te presser.',
+      'Une tristesse aussi profonde mérite une attention particulière. Tu n\'as pas à la traverser seul·e. Parler à quelqu\'un de confiance - une amie, un proche, un professionnel - peut vraiment faire une différence.'
+    ],
+    fatigue: [
+      'Un peu de fatigue après une période chargée, c\'est normal. Ton corps te demande de ralentir - écoute-le sans culpabiliser.',
+      'La fatigue que tu ressens est un signal important. Ton corps et ton esprit ont besoin de vrai repos - pas juste de nuits courtes, mais d\'espace pour récupérer.',
+      'Une fatigue aussi profonde ne se résout pas avec une bonne nuit. Prends-la au sérieux. Si elle persiste, parler à un·e professionnel·le peut vraiment t\'aider à comprendre ce qui se passe.'
+    ],
+    colere: [
+      'Une pointe de colère peut être un signal utile - elle te montre ce qui compte pour toi et ce que tu ne veux plus tolérer. Écoute-la.',
+      'La colère que tu ressens a sa raison d\'être. Elle mérite d\'être entendue, pas réprimée. Trouve un espace pour l\'exprimer sans te faire du mal.',
+      'Quand la colère est aussi forte, elle peut être épuisante à porter. Ne la laisse pas s\'accumuler. Parler, écrire, bouger - trouve ce qui te permet de la traverser sans qu\'elle te traverse toi.'
+    ],
+    confus: [
+      'Se sentir un peu perdu·e, c\'est souvent le début d\'une réflexion importante. L\'incertitude n\'est pas une ennemie - elle peut être le signe que tu grandis.',
+      'La confusion que tu ressens signale souvent une période de transition. Tu cherches quelque chose - et c\'est une démarche courageuse, même si elle est inconfortable.',
+      'Se sentir aussi perdu·e peut être vraiment déstabilisant. Tu n\'as pas à trouver toutes les réponses seul·e. Parfois, mettre des mots sur ce qu\'on ressent avec quelqu\'un d\'autre aide à y voir plus clair.'
+    ],
+    espoir: [
+      'L\'espoir que tu portes est une lumière douce en toi. Garde-le précieusement - il t\'appartient.',
+      'Ton espoir est une vraie force. Il t\'aide à avancer même quand les choses sont complexes. Nourris-le avec des actions concrètes, aussi petites soient-elles.',
+      'Un espoir aussi fort peut parfois porter de grandes attentes. Reste ancré·e dans le présent aussi - chaque petit pas compte autant que la destination.'
+    ]
+  };
+
+  const msgs = MESSAGES[flpData.emo] || [
+    'Tu traverses quelque chose. Prends le temps de toi, sans te juger.',
+    'Ce que tu ressens mérite attention. Explore les ressources qui te correspondent.',
+    'Tu sembles ressentir ça fort en ce moment. Prends soin de toi et n\'hésite pas à en parler à quelqu\'un de confiance.'
+  ];
+  const message = intensity <= 3 ? msgs[0] : intensity <= 6 ? msgs[1] : msgs[2];
+
+  const sugRubs = info.rubs.map(id=>RUBRIQUES.find(r=>r.id===id)).filter(Boolean);
+  const aideHtml = (flpData.aide==='yes' || flpData.aide==='sais')
+    ? `<div style="background:var(--white);border:1.5px solid var(--bdl);border-radius:var(--rad);padding:14px;margin-top:14px;font-size:.88rem;color:var(--ts)">
+        🤝 <strong>Consulter un professionnel</strong> est une excellente idée. Le CPASE à Lomé propose des consultations gratuites. Tu peux aussi <button onclick="showScreen('s-qa')" style="color:var(--tc);font-weight:700;background:none;border:none;cursor:pointer;text-decoration:underline">poser une question ici</button>.
+       </div>` : '';
+
+  const EMO_EMOJIS = {calme:'😌',heureux:'😊',anxieux:'😟',triste:'😢',fatigue:'😴',colere:'😤',confus:'😕',espoir:'🌱'};
+  const emoEmoji = EMO_EMOJIS[flpData.emo] || '💭';
+  document.getElementById('flp-result-box').innerHTML = `
+    <div class="flp-result-lead">Tu as pris ce moment pour toi ✦</div>
+    <h2>${emoEmoji} Tu te sens ${info.label}</h2>
+    <div class="flp-result-sub">Intensité ressentie : ${intensity} / 10</div>
+    <p>${message}</p>
+    <div class="flp-suggestions">
+      ${sugRubs.map(r=>`
+        <div class="flp-sug" onclick="openRubrique('${r.id}')">
+          <div class="flp-sug-icon" style="background:${r.color}">${r.icon}</div>
+          <div class="flp-sug-text">
+            <strong>${r.name}</strong>
+            <span>${r.ressources} ressources · ${r.exos} exercices</span>
+          </div>
+          <svg width="16" height="16" fill="none" stroke="#6A544A" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      `).join('')}
+    </div>
+    ${aideHtml}
+  `;
+}
+
+function resetFlp() {
+  flpData = {emo:'', intensity:5, chips:[], text:'', aide:''};
+  document.querySelectorAll('.emo-btn').forEach(b=>b.classList.remove('sel'));
+  document.querySelectorAll('.chip').forEach(b=>b.classList.remove('sel'));
+  document.querySelectorAll('.yn-btn').forEach(b=>b.classList.remove('sel'));
+  if(document.getElementById('flp-text')) document.getElementById('flp-text').value='';
+  if(document.getElementById('flp-intensity')) document.getElementById('flp-intensity').value=5;
+  if(document.getElementById('intensity-display')) document.getElementById('intensity-display').textContent='5';
+  document.querySelectorAll('.nav-dot').forEach(d=>{d.classList.remove('done','curr')});
+  document.getElementById('dot-0').classList.add('curr');
+  document.getElementById(`flp-${flpStep}`).classList.remove('on');
+  flpStep=0;
+  document.getElementById('flp-0').classList.add('on');
+  const ack = document.getElementById('flp-ack');
+  if(ack){ack.classList.remove('on');ack.textContent='';}
+}
+
+/* ══════════════ EXPORT PDF ══════════════ */
+function exportEcritPDF(label, content, date) {
+  const win = window.open('', '_blank');
+  if(!win) return;
+  win.document.write(`<!DOCTYPE html><html lang="fr"><head>
+  <meta charset="UTF-8">
+  <title>DHIKI - ${label}</title>
+  <style>
+    body{font-family:Georgia,serif;max-width:680px;margin:60px auto;padding:0 40px;color:#2C1A12;line-height:1.8;font-size:16px}
+    h1{font-size:1.5rem;color:#C2623F;margin-bottom:4px;font-family:Georgia,serif}
+    .meta{font-size:.85rem;color:#6A544A;margin-bottom:40px;border-bottom:1px solid #E2D4C3;padding-bottom:16px}
+    .content{white-space:pre-wrap;font-size:1rem}
+    .footer{margin-top:60px;font-size:.8rem;color:#6A544A;border-top:1px solid #E2D4C3;padding-top:16px;text-align:center}
+    @media print{body{margin:40px auto}}
+  </style>
+</head><body>
+  <h1>${label}</h1>
+  <div class="meta">DHIKI &nbsp;·&nbsp; ${date || new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'})}</div>
+  <div class="content">${content.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+  <div class="footer">Exporté depuis DHIKI - dhiki.space &nbsp;·&nbsp; Bien-être mental</div>
+</body></html>`);
+  win.document.close();
+  setTimeout(()=>win.print(), 400);
+}
+
+/* ══════════════ URGENCE ══════════════ */
+function openUrgence() { document.getElementById('urgence-overlay').classList.add('open') }
+function closeUrgence(e) {
+  if(!e || e.target===document.getElementById('urgence-overlay'))
+    document.getElementById('urgence-overlay').classList.remove('open');
+}
+
+/* ══════════════ INIT ══════════════ */
+loadQA();
+updateHomeEcrits();
+</script>
+</body>
+</html>

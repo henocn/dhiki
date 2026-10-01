@@ -78,38 +78,91 @@ Les choix détaillés de bibliothèques seront figés après validation. Aucun T
 ```text
 .
 ├── backend/
-│   └── .env.example
-├── backoffice/
-│   └── .gitkeep
-├── frontend/
-│   └── .gitkeep
+│   ├── .env.example            # modèle de configuration (versionné)
+│   ├── .env                    # configuration locale (non versionnée)
+│   ├── package.json
+│   └── src/
+│       ├── app.js              # Express : helmet, CORS, JSON, limitation de débit, routes
+│       ├── server.js           # démarrage et arrêt propre
+│       ├── config/env.js       # chargement et validation des variables d'environnement
+│       ├── db/
+│       │   ├── pool.js         # pool pg construit depuis les variables PG*
+│       │   ├── migrate.js      # exécute les migrations SQL non appliquées
+│       │   ├── seed.js         # charge le jeu de données de développement
+│       │   ├── migrations/     # 001_schema_initial.sql
+│       │   └── seed-data/      # contenus extraits du prototype (JSON)
+│       ├── middlewares/        # validation zod, gestion des erreurs
+│       ├── routes/             # santé, contenus, questions
+│       ├── services/           # requêtes SQL
+│       └── utils/
+├── backoffice/                 # à initialiser (React + Vite)
+├── frontend/                   # à initialiser (React + Vite)
+├── dhiki-v2_3.html             # prototype de référence (non intégré)
 ├── .gitignore
 ├── README.md
 └── TODO.md
 ```
 
-À ce stade, les applications ne sont volontairement pas initialisées : cette première étape sert à valider le périmètre et l'architecture avant de générer le code.
+Le backend est initialisé. Le frontend et le backoffice restent à créer.
+
+## Démarrer le backend
+
+Prérequis : Node.js 20 ou plus récent et PostgreSQL avec une base `dhiki` existante.
+
+```bash
+cd backend
+npm install
+npm run db:setup   # migrations + données de développement
+npm run dev        # API sur http://localhost:4000 (rechargement automatique)
+```
+
+| Commande | Rôle |
+| --- | --- |
+| `npm run dev` | démarre l'API avec rechargement automatique |
+| `npm start` | démarre l'API |
+| `npm run db:migrate` | applique les migrations SQL pas encore exécutées (table `schema_migrations`) |
+| `npm run db:seed` | charge ou met à jour les contenus du prototype (refusé en production) |
+| `npm run db:setup` | enchaîne migrations et seed |
 
 ## Configuration PostgreSQL
 
-La connexion à PostgreSQL utilisera des variables séparées et **pas** une variable `DATABASE_URL`.
+La connexion à PostgreSQL utilise des variables séparées et **pas** une variable `DATABASE_URL`.
 
 1. Copier `backend/.env.example` vers `backend/.env`.
 2. Renseigner les valeurs locales.
 3. Ne jamais versionner le fichier `.env` réel.
 
-Variables prévues :
+Configuration locale de développement :
 
 ```dotenv
 PGHOST=localhost
 PGPORT=5432
 PGDATABASE=dhiki
-PGUSER=dhiki_app
-PGPASSWORD=change_me
+PGUSER=postgres
+PGPASSWORD=admin
 PGSSL=false
 ```
 
-Le backend construira le pool PostgreSQL directement à partir de ces variables (`host`, `port`, `database`, `user`, `password`, `ssl`).
+Le backend construit le pool PostgreSQL directement à partir de ces variables (`host`, `port`, `database`, `user`, `password`, `ssl`). Au démarrage, `src/config/env.js` vérifie toutes les variables et s'arrête avec un message explicite si l'une d'elles manque ou est invalide. En production, `SESSION_SECRET` doit faire au moins 32 caractères aléatoires, et il faudra utiliser un utilisateur PostgreSQL dédié plutôt que `postgres`.
+
+## API publique (v0)
+
+Toutes les réponses suivent le format `{ "data": ... }` ou `{ "error": { "code", "message", "details" } }`.
+
+| Méthode | Route | Rôle |
+| --- | --- | --- |
+| GET | `/api/sante` | état de l'API et de la base |
+| GET | `/api/rubriques` | rubriques publiées avec le nombre d'articles et d'exercices |
+| GET | `/api/rubriques/:slug` | rubrique avec articles, exercices et témoignages |
+| GET | `/api/articles/:slug` | article complet |
+| GET | `/api/exercices/:slug` | exercice et sa configuration (phases de respiration, questions de journal…) |
+| GET | `/api/urgence/contacts?pays=TG` | contacts d'urgence **vérifiés** uniquement |
+| GET | `/api/questions/publiques?page=1&parPage=20` | questions publiques validées par la modération |
+| POST | `/api/questions/publiques` | `{ contenu, pseudo? }` : question publique, en attente de modération |
+| POST | `/api/questions/confidentielles` | `{ contenu }` : renvoie un `codeSuivi` affiché une seule fois |
+| POST | `/api/questions/confidentielles/suivi` | `{ code }` : statut et réponse d'une question confidentielle |
+
+Le parcours « Faire le point » et les écrits personnels restent entièrement côté navigateur : rien n'est envoyé au serveur.
 
 ## Principes de confidentialité et de sécurité
 

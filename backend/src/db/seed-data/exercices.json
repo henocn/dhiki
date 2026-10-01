@@ -1,0 +1,285 @@
+[
+  {
+    "slug": "respiration-4-7-8",
+    "rubrique": "anxiete",
+    "type": "respiration",
+    "titre": "Respiration 4-7-8",
+    "meta": "Exercice guidé · 5 min",
+    "description": "Une technique de respiration utilisée pour calmer rapidement le système nerveux. Tu peux la pratiquer partout, à tout moment.",
+    "config": {
+      "sousTitre": "Inspire 4 secondes · Retiens 7 secondes · Expire 8 secondes",
+      "phases": [
+        {
+          "label": "Inspire",
+          "dur": 4
+        },
+        {
+          "label": "Retiens",
+          "dur": 7
+        },
+        {
+          "label": "Expire",
+          "dur": 8
+        }
+      ],
+      "cycles": 4
+    },
+    "ordre": 1
+  },
+  {
+    "slug": "ancrage-5",
+    "rubrique": "anxiete",
+    "type": "ancrage",
+    "titre": "Ancrage sensoriel 5-4-3-2-1",
+    "meta": "Exercice guidé · 3 min",
+    "description": "Reconnecte-toi au présent en mobilisant tes 5 sens. Très efficace lors d'une crise d'anxiété ou de panique.",
+    "config": {},
+    "ordre": 2
+  },
+  {
+    "slug": "respiration-sommeil",
+    "rubrique": "sommeil",
+    "type": "respiration",
+    "titre": "Respiration pour s'endormir",
+    "meta": "Exercice guidé · 4 min",
+    "description": "Une méthode douce qui prépare ton corps au sommeil en ralentissant ton rythme cardiaque.",
+    "config": {
+      "sousTitre": "Douce et lente — pour préparer ton corps au repos",
+      "phases": [
+        {
+          "label": "Inspire",
+          "dur": 4
+        },
+        {
+          "label": "Retiens",
+          "dur": 2
+        },
+        {
+          "label": "Expire",
+          "dur": 6
+        }
+      ],
+      "cycles": 5
+    },
+    "ordre": 1
+  },
+  {
+    "slug": "scan-corporel",
+    "rubrique": "sommeil",
+    "type": "scan",
+    "titre": "Scan corporel pour le soir",
+    "meta": "Méditation guidée · 8 min",
+    "description": "Parcours ton corps de la tête aux pieds pour relâcher les tensions accumulées dans la journée et t'endormir plus facilement.",
+    "config": {},
+    "ordre": 2
+  },
+  {
+    "slug": "gratitude",
+    "rubrique": "confiance",
+    "type": "journal",
+    "titre": "Journal de gratitude",
+    "meta": "Exercice · 5 min",
+    "description": "Chaque jour, noter 3 choses positives sur toi-même réoriente progressivement ton regard intérieur. Cet exercice guidé te pose les questions une par une.",
+    "config": {
+      "sousTitre": "Chaque réponse réoriente ton regard vers ce qui compte",
+      "questions": [
+        {
+          "question": "Qu'est-ce qui s'est passé de bien aujourd'hui — même quelque chose de tout petit ?",
+          "indication": "Même une tasse de thé chaud, un sourire reçu, un moment calme…"
+        },
+        {
+          "question": "Quelle qualité as-tu utilisée aujourd'hui — ta patience, ta générosité, ta persévérance ?",
+          "indication": "Aujourd'hui j'ai été…"
+        },
+        {
+          "question": "Pour quelle personne ou quelle chose es-tu reconnaissant·e aujourd'hui ?",
+          "indication": "Je suis reconnaissant·e pour…"
+        }
+      ]
+    },
+    "ordre": 1
+  },
+  {
+    "slug": "ecoute-active",
+    "rubrique": "relations",
+    "type": "ecoute",
+    "titre": "L'écoute active",
+    "meta": "Exercice · 5 min",
+    "description": "Apprendre à vraiment écouter sans interrompre, sans juger. Des scénarios différents à chaque fois pour t'entraîner.",
+    "config": {},
+    "ordre": 1
+  },
+  {
+    "slug": "limites",
+    "rubrique": "relations",
+    "type": "limites",
+    "titre": "Poser des limites",
+    "meta": "Exercice · 6 min",
+    "description": "Dire non, exprimer un besoin, défendre ton espace sans te sentir coupable. Des mises en situation concrètes pour t'entraîner.",
+    "config": {},
+    "ordre": 2
+  },
+  {
+    "slug": "journal-relations",
+    "rubrique": "relations",
+    "type": "journal",
+    "titre": "Journal des relations",
+    "meta": "Réflexion · 5 min",
+    "description": "Prends le temps de réfléchir à une relation qui te tient à cœur. 3 questions pour mieux comprendre ce que tu vis.",
+    "config": {
+      "sousTitre": "Une relation qui compte mérite qu'on y pense vraiment",
+      "questions": [
+        {
+          "question": "Pense à une personne avec qui tu vis quelque chose en ce moment — une tension, une joie, une question. Qui est-ce et qu'est-ce qui se passe entre vous ?",
+          "indication": "C'est quelqu'un avec qui je… depuis…"
+        },
+        {
+          "question": "Comment te sens-tu dans cette relation en ce moment ? Est-ce que tu te sens respecté·e, entendu·e, libre d'être toi-même ?",
+          "indication": "Dans cette relation, je me sens…"
+        },
+        {
+          "question": "S'il y a une chose que tu aimerais que cette relation soit différente, qu'est-ce que ce serait ? Et y a-t-il quelque chose que toi tu peux changer ?",
+          "indication": "Ce que j'aimerais, c'est…"
+        }
+      ]
+    },
+    "ordre": 3
+  },
+  {
+    "slug": "lettre-deuil",
+    "rubrique": "deuil",
+    "type": "ecriture",
+    "titre": "Écrire une lettre",
+    "meta": "Exercice · 10 min",
+    "description": "Mettre des mots sur ce que tu ressens peut libérer des émotions bloquées. Cet espace est privé — écris librement, sans chercher à bien formuler.",
+    "config": {},
+    "ordre": 1
+  },
+  {
+    "slug": "valeurs",
+    "rubrique": "identite",
+    "type": "valeurs",
+    "titre": "Clarifier tes valeurs",
+    "meta": "Exercice · 6 min",
+    "description": "Parmi une liste de valeurs, tu choisis celles qui comptent vraiment pour toi — pas celles que les autres attendent. Un exercice de tri guidé pour mieux te connaître.",
+    "config": {},
+    "ordre": 1
+  },
+  {
+    "slug": "respiration-concentration",
+    "rubrique": "concentration",
+    "type": "respiration",
+    "titre": "Respiration pour se recentrer",
+    "meta": "Exercice · 3 min",
+    "description": "2 minutes de respiration structurée avant une session d'étude pour préparer ton cerveau à la concentration. Simple et efficace.",
+    "config": {
+      "sousTitre": "Rapide et efficace — avant une session d'étude",
+      "phases": [
+        {
+          "label": "Inspire",
+          "dur": 4
+        },
+        {
+          "label": "Retiens",
+          "dur": 4
+        },
+        {
+          "label": "Expire",
+          "dur": 4
+        }
+      ],
+      "cycles": 3
+    },
+    "ordre": 1
+  },
+  {
+    "slug": "pomodoro",
+    "rubrique": "concentration",
+    "type": "pomodoro",
+    "titre": "Minuteur Pomodoro",
+    "meta": "Outil · en continu",
+    "description": "25 minutes de travail, 5 minutes de pause. Travaille en cycles courts pour rester concentré·e sans t'épuiser.",
+    "config": {},
+    "ordre": 2
+  },
+  {
+    "slug": "journal-emotions",
+    "rubrique": "emotions",
+    "type": "journal",
+    "titre": "Journal des émotions",
+    "meta": "Exercice · 5 min",
+    "description": "Répondre à quelques questions guidées sur ce que tu ressens aujourd'hui aide à mieux te comprendre et à mettre des mots sur l'invisible.",
+    "config": {
+      "sousTitre": "Mettre des mots sur ce que tu ressens, c'est déjà commencer à aller mieux",
+      "questions": [
+        {
+          "question": "Comment tu te sens en ce moment ? Essaie de nommer l'émotion (pas seulement \"bien\" ou \"mal\").",
+          "indication": "Je ressens de la… (joie, tristesse, colère, inquiétude, vide, confusion…)"
+        },
+        {
+          "question": "Qu'est-ce qui a le plus influencé ton état aujourd'hui — un événement, une pensée, une personne ?",
+          "indication": "Ce qui a marqué ma journée…"
+        },
+        {
+          "question": "Qu'est-ce dont tu as besoin là, maintenant ? Du repos, du contact, de la solitude, de te bouger ?",
+          "indication": "Ce dont j'ai besoin…"
+        }
+      ]
+    },
+    "ordre": 1
+  },
+  {
+    "slug": "respiration-colere",
+    "rubrique": "emotions",
+    "type": "respiration",
+    "titre": "Respirer quand la colère monte",
+    "meta": "Exercice · 3 min",
+    "description": "Une technique rapide et discrète pour éviter d'exploser — tu peux la pratiquer dans n'importe quelle situation difficile.",
+    "config": {
+      "sousTitre": "Calme ton système nerveux en 3 minutes",
+      "phases": [
+        {
+          "label": "Inspire",
+          "dur": 4
+        },
+        {
+          "label": "Retiens",
+          "dur": 1
+        },
+        {
+          "label": "Expire",
+          "dur": 8
+        }
+      ],
+      "cycles": 4
+    },
+    "ordre": 2
+  },
+  {
+    "slug": "respiration-urgence",
+    "rubrique": null,
+    "type": "respiration",
+    "titre": "Respiration calme — urgence",
+    "meta": "Exercice guidé · 3 min",
+    "description": "3 minutes pour calmer ton corps et tes pensées.",
+    "config": {
+      "sousTitre": "Concentre-toi uniquement sur ta respiration",
+      "phases": [
+        {
+          "label": "Inspire",
+          "dur": 4
+        },
+        {
+          "label": "Retiens",
+          "dur": 4
+        },
+        {
+          "label": "Expire",
+          "dur": 6
+        }
+      ],
+      "cycles": 5
+    },
+    "ordre": 0
+  }
+]

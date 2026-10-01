@@ -1,0 +1,74 @@
+[
+  {
+    "slug": "anxiete",
+    "nom": "Anxiété & stress",
+    "introduction": "L'anxiété n'est pas une faiblesse — c'est une réaction normale de ton cerveau face à ce qui te semble menaçant. Elle peut cependant devenir difficile à vivre. Tu trouves ici des ressources pour mieux la comprendre et des outils concrets pour la gérer.",
+    "couleurFond": "#FDE8DE",
+    "couleurTrait": "#C2623F",
+    "iconeSvg": "<svg width=\"26\" height=\"26\" fill=\"none\" stroke=\"#C2623F\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 8v4m0 4h.01\"/></svg>",
+    "ordre": 1
+  },
+  {
+    "slug": "sommeil",
+    "nom": "Sommeil",
+    "introduction": "Le sommeil est vital pour ta santé mentale et physique. Quand on dort mal, tout paraît plus difficile — les émotions débordent, la concentration chute. Ici tu trouveras des clés pour mieux dormir.",
+    "couleurFond": "#E6ECFF",
+    "couleurTrait": "#4A6CF7",
+    "iconeSvg": "<svg width=\"26\" height=\"26\" fill=\"none\" stroke=\"#4A6CF7\" stroke-width=\"2\"><path d=\"M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z\"/></svg>",
+    "ordre": 2
+  },
+  {
+    "slug": "confiance",
+    "nom": "Confiance en soi",
+    "introduction": "Se sentir bien dans sa peau dans un monde qui compare constamment, ça ne va pas de soi. La confiance en soi se construit — elle n'est pas innée. Tu mérites de te sentir capable et à ta place.",
+    "couleurFond": "#FDF3DC",
+    "couleurTrait": "#B8860B",
+    "iconeSvg": "<svg width=\"26\" height=\"26\" fill=\"none\" stroke=\"#B8860B\" stroke-width=\"2\"><polygon points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"/></svg>",
+    "ordre": 3
+  },
+  {
+    "slug": "relations",
+    "nom": "Relations & amitié",
+    "introduction": "Les relations — avec ta famille, tes ami·e·s, ton ou ta partenaire — ont un impact énorme sur ta santé mentale. Apprendre à communiquer, à poser des limites, à surmonter les conflits : c'est ici.",
+    "couleurFond": "#E6F0E7",
+    "couleurTrait": "#5F8265",
+    "iconeSvg": "<svg width=\"26\" height=\"26\" fill=\"none\" stroke=\"#5F8265\" stroke-width=\"2\"><path d=\"M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75\"/></svg>",
+    "ordre": 4
+  },
+  {
+    "slug": "deuil",
+    "nom": "Deuil & perte",
+    "introduction": "Perdre quelqu'un ou quelque chose qu'on aimait — une personne, une relation, une opportunité — fait partie de la vie mais peut être très douloureux. Le deuil prend du temps, et il n'y a pas de bonne façon de le traverser.",
+    "couleurFond": "#EDE8F5",
+    "couleurTrait": "#7B68C8",
+    "iconeSvg": "<svg width=\"26\" height=\"26\" fill=\"none\" stroke=\"#7B68C8\" stroke-width=\"2\"><path d=\"M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z\"/></svg>",
+    "ordre": 5
+  },
+  {
+    "slug": "identite",
+    "nom": "Identité & culture",
+    "introduction": "Grandir au Togo, naviguer entre traditions et modernité, trouver sa place — c'est un chemin unique. Tu peux être fier·ère de qui tu es tout en questionnant ce qui te définit.",
+    "couleurFond": "#FFE8E8",
+    "couleurTrait": "#D94040",
+    "iconeSvg": "<svg width=\"26\" height=\"26\" fill=\"none\" stroke=\"#D94040\" stroke-width=\"2\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 20c0-4 3.58-7 8-7s8 3 8 7\"/></svg>",
+    "ordre": 6
+  },
+  {
+    "slug": "concentration",
+    "nom": "Concentration & études",
+    "introduction": "Se concentrer quand tout distrait — le téléphone, les bruits, les inquiétudes — c'est un vrai défi. Apprendre à gérer ton attention est l'une des compétences les plus précieuses que tu puisses développer.",
+    "couleurFond": "#E8F4FD",
+    "couleurTrait": "#2196F3",
+    "iconeSvg": "<svg width=\"26\" height=\"26\" fill=\"none\" stroke=\"#2196F3\" stroke-width=\"2\"><path d=\"M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z\"/><path d=\"M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z\"/></svg>",
+    "ordre": 7
+  },
+  {
+    "slug": "emotions",
+    "nom": "Gérer ses émotions",
+    "introduction": "Les émotions ne sont ni bonnes ni mauvaises — elles sont des informations. Colère, tristesse, joie, peur : apprendre à les reconnaître, les accueillir et les exprimer sainement, c'est une force.",
+    "couleurFond": "#FDEBD0",
+    "couleurTrait": "#E67E22",
+    "iconeSvg": "<svg width=\"26\" height=\"26\" fill=\"none\" stroke=\"#E67E22\" stroke-width=\"2\"><path d=\"M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z\"/><path d=\"M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01\"/></svg>",
+    "ordre": 8
+  }
+]
