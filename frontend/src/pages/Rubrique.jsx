@@ -1,8 +1,8 @@
 import { Link, useParams, useSearchParams } from 'react-router';
 import Icon from '../components/Icon.jsx';
 import TemoignageForm from '../components/TemoignageForm.jsx';
-import { BackLink, ErrorState, Loader, RubriqueIcon } from '../components/ui.jsx';
-import { ICONE_PAR_TYPE } from '../exercices/types.js';
+import { ArticleCard, BackLink, ErrorState, Loader, RubriqueIcon } from '../components/ui.jsx';
+import { COULEUR_PAR_TYPE, ICONE_PAR_TYPE } from '../exercices/types.js';
 import { useLang } from '../i18n/LangContext.jsx';
 import { useApi } from '../lib/api.js';
 
@@ -36,6 +36,7 @@ export default function Rubrique() {
             <RubriqueIcon rubrique={rubrique} size="lg" />
             <div>
               <h1>{rubrique.nom}</h1>
+              {rubrique.accroche && <p className="rub-hero-accroche">{rubrique.accroche}</p>}
               <p>{rubrique.introduction}</p>
             </div>
           </section>
@@ -61,19 +62,11 @@ export default function Rubrique() {
 
           <div role="tabpanel" id={`panel-${onglet}`} aria-labelledby={`tab-${onglet}`}>
             {onglet === 'comprendre' && (
-              <ul className="list">
+              <div className="article-grid">
                 {rubrique.articles.map((a) => (
-                  <li key={a.slug}>
-                    <Link to={`/articles/${a.slug}`} className="res-item">
-                      <span className="res-info">
-                        <span className="res-title">{a.titre}</span>
-                        {a.dureeLectureMin && <span className="res-meta">{t('commun.minutesLecture', { n: a.dureeLectureMin })}</span>}
-                      </span>
-                      <Icon name="chevronRight" size={18} />
-                    </Link>
-                  </li>
+                  <ArticleCard key={a.slug} article={a} />
                 ))}
-              </ul>
+              </div>
             )}
 
             {onglet === 'exercices' && (
@@ -81,7 +74,7 @@ export default function Rubrique() {
                 {rubrique.exercices.map((e) => (
                   <li key={e.slug}>
                     <Link to={`/exercices/${e.slug}`} className="res-item exo-item">
-                      <span className="tile-icon tile-icon--sage tile-icon--sm">
+                      <span className={`tile-icon tile-icon--${COULEUR_PAR_TYPE[e.type] ?? 'sage'} tile-icon--sm`}>
                         <Icon name={ICONE_PAR_TYPE[e.type] ?? 'sparkles'} size={20} />
                       </span>
                       <span className="res-info">

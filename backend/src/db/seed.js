@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { env } from '../config/env.js';
+import { descriptionParDefaut, dureeLecture, nettoyerHtml } from '../utils/rich-text.js';
 import { pool, withTransaction } from './pool.js';
 
 const dataDir = path.join(path.dirname(fileURLToPath(import.meta.url)), 'seed-data');
@@ -16,13 +17,14 @@ async function seedRubriques(client, rubriques) {
   const ids = new Map();
   for (const r of rubriques) {
     const { rows } = await client.query(
-      `INSERT INTO rubriques (slug, nom, introduction, couleur_fond, couleur_trait, icone_svg, ordre, statut)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, 'publie')
+      `INSERT INTO rubriques (slug, nom, introduction, accroche, image_url, couleur_fond, couleur_trait, icone_svg, ordre, statut)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'publie')
        ON CONFLICT (slug) DO UPDATE SET
-         nom = EXCLUDED.nom, introduction = EXCLUDED.introduction, couleur_fond = EXCLUDED.couleur_fond,
+         nom = EXCLUDED.nom, introduction = EXCLUDED.introduction, accroche = EXCLUDED.accroche,
+         image_url = COALESCE(EXCLUDED.image_url, rubriques.image_url), couleur_fond = EXCLUDED.couleur_fond,
          couleur_trait = EXCLUDED.couleur_trait, icone_svg = EXCLUDED.icone_svg, ordre = EXCLUDED.ordre
        RETURNING id`,
-      [r.slug, r.nom, r.introduction, r.couleurFond, r.couleurTrait, r.iconeSvg, r.ordre],
+      [r.slug, r.nom, r.introduction, r.accroche ?? null, r.image ?? null, r.couleurFond, r.couleurTrait, r.iconeSvg, r.ordre],
     );
     ids.set(r.slug, rows[0].id);
   }
@@ -32,13 +34,22 @@ async function seedRubriques(client, rubriques) {
 // Insère ou met à jour les articles rattachés à leur rubrique.
 async function seedArticles(client, articles, rubriqueIds) {
   for (const a of articles) {
+    const corps = nettoyerHtml(a.corpsHtml);
     await client.query(
-      `INSERT INTO articles (slug, rubrique_id, titre, duree_lecture_min, corps_html, ordre, statut, publie_le)
-       VALUES ($1, $2, $3, $4, $5, $6, 'publie', now())
+      `INSERT INTO articles (slug, rubrique_id, titre, description, duree_lecture_min, corps_html, ordre, statut, publie_le)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, 'publie', now())
        ON CONFLICT (slug) DO UPDATE SET
-         rubrique_id = EXCLUDED.rubrique_id, titre = EXCLUDED.titre, duree_lecture_min = EXCLUDED.duree_lecture_min,
-         corps_html = EXCLUDED.corps_html, ordre = EXCLUDED.ordre`,
-      [a.slug, rubriqueIds.get(a.rubrique), a.titre, a.dureeLectureMin, a.corpsHtml, a.ordre],
+         rubrique_id = EXCLUDED.rubrique_id, titre = EXCLUDED.titre, description = EXCLUDED.description,
+         duree_lecture_min = EXCLUDED.duree_lecture_min, corps_html = EXCLUDED.corps_html, ordre = EXCLUDED.ordre`,
+      [
+        a.slug,
+        rubriqueIds.get(a.rubrique),
+        a.titre,
+        a.description ?? descriptionParDefaut(corps),
+        a.dureeLectureMin ?? dureeLecture(corps),
+        corps,
+        a.ordre,
+      ],
     );
   }
 }

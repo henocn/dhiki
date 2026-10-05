@@ -30,6 +30,14 @@ const envSchema = z.object({
   PGCONNECTION_TIMEOUT_MS: z.coerce.number().int().nonnegative().optional().transform((v) => v ?? 2000),
 
   SESSION_SECRET: z.string().min(16),
+
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.coerce.number().int().positive().optional().transform((v) => v ?? 587),
+  SMTP_SECURE: booleanString,
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  MAIL_FROM: z.string().optional().transform((v) => v || 'DHIKI <no-reply@dhiki.space>'),
+  ALERTE_EMAIL: z.string().optional(),
 });
 
 // Valide les variables d'environnement et arrête le processus avec un message clair si elles sont invalides.

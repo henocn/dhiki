@@ -8,6 +8,7 @@ import contenusRoutes from './routes/contenus.routes.js';
 import questionsRoutes from './routes/questions.routes.js';
 import santeRoutes from './routes/sante.routes.js';
 import temoignagesRoutes from './routes/temoignages.routes.js';
+import urgenceRoutes from './routes/urgence.routes.js';
 
 const allowedOrigins = new Set([env.FRONTEND_ORIGIN, env.BACKOFFICE_ORIGIN]);
 
@@ -43,6 +44,7 @@ export function createApp() {
   app.use('/api', contenusRoutes);
   app.use('/api/questions', questionsRoutes);
   app.use('/api/temoignages', temoignagesRoutes);
+  app.use('/api/urgence', urgenceRoutes);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

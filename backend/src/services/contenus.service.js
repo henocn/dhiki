@@ -3,7 +3,7 @@ import { query } from '../db/pool.js';
 // Liste les rubriques publiées avec le nombre d'articles et d'exercices publiés.
 export async function listRubriques() {
   const { rows } = await query(`
-    SELECT r.slug, r.nom, r.introduction,
+    SELECT r.slug, r.nom, r.introduction, r.accroche, r.image_url AS "imageUrl",
            r.couleur_fond AS "couleurFond", r.couleur_trait AS "couleurTrait", r.icone_svg AS "iconeSvg",
            (SELECT count(*) FROM articles a WHERE a.rubrique_id = r.id AND a.statut = 'publie')::int AS "nbArticles",
            (SELECT count(*) FROM exercices e WHERE e.rubrique_id = r.id AND e.statut = 'publie')::int AS "nbExercices"
@@ -17,7 +17,7 @@ export async function listRubriques() {
 // Renvoie une rubrique publiée avec ses articles, exercices et témoignages publiés, ou null.
 export async function getRubrique(slug) {
   const { rows } = await query(
-    `SELECT r.id, r.slug, r.nom, r.introduction,
+    `SELECT r.id, r.slug, r.nom, r.introduction, r.accroche, r.image_url AS "imageUrl",
             r.couleur_fond AS "couleurFond", r.couleur_trait AS "couleurTrait", r.icone_svg AS "iconeSvg"
      FROM rubriques r
      WHERE r.slug = $1 AND r.statut = 'publie'`,
@@ -28,8 +28,14 @@ export async function getRubrique(slug) {
 
   const [articles, exercices, temoignages] = await Promise.all([
     query(
-      `SELECT slug, titre, duree_lecture_min AS "dureeLectureMin"
-       FROM articles WHERE rubrique_id = $1 AND statut = 'publie' ORDER BY ordre, titre`,
+      `SELECT a.slug, a.titre, a.description, a.duree_lecture_min AS "dureeLectureMin", a.nb_lectures AS "nbLectures",
+              a.publie_le AS "publieLe",
+              CASE WHEN u.id IS NULL THEN NULL
+                   ELSE json_build_object('nom', u.nom_affiche, 'titre', u.titre_professionnel) END AS auteur
+       FROM articles a
+       LEFT JOIN utilisateurs_backoffice u ON u.id = a.auteur_id
+       WHERE a.rubrique_id = $1 AND a.statut = 'publie'
+       ORDER BY a.ordre, a.titre`,
       [rubrique.id],
     ),
     query(
@@ -51,10 +57,14 @@ export async function getRubrique(slug) {
 // Renvoie un article publié et sa rubrique, ou null.
 export async function getArticle(slug) {
   const { rows } = await query(
-    `SELECT a.slug, a.titre, a.duree_lecture_min AS "dureeLectureMin", a.corps_html AS "corpsHtml",
-            a.publie_le AS "publieLe", json_build_object('slug', r.slug, 'nom', r.nom) AS rubrique
+    `SELECT a.slug, a.titre, a.description, a.duree_lecture_min AS "dureeLectureMin", a.corps_html AS "corpsHtml",
+            a.nb_lectures AS "nbLectures", a.publie_le AS "publieLe",
+            json_build_object('slug', r.slug, 'nom', r.nom) AS rubrique,
+            CASE WHEN u.id IS NULL THEN NULL
+                 ELSE json_build_object('nom', u.nom_affiche, 'titre', u.titre_professionnel) END AS auteur
      FROM articles a
      JOIN rubriques r ON r.id = a.rubrique_id
+     LEFT JOIN utilisateurs_backoffice u ON u.id = a.auteur_id
      WHERE a.slug = $1 AND a.statut = 'publie' AND r.statut = 'publie'`,
     [slug],
   );

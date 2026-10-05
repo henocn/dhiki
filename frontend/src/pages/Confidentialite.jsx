@@ -73,6 +73,17 @@ export default function Confidentialite() {
           permettant de t'identifier. Tu peux demander son retrait à tout moment par e-mail.
         </p>
 
+        <h2 id="urgence">4 bis. L'aide d'urgence</h2>
+        <p>
+          <strong>Mise en relation avec un proche.</strong> Si tu nous demandes de contacter une personne de confiance, nous enregistrons son
+          prénom, son numéro, le lien que vous avez, ainsi que ton prénom et ton message si tu les indiques. Seule l'équipe d'écoute y a accès,
+          uniquement pour l'appeler. Ces informations sont supprimées automatiquement 30 jours après ta demande.
+        </p>
+        <p>
+          <strong>Parler à un·e professionnel·le.</strong> Quand tu choisis cette option, l'équipe reçoit un signal anonyme (sans aucune
+          donnée sur toi) pour s'assurer que la ligne d'écoute est disponible.
+        </p>
+
         <h2>5. Données techniques</h2>
         <p>
           Pour protéger le service contre les abus (envois massifs, attaques), notre serveur utilise temporairement l'adresse IP de ton appareil
