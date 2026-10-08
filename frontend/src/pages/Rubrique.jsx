@@ -1,9 +1,9 @@
+import { useCallback, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router';
 import Icon from '../components/Icon.jsx';
-import TemoignageForm from '../components/TemoignageForm.jsx';
+import TemoignageModal from '../components/TemoignageForm.jsx';
 import { ArticleCard, BackLink, ErrorState, Loader, RubriqueIcon } from '../components/ui.jsx';
 import { COULEUR_PAR_TYPE, ICONE_PAR_TYPE } from '../exercices/types.js';
-import { useLang } from '../i18n/LangContext.jsx';
 import { useApi } from '../lib/api.js';
 
 const SECTIONS = [
@@ -19,10 +19,11 @@ function defilerVers(id) {
 // Détail d'une rubrique : présentation avec photo, contenu Comprendre / S'exercer (conservé dans l'URL), puis témoignages.
 export default function Rubrique() {
   const { slug } = useParams();
-  const { t } = useLang();
   const [params, setParams] = useSearchParams();
   const section = params.get('onglet') === 'exercices' ? 'exercices' : 'comprendre';
   const { data: rubrique, error, loading, reload } = useApi(`/rubriques/${encodeURIComponent(slug)}`);
+  const [temoOuvert, setTemoOuvert] = useState(false);
+  const fermerTemo = useCallback(() => setTemoOuvert(false), []);
 
   // Affiche la section choisie et la fait apparaître à l'écran.
   function choisirSection(id) {
@@ -33,7 +34,7 @@ export default function Rubrique() {
   if (!rubrique) {
     return (
       <div className="container page">
-        <BackLink fallback="/rubriques" label={t('rubrique.retourRubriques')} />
+        <BackLink fallback="/rubriques" label="Toutes les rubriques" />
         {loading && <Loader />}
         {error && <ErrorState error={error} onRetry={reload} />}
       </div>
@@ -112,9 +113,15 @@ export default function Rubrique() {
         </section>
 
         <section id="temoignages" className="rd-section rd-temoignages" aria-labelledby="titre-temoignages">
-          <h2 id="titre-temoignages">Ils et elles en parlent</h2>
+          <div className="rd-temo-head">
+            <h2 id="titre-temoignages">Ils et elles en parlent</h2>
+            <button type="button" className="btn btn-primary" onClick={() => setTemoOuvert(true)}>
+              <Icon name="pen" size={16} />
+              Partager mon témoignage
+            </button>
+          </div>
           {rubrique.temoignages.length === 0 ? (
-            <p className="muted">{t('rubrique.aucunTemoignage')}</p>
+            <p className="muted">Pas encore de témoignage pour ce thème. Tu peux être le ou la premier·ère.</p>
           ) : (
             <ul className="rd-temo-grid">
               {rubrique.temoignages.map((tm, i) => (
@@ -126,20 +133,15 @@ export default function Rubrique() {
               ))}
             </ul>
           )}
-          <TemoignageForm rubriqueSlug={rubrique.slug} rubriqueNom={rubrique.nom} />
         </section>
-
-        <aside className="rd-soutien">
-          <div>
-            <h2>Tu n’es pas seul·e face à ça.</h2>
-            <p>Pose ta question en toute confidentialité : un·e psychologue bénévole te répond.</p>
-          </div>
-          <Link to="/questions" className="btn btn-clair btn-lg">
-            Poser une question
-            <Icon name="arrowRight" size={18} />
-          </Link>
-        </aside>
       </div>
+
+      <TemoignageModal
+        ouvert={temoOuvert}
+        onFermer={fermerTemo}
+        rubriqueSlug={rubrique.slug}
+        rubriqueNom={rubrique.nom}
+      />
     </>
   );
 }

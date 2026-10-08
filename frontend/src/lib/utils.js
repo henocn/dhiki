@@ -8,10 +8,9 @@ export function melanger(tableau) {
   return copie;
 }
 
-// Formate une date ISO selon la langue de l'interface.
-export function formaterDate(iso, langue = 'fr') {
-  const locale = langue === 'en' ? 'en-GB' : 'fr-FR';
-  return new Date(iso).toLocaleDateString(locale, { day: '2-digit', month: 'long', year: 'numeric' });
+// Formate une date ISO en français (ex. : 08 octobre 2026).
+export function formaterDate(iso) {
+  return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
 }
 
 // Formate un nombre de secondes en mm:ss.

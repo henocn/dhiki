@@ -1,20 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useLang } from '../../i18n/LangContext.jsx';
 import Icon from '../Icon.jsx';
 import { useUrgence } from '../urgence/UrgenceContext.jsx';
 
 const SUGGESTIONS = [
-  { id: 'anxieux', cle: 'chat.sugAnxieux', reponse: 'chat.repAnxieux', action: { cle: 'chat.actRespirer', to: '/exercices/respiration-4-7-8' } },
-  { id: 'parler', cle: 'chat.sugParler', reponse: 'chat.repParler', action: { cle: 'chat.actQuestion', to: '/questions' } },
-  { id: 'fonctionnement', cle: 'chat.sugFonctionnement', reponse: 'chat.repFonctionnement', action: { cle: 'chat.actApropos', to: '/a-propos' } },
-  { id: 'donnees', cle: 'chat.sugDonnees', reponse: 'chat.repDonnees', action: { cle: 'chat.actConfidentialite', to: '/confidentialite' } },
-  { id: 'urgence', cle: 'chat.sugUrgence', reponse: 'chat.repUrgence', action: { cle: 'chat.actUrgence', urgence: true } },
+  { id: 'anxieux', libelle: 'Je me sens anxieux·se', reponse: 'Merci de me le dire. Quand l’anxiété monte, la respiration est un bon premier geste : elle calme le corps en quelques minutes.', action: { libelle: 'Faire l’exercice 4-7-8', to: '/exercices/respiration-4-7-8' } },
+  { id: 'parler', libelle: 'Je veux parler à quelqu’un', reponse: 'Tu peux poser une question, publique ou confidentielle. Un·e professionnel·le te répondra, sans que tu aies à donner ton nom.', action: { libelle: 'Poser une question', to: '/questions' } },
+  { id: 'fonctionnement', libelle: 'Comment marche DHIKI ?', reponse: 'DHIKI propose des articles, des exercices et un espace de questions, gratuitement et sans inscription.', action: { libelle: 'En savoir plus', to: '/a-propos' } },
+  { id: 'donnees', libelle: 'Que faites-vous de mes données ?', reponse: 'Nous collectons le strict minimum : pas de compte, pas de nom. Tes écrits restent sur ton appareil.', action: { libelle: 'Lire la politique de confidentialité', to: '/confidentialite' } },
+  { id: 'urgence', libelle: 'Je ne vais vraiment pas bien', reponse: 'Je suis désolé que tu traverses ça. Tu n’as pas à rester seul·e : ouvre l’aide d’urgence pour trouver quelqu’un à contacter maintenant.', action: { libelle: 'Ouvrir l’aide d’urgence', urgence: true } },
 ];
 
 // Assistant d'accueil (interface préliminaire) : réponses guidées par suggestions, saisie libre pas encore active.
 export default function ChatbotWidget() {
-  const { t } = useLang();
   const navigate = useNavigate();
   const { ouvrirUrgence } = useUrgence();
   const [ouvert, setOuvert] = useState(false);
@@ -37,8 +35,8 @@ export default function ChatbotWidget() {
   function choisir(suggestion) {
     setMessages((m) => [
       ...m,
-      { de: 'moi', texte: t(suggestion.cle) },
-      { de: 'bot', texte: t(suggestion.reponse), action: suggestion.action },
+      { de: 'moi', texte: suggestion.libelle },
+      { de: 'bot', texte: suggestion.reponse, action: suggestion.action },
     ]);
   }
 
@@ -55,28 +53,28 @@ export default function ChatbotWidget() {
   return (
     <>
       {ouvert && (
-        <section className="chat-panel" role="dialog" aria-label={t('chat.titre')}>
+        <section className="chat-panel" role="dialog" aria-label="Assistant DHIKI">
           <header className="chat-head">
             <div className="chat-avatar">
               <Icon name="bot" size={20} />
             </div>
             <div className="chat-head-text">
-              <strong>{t('chat.titre')}</strong>
-              <span className="chat-badge">{t('chat.badge')}</span>
+              <strong>Assistant DHIKI</strong>
+              <span className="chat-badge">Version de démonstration</span>
             </div>
-            <button type="button" className="icon-btn" aria-label={t('commun.fermer')} onClick={() => setOuvert(false)}>
+            <button type="button" className="icon-btn" aria-label="Fermer" onClick={() => setOuvert(false)}>
               <Icon name="x" size={20} />
             </button>
           </header>
 
           <div className="chat-body" ref={listeRef}>
-            <div className="chat-msg chat-msg--bot">{t('chat.bienvenue')}</div>
+            <div className="chat-msg chat-msg--bot">Bonjour ! Je suis l’assistant de DHIKI. Je peux t’orienter vers le bon contenu. Choisis une question ci-dessous.</div>
             {messages.map((m, i) => (
               <div key={i} className={`chat-msg chat-msg--${m.de}`}>
                 {m.texte}
                 {m.action && (
                   <button type="button" className="chat-action" onClick={() => executer(m.action)}>
-                    {t(m.action.cle)}
+                    {m.action.libelle}
                     <Icon name="arrowRight" size={14} />
                   </button>
                 )}
@@ -85,17 +83,17 @@ export default function ChatbotWidget() {
             <div className="chat-suggestions">
               {SUGGESTIONS.map((s) => (
                 <button key={s.id} type="button" className="chat-chip" onClick={() => choisir(s)}>
-                  {t(s.cle)}
+                  {s.libelle}
                 </button>
               ))}
             </div>
           </div>
 
           <footer className="chat-foot">
-            <p className="chat-disclaimer">{t('chat.disclaimer')}</p>
+            <p className="chat-disclaimer">Cet assistant ne remplace pas un professionnel. En cas de danger, utilise le bouton Urgence.</p>
             <form className="chat-input" onSubmit={(e) => e.preventDefault()}>
-              <input type="text" disabled placeholder={t('chat.bientot')} aria-label={t('chat.bientot')} />
-              <button type="submit" disabled aria-label={t('chat.envoyer')}>
+              <input type="text" disabled placeholder="La saisie libre arrive bientôt" aria-label="La saisie libre arrive bientôt" />
+              <button type="submit" disabled aria-label="Envoyer">
                 <Icon name="send" size={18} />
               </button>
             </form>
@@ -106,7 +104,7 @@ export default function ChatbotWidget() {
       <button
         type="button"
         className={`chat-fab ${ouvert ? 'is-open' : ''}`}
-        aria-label={ouvert ? t('chat.fermer') : t('chat.ouvrir')}
+        aria-label={ouvert ? 'Fermer l’assistant' : 'Ouvrir l’assistant'}
         aria-expanded={ouvert}
         onClick={() => setOuvert((o) => !o)}
       >

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { LIENS_PROCHE, PRO_URGENCE } from '../../content/urgence.js';
-import { useLang } from '../../i18n/LangContext.jsx';
 import { api } from '../../lib/api.js';
 import Icon from '../Icon.jsx';
 import { FormError } from '../TemoignageForm.jsx';
@@ -11,7 +10,6 @@ const VIDE = { prenom: '', procheNom: '', procheLien: '', procheTelephone: '', m
 
 // Fenêtre d'aide immédiate : le jeune choisit de parler à un proche (mise en relation par l'équipe) ou à un·e professionnel·le.
 export default function UrgenceModal() {
-  const { t } = useLang();
   const { ouvert, fermerUrgence } = useUrgence();
   const [etape, setEtape] = useState('choix');
   const closeRef = useRef(null);
@@ -41,14 +39,14 @@ export default function UrgenceModal() {
   return (
     <div className="overlay" onClick={(e) => e.target === e.currentTarget && fermerUrgence()}>
       <div className="sheet" role="dialog" aria-modal="true" aria-labelledby="urgence-titre">
-        <button ref={closeRef} type="button" className="sheet-close icon-btn" aria-label={t('commun.fermer')} onClick={fermerUrgence}>
+        <button ref={closeRef} type="button" className="sheet-close icon-btn" aria-label="Fermer" onClick={fermerUrgence}>
           <Icon name="x" size={20} />
         </button>
 
         {etape !== 'choix' && etape !== 'envoye' && (
           <button type="button" className="back-link" onClick={() => setEtape('choix')}>
             <Icon name="arrowLeft" size={16} />
-            {t('commun.retour')}
+            Retour
           </button>
         )}
 
@@ -131,7 +129,7 @@ export default function UrgenceModal() {
 
         <p className="danger-note">
           <Icon name="alert" size={18} />
-          {t('urgence.danger')}
+          Si ta vie ou celle de quelqu’un est en danger, appelle immédiatement les secours (police : 117, pompiers : 118).
         </p>
       </div>
     </div>

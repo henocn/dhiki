@@ -1,10 +1,8 @@
 import { Link, useNavigate } from 'react-router';
-import { useLang } from '../i18n/LangContext.jsx';
 import Icon from './Icon.jsx';
 
 // Lien « retour » : revient à la page précédente si elle existe dans le site, sinon vers fallback.
 export function BackLink({ fallback = '/', label }) {
-  const { t } = useLang();
   const navigate = useNavigate();
   // Revient en arrière dans l'historique ou vers la page de repli.
   function retour(event) {
@@ -15,32 +13,30 @@ export function BackLink({ fallback = '/', label }) {
   return (
     <a href={fallback} className="back-link" onClick={retour}>
       <Icon name="arrowLeft" size={16} />
-      {label ?? t('commun.retour')}
+      {label ?? 'Retour'}
     </a>
   );
 }
 
 // Indicateur de chargement accessible.
 export function Loader() {
-  const { t } = useLang();
   return (
     <div className="state-box" role="status">
       <span className="spinner" aria-hidden="true" />
-      {t('commun.chargement')}
+      Chargement…
     </div>
   );
 }
 
 // Message d'erreur avec bouton « Réessayer » ; affiche une page introuvable pour les 404.
 export function ErrorState({ error, onRetry }) {
-  const { t } = useLang();
   if (error?.status === 404) {
     return (
       <div className="state-box">
         <Icon name="info" size={28} />
-        <p>{t('erreur.introuvable')}</p>
+        <p>Ce contenu est introuvable.</p>
         <Link to="/" className="btn btn-primary">
-          {t('erreur.retourAccueil')}
+          Retour à l’accueil
         </Link>
       </div>
     );
@@ -48,11 +44,11 @@ export function ErrorState({ error, onRetry }) {
   return (
     <div className="state-box" role="alert">
       <Icon name="alert" size={28} />
-      <p>{error?.code === 'NETWORK_ERROR' ? t('erreur.reseau') : t('erreur.generique')}</p>
+      <p>{error?.code === 'NETWORK_ERROR' ? 'Impossible de joindre le serveur. Vérifie ta connexion puis réessaie.' : 'Une erreur est survenue. Réessaie dans un instant.'}</p>
       {onRetry && (
         <button type="button" className="btn btn-secondary" onClick={onRetry}>
           <Icon name="refresh" size={16} />
-          {t('commun.reessayer')}
+          Réessayer
         </button>
       )}
     </div>

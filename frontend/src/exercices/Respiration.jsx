@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Icon from '../components/Icon.jsx';
 import { MEDIAS } from '../content/medias.js';
-import { useLang } from '../i18n/LangContext.jsx';
 import { ExoHeader } from './commun.jsx';
 
 const ECHELLE_MIN = 0.55;
@@ -65,7 +64,6 @@ function SonAmbiance({ actif }) {
 
 // Exercice de respiration guidée : le cercle s'anime exactement sur la durée de chaque phase.
 export default function Respiration({ exercice }) {
-  const { t } = useLang();
   const { phases, cycles, sousTitre } = exercice.config;
   const [session, setSession] = useState(1);
   const [actif, setActif] = useState(true);
@@ -124,7 +122,7 @@ export default function Respiration({ exercice }) {
           {etat.fini ? (
             <>
               <Icon name="check" size={30} strokeWidth={2.4} />
-              <span className="breath-label">{t('exo.termine')}</span>
+              <span className="breath-label">Exercice terminé</span>
             </>
           ) : enCours ? (
             <>
@@ -132,7 +130,7 @@ export default function Respiration({ exercice }) {
               <span className="breath-count">{etat.restant}</span>
             </>
           ) : (
-            <span className="breath-label">{t('exo.enPause')}</span>
+            <span className="breath-label">En pause</span>
           )}
         </div>
       </div>
@@ -147,19 +145,19 @@ export default function Respiration({ exercice }) {
       </ol>
 
       <p className="muted small center">
-        {etat.fini ? t('exo.cyclesTermines', { n: cycles }) : t('exo.cycle', { n: etat.cycle + 1, total: cycles })}
+        {etat.fini ? `${cycles} cycles terminés` : `Cycle ${etat.cycle + 1} sur ${cycles}`}
       </p>
 
       <div className="btn-row btn-row--center">
         {enCours ? (
           <button type="button" className="btn btn-ghost" onClick={() => setActif(false)}>
             <Icon name="pause" size={16} />
-            {t('exo.arreter')}
+            Arrêter
           </button>
         ) : (
           <button type="button" className="btn btn-primary" onClick={recommencer}>
             <Icon name="refresh" size={16} />
-            {t('commun.recommencer')}
+            Recommencer
           </button>
         )}
         <SonAmbiance actif={enCours} />

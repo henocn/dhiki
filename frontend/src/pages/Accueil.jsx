@@ -4,7 +4,6 @@ import Photo from '../components/Photo.jsx';
 import { ErrorState, Loader, RubriqueCard } from '../components/ui.jsx';
 import { useUrgence } from '../components/urgence/UrgenceContext.jsx';
 import { MEDIAS } from '../content/medias.js';
-import { useLang } from '../i18n/LangContext.jsx';
 import { useApi } from '../lib/api.js';
 import { useEcrits } from '../lib/ecrits.js';
 
@@ -49,7 +48,6 @@ function rubriquesALaUne(liste) {
 
 // Page d'accueil éditoriale : promesse, aide immédiate, thèmes, accompagnement, équipe et appel final.
 export default function Accueil() {
-  const { t } = useLang();
   const { ouvrirUrgence } = useUrgence();
   const rubriques = useApi('/rubriques');
   const ecrits = useEcrits();
@@ -60,7 +58,6 @@ export default function Accueil() {
         <Photo media={MEDIAS.accueilHero} className="home-hero-fond" eager />
         <div className="container home-hero-grid">
           <div className="home-hero-text">
-            <p className="eyebrow">Association DHIKI · Lomé, Togo</p>
             <h1>
               Un endroit pour parler de ce qui pèse, <em>sans être jugé·e.</em>
             </h1>
@@ -70,11 +67,11 @@ export default function Accueil() {
             </p>
             <div className="hero-actions">
               <Link to="/faire-le-point" className="btn btn-primary btn-lg">
-                {t('home.ctaFlp')}
+                Faire le point
                 <Icon name="arrowRight" size={18} />
               </Link>
               <Link to="/questions" className="btn btn-link btn-lg">
-                {t('home.ctaQuestion')}
+                Poser une question
               </Link>
             </div>
             <p className="home-hero-note">
@@ -138,8 +135,8 @@ export default function Accueil() {
                 <Icon name="book" size={20} />
               </span>
               <span className="row-card-text">
-                <strong>{t('nav.ecrits')}</strong>
-                <span>{t('home.ecritsCompte', { n: ecrits.length })}</span>
+                <strong>Mes écrits</strong>
+                <span>{(ecrits.length === 1 ? `${ecrits.length} écrit sur cet appareil` : `${ecrits.length} écrits sur cet appareil`)}</span>
               </span>
               <Icon name="chevronRight" size={18} />
             </Link>
@@ -195,7 +192,7 @@ export default function Accueil() {
           <p>Écris-nous en toute confidentialité. Si tu es en danger, l’aide d’urgence est à un clic.</p>
           <div className="hero-actions">
             <Link to="/questions" className="btn btn-primary btn-lg">
-              {t('home.ctaQuestion')}
+              Poser une question
             </Link>
             <button type="button" className="btn btn-secondary btn-lg" onClick={ouvrirUrgence}>
               <Icon name="lifebuoy" size={18} />

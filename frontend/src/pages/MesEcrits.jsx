@@ -2,14 +2,12 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import Icon from '../components/Icon.jsx';
 import { BackLink } from '../components/ui.jsx';
-import { useLang } from '../i18n/LangContext.jsx';
 import { MAX_ECRITS, supprimerEcrit, useEcrits } from '../lib/ecrits.js';
 import { exporterEnPdf } from '../lib/pdf.js';
 import { formaterDate } from '../lib/utils.js';
 
 // Écrits personnels (journaux, lettres) conservés uniquement dans ce navigateur.
 export default function MesEcrits() {
-  const { t, langue } = useLang();
   const ecrits = useEcrits();
   const [ouverts, setOuverts] = useState(() => new Set());
 
@@ -25,33 +23,33 @@ export default function MesEcrits() {
 
   // Supprime un écrit après confirmation.
   function supprimer(id) {
-    if (window.confirm(t('ecrits.confirmerSuppression'))) supprimerEcrit(id);
+    if (window.confirm('Supprimer définitivement cet écrit ?')) supprimerEcrit(id);
   }
 
   return (
     <div className="container page page--narrow">
       <BackLink />
       <header className="page-head">
-        <h1>{t('nav.ecrits')}</h1>
+        <h1>Mes écrits</h1>
         <p className="hint-box">
           <Icon name="lock" size={16} />
-          {t('ecrits.intro')}
+          Tes écrits sont enregistrés uniquement sur cet appareil. Personne d’autre ne peut les lire.
         </p>
       </header>
 
       {ecrits.length >= MAX_ECRITS - 5 && (
         <p className="warn-box">
           <Icon name="alert" size={16} />
-          {t('ecrits.limite', { n: ecrits.length, max: MAX_ECRITS })}
+          {`${ecrits.length} / ${MAX_ECRITS} écrits. Supprime-en pour en ajouter de nouveaux.`}
         </p>
       )}
 
       {ecrits.length === 0 ? (
         <div className="state-box">
           <Icon name="pen" size={32} />
-          <p>{t('ecrits.vide')}</p>
+          <p>Aucun écrit pour le moment. Ceux que tu sauvegardes depuis les exercices apparaîtront ici.</p>
           <Link to="/rubriques" className="btn btn-primary">
-            {t('home.ctaRubriques')}
+            Voir les rubriques
           </Link>
         </div>
       ) : (
@@ -60,20 +58,20 @@ export default function MesEcrits() {
             <li key={e.id} className="ecrit-card">
               <div className="ecrit-top">
                 <span className="tag tag--tc">{e.label}</span>
-                <span className="ecrit-date">{formaterDate(e.date, langue)}</span>
+                <span className="ecrit-date">{formaterDate(e.date)}</span>
               </div>
               <p className={`ecrit-preview ${ouverts.has(e.id) ? 'is-open' : ''}`}>{e.contenu}</p>
               <div className="ecrit-actions">
                 <button type="button" className="link-btn" onClick={() => basculer(e.id)} aria-expanded={ouverts.has(e.id)}>
-                  {ouverts.has(e.id) ? t('ecrits.reduire') : t('ecrits.lireTout')}
+                  {ouverts.has(e.id) ? 'Réduire' : 'Lire tout'}
                 </button>
                 <button type="button" className="link-btn" onClick={() => exporterEnPdf(e.label, e.contenu, e.date)}>
                   <Icon name="file" size={15} />
-                  {t('ecrits.exporter')}
+                  Exporter en PDF
                 </button>
                 <button type="button" className="link-btn link-btn--danger" onClick={() => supprimer(e.id)}>
                   <Icon name="trash" size={15} />
-                  {t('ecrits.supprimer')}
+                  Supprimer
                 </button>
               </div>
             </li>

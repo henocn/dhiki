@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import Icon from '../components/Icon.jsx';
-import { useLang } from '../i18n/LangContext.jsx';
 import { sauvegarderEcrit } from '../lib/ecrits.js';
 import { exporterEnPdf } from '../lib/pdf.js';
 import { ExoHeader, Fin, Progression } from './commun.jsx';
 
 // Journal guidé (gratitude, émotions, relations) : une question par écran, sauvegarde locale à la fin.
 export default function Journal({ exercice }) {
-  const { t } = useLang();
   const { questions, sousTitre } = exercice.config;
   const [etape, setEtape] = useState(0);
   const [reponses, setReponses] = useState(() => questions.map(() => ''));
@@ -32,20 +30,20 @@ export default function Journal({ exercice }) {
   if (etape >= questions.length) {
     return (
       <Fin
-        titre={t('exo.bienJoue')}
-        texte={t('exo.journalFin')}
+        titre="Bien joué. Prends un instant pour remarquer comment tu te sens maintenant."
+        texte="Voici ce que tu as écrit. Tu peux le garder dans « Mes écrits »."
         actions={
           <>
             <Link to="/mes-ecrits" className="btn btn-ghost">
               <Icon name="pen" size={16} />
-              {t('nav.ecrits')}
+              Mes écrits
             </Link>
             <button type="button" className="btn btn-ghost" onClick={() => exporterEnPdf(exercice.titre, texteComplet)}>
               <Icon name="file" size={16} />
-              {t('ecrits.exporter')}
+              Exporter en PDF
             </button>
             <button type="button" className="btn btn-primary" onClick={recommencer}>
-              {t('commun.recommencer')}
+              Recommencer
             </button>
           </>
         }
@@ -60,7 +58,7 @@ export default function Journal({ exercice }) {
         </ul>
         <p className={sauvegarde ? 'hint-box' : 'warn-box'}>
           <Icon name={sauvegarde ? 'lock' : 'alert'} size={16} />
-          {sauvegarde ? t('exo.sauvegarde') : t('exo.sauvegardeEchec')}
+          {sauvegarde ? 'Sauvegarder dans Mes écrits' : 'Sauvegarde impossible : la limite est atteinte ou le stockage est indisponible.'}
         </p>
       </Fin>
     );
@@ -84,11 +82,11 @@ export default function Journal({ exercice }) {
         {etape > 0 && (
           <button type="button" className="btn btn-ghost" onClick={() => setEtape((e) => e - 1)}>
             <Icon name="arrowLeft" size={16} />
-            {t('commun.precedent')}
+            Précédent
           </button>
         )}
         <button type="button" className="btn btn-primary" onClick={suivant}>
-          {etape === questions.length - 1 ? t('commun.terminer') : t('commun.suivant')}
+          {etape === questions.length - 1 ? 'Terminer' : 'Suivant'}
           <Icon name="arrowRight" size={16} />
         </button>
       </div>

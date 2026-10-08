@@ -1,12 +1,10 @@
 import { Link } from 'react-router';
-import { useLang } from '../../i18n/LangContext.jsx';
 import Icon from '../Icon.jsx';
 import Logo from './Logo.jsx';
 import { NAV_LEGALE, NAV_PRINCIPALE } from './navigation.js';
 
 // Pied de page : rappel « ne remplace pas un professionnel », navigation et liens légaux.
 export default function Footer() {
-  const { t } = useLang();
   return (
     <footer className="site-footer">
       <div className="container footer-grid">
@@ -14,33 +12,33 @@ export default function Footer() {
           <span className="brand">
             <Logo size={52} />
           </span>
-          <p>{t('footer.mission')}</p>
+          <p>Un espace de soutien en santé mentale, gratuit et anonyme, pensé pour les jeunes au Togo.</p>
           <p className="footer-disclaimer">
             <Icon name="info" size={16} />
-            {t('footer.disclaimer')}
+            DHIKI ne remplace pas un avis médical. En cas de danger immédiat, contacte les services d’urgence.
           </p>
         </div>
 
-        <nav aria-label={t('footer.navigation')}>
-          <h2 className="footer-title">{t('footer.navigation')}</h2>
+        <nav aria-label="Navigation">
+          <h2 className="footer-title">Navigation</h2>
           <ul>
             {NAV_PRINCIPALE.map((item) => (
               <li key={item.to}>
-                <Link to={item.to}>{t(item.cle)}</Link>
+                <Link to={item.to}>{item.libelle}</Link>
               </li>
             ))}
             <li>
-              <Link to="/mes-ecrits">{t('nav.ecrits')}</Link>
+              <Link to="/mes-ecrits">Mes écrits</Link>
             </li>
           </ul>
         </nav>
 
         <div>
-          <h2 className="footer-title">{t('footer.infos')}</h2>
+          <h2 className="footer-title">Informations</h2>
           <ul>
             {NAV_LEGALE.map((item) => (
               <li key={item.to}>
-                <Link to={item.to}>{t(item.cle)}</Link>
+                <Link to={item.to}>{item.libelle}</Link>
               </li>
             ))}
             <li>
@@ -50,7 +48,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="container footer-bottom">
-        © {new Date().getFullYear()} Association DHIKI Togo · {t('footer.gratuit')}
+        © {new Date().getFullYear()} Association DHIKI Togo · Gratuit, anonyme, sans inscription.
       </div>
     </footer>
   );

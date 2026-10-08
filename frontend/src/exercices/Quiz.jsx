@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Icon from '../components/Icon.jsx';
-import { useLang } from '../i18n/LangContext.jsx';
 import { melanger } from '../lib/utils.js';
 import { ExoHeader, Fin, Progression } from './commun.jsx';
 import { ECOUTE_CLES, ECOUTE_SCENARIOS, LIMITES_CLES, LIMITES_SCENARIOS } from './data.js';
@@ -9,7 +8,6 @@ const PAR_SESSION = 3;
 
 // Mises en situation à choix multiples : 3 scénarios tirés au hasard, retour expliqué après chaque choix.
 function Quiz({ exercice, scenarios, cles, icone }) {
-  const { t } = useLang();
   const [tirage, setTirage] = useState(() => melanger(scenarios).slice(0, PAR_SESSION));
   const [index, setIndex] = useState(0);
   const [choix, setChoix] = useState(null);
@@ -31,11 +29,11 @@ function Quiz({ exercice, scenarios, cles, icone }) {
     return (
       <Fin
         icone={icone}
-        titre={t('exo.quizFinTitre')}
-        texte={t('exo.quizFinTexte')}
+        titre="Bravo"
+        texte="Tu as parcouru toutes les situations. Voici ce qu’il faut retenir."
         actions={
           <button type="button" className="btn btn-primary" onClick={nouvelleSession}>
-            {t('exo.nouvellesSituations')}
+            Nouvelles situations
             <Icon name="arrowRight" size={16} />
           </button>
         }
@@ -56,7 +54,7 @@ function Quiz({ exercice, scenarios, cles, icone }) {
   const bonne = s.choix.find((c) => c.ok);
   return (
     <div className="exo-narrow exo-narrow--wide">
-      <ExoHeader titre={exercice.titre} sousTitre={t('exo.situation', { n: index + 1, total: tirage.length })} />
+      <ExoHeader titre={exercice.titre} sousTitre={`Situation ${index + 1} sur ${tirage.length}`} />
       <Progression total={tirage.length} courant={index} />
       <div className="exo-panel">
         <p className="muted small">{s.contexte}</p>
@@ -72,7 +70,7 @@ function Quiz({ exercice, scenarios, cles, icone }) {
               {revele && (c.ok || i === choix) && (
                 <span className="choice-feedback">
                   <Icon name={c.ok ? 'check' : 'x'} size={15} strokeWidth={2.4} />
-                  {c.ok ? t('exo.bonneApproche') : c.pourquoi}
+                  {c.ok ? 'Bonne approche' : c.pourquoi}
                 </span>
               )}
             </button>
@@ -84,12 +82,12 @@ function Quiz({ exercice, scenarios, cles, icone }) {
           <p className="hint-box hint-box--sage">
             <Icon name="sparkles" size={16} />
             <span>
-              <strong>{t('exo.aRetenir')}</strong> {bonne.pourquoi}
+              <strong>À retenir</strong> {bonne.pourquoi}
             </span>
           </p>
           <div className="btn-row btn-row--center">
             <button type="button" className="btn btn-primary" onClick={suivant}>
-              {index === tirage.length - 1 ? t('commun.terminer') : t('exo.situationSuivante')}
+              {index === tirage.length - 1 ? 'Terminer' : 'Situation suivante'}
               <Icon name="arrowRight" size={16} />
             </button>
           </div>

@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router';
-import { useLang } from '../../i18n/LangContext.jsx';
 import Icon from '../Icon.jsx';
 import { useUrgence } from '../urgence/UrgenceContext.jsx';
-import { LangDropdown, LangSegmented } from './LangSelect.jsx';
 import Logo from './Logo.jsx';
 import { NAV_LEGALE, NAV_PRINCIPALE } from './navigation.js';
 
 // En-tête collant : navigation complète sur grand écran, bouton menu + tiroir en dessous de 1100 px.
 export default function Header() {
-  const { t } = useLang();
   const { ouvrirUrgence } = useUrgence();
   const [menuOuvert, setMenuOuvert] = useState(false);
   const location = useLocation();
@@ -31,30 +28,27 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="container header-inner">
-        <Link to="/" className="brand" aria-label={t('nav.accueilAria')}>
+        <Link to="/" className="brand" aria-label="DHIKI, retour à l’accueil">
           <Logo size={42} />
         </Link>
 
-        <nav className="nav-desktop" aria-label={t('nav.principale')}>
+        <nav className="nav-desktop" aria-label="Navigation principale">
           {NAV_PRINCIPALE.map((item) => (
             <NavLink key={item.to} to={item.to} end={item.end} className="nav-link">
-              {t(item.cle)}
+              {item.libelle}
             </NavLink>
           ))}
         </nav>
 
         <div className="header-actions">
-          <div className="header-lang">
-            <LangDropdown />
-          </div>
           <button type="button" className="btn-urgence" onClick={ouvrirUrgence}>
             <Icon name="lifebuoy" size={18} />
-            <span>{t('nav.urgence')}</span>
+            <span>Urgence</span>
           </button>
           <button
             type="button"
             className="btn-burger"
-            aria-label={t('nav.ouvrirMenu')}
+            aria-label="Ouvrir le menu"
             aria-expanded={menuOuvert}
             aria-controls="menu-mobile"
             onClick={() => setMenuOuvert(true)}
@@ -68,7 +62,7 @@ export default function Header() {
       <aside
         id="menu-mobile"
         className={`drawer ${menuOuvert ? 'is-open' : ''}`}
-        aria-label={t('nav.principale')}
+        aria-label="Navigation principale"
         aria-hidden={!menuOuvert}
         inert={!menuOuvert}
       >
@@ -76,7 +70,7 @@ export default function Header() {
           <span className="brand">
             <Logo size={38} />
           </span>
-          <button type="button" className="icon-btn" aria-label={t('nav.fermerMenu')} onClick={() => setMenuOuvert(false)}>
+          <button type="button" className="icon-btn" aria-label="Fermer le menu" onClick={() => setMenuOuvert(false)}>
             <Icon name="x" size={22} />
           </button>
         </div>
@@ -85,27 +79,19 @@ export default function Header() {
           {NAV_PRINCIPALE.map((item) => (
             <NavLink key={item.to} to={item.to} end={item.end} className="drawer-link">
               <Icon name={item.icone} size={20} />
-              {t(item.cle)}
+              {item.libelle}
             </NavLink>
           ))}
           <NavLink to="/mes-ecrits" className="drawer-link">
             <Icon name="pen" size={20} />
-            {t('nav.ecrits')}
+            Mes écrits
           </NavLink>
         </nav>
-
-        <div className="drawer-section">
-          <div className="drawer-label">
-            <Icon name="globe" size={16} />
-            {t('lang.langue')}
-          </div>
-          <LangSegmented />
-        </div>
 
         <div className="drawer-legal">
           {NAV_LEGALE.map((item) => (
             <Link key={item.to} to={item.to}>
-              {t(item.cle)}
+              {item.libelle}
             </Link>
           ))}
         </div>

@@ -1,20 +1,18 @@
 import { useState } from 'react';
 import Icon from '../components/Icon.jsx';
-import { useLang } from '../i18n/LangContext.jsx';
 import { ExoHeader, Fin, Progression } from './commun.jsx';
 import { ANCRAGE_ETAPES } from './data.js';
 
 // Ancrage sensoriel 5-4-3-2-1 : un sens par écran, réponses facultatives non enregistrées.
 export default function Ancrage({ exercice }) {
-  const { t } = useLang();
   const [etape, setEtape] = useState(0);
   const [reponses, setReponses] = useState(() => ANCRAGE_ETAPES.map(() => ''));
 
   if (etape >= ANCRAGE_ETAPES.length) {
     return (
       <Fin
-        titre={t('exo.ancrageFinTitre')}
-        texte={t('exo.ancrageFinTexte')}
+        titre="Te voilà ancré·e"
+        texte="Tu as ramené ton attention dans le moment présent. Tu peux refaire cet exercice dès que l’angoisse monte."
         actions={
           <button
             type="button"
@@ -24,7 +22,7 @@ export default function Ancrage({ exercice }) {
               setEtape(0);
             }}
           >
-            {t('commun.recommencer')}
+            Recommencer
           </button>
         }
       >
@@ -45,7 +43,7 @@ export default function Ancrage({ exercice }) {
   const s = ANCRAGE_ETAPES[etape];
   return (
     <div className="exo-narrow">
-      <ExoHeader titre={exercice.titre} sousTitre={t('exo.ancrageSousTitre')} />
+      <ExoHeader titre={exercice.titre} sousTitre="Utilise tes sens pour revenir ici et maintenant." />
       <Progression total={ANCRAGE_ETAPES.length} courant={etape} />
       <div className="exo-panel">
         <div className="sense-head">
@@ -62,7 +60,7 @@ export default function Ancrage({ exercice }) {
           <textarea
             rows={4}
             value={reponses[etape]}
-            placeholder={t('exo.ancragePlaceholder')}
+            placeholder="Note ce que tu remarques…"
             onChange={(e) => setReponses((r) => r.map((v, i) => (i === etape ? e.target.value : v)))}
           />
         </label>
@@ -71,11 +69,11 @@ export default function Ancrage({ exercice }) {
         {etape > 0 && (
           <button type="button" className="btn btn-ghost" onClick={() => setEtape((e) => e - 1)}>
             <Icon name="arrowLeft" size={16} />
-            {t('commun.precedent')}
+            Précédent
           </button>
         )}
         <button type="button" className="btn btn-primary" onClick={() => setEtape((e) => e + 1)}>
-          {t('commun.continuer')}
+          Continuer
           <Icon name="arrowRight" size={16} />
         </button>
       </div>

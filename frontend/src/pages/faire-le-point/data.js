@@ -1,15 +1,27 @@
 export const EMOTIONS = [
-  { id: 'calme', icone: 'faceCalme', rubriques: ['sommeil', 'emotions'], negative: false },
-  { id: 'heureux', icone: 'faceHeureux', rubriques: ['relations', 'confiance'], negative: false },
-  { id: 'anxieux', icone: 'faceAnxieux', rubriques: ['anxiete', 'concentration'], negative: true },
-  { id: 'triste', icone: 'faceTriste', rubriques: ['deuil', 'emotions'], negative: true },
-  { id: 'fatigue', icone: 'faceFatigue', rubriques: ['sommeil', 'concentration'], negative: true },
-  { id: 'colere', icone: 'faceColere', rubriques: ['emotions', 'relations'], negative: true },
-  { id: 'confus', icone: 'faceConfus', rubriques: ['identite', 'confiance'], negative: true },
-  { id: 'espoir', icone: 'sprout', rubriques: ['confiance', 'identite'], negative: false },
+  { id: 'calme', libelle: 'Calme', icone: 'faceCalme', rubriques: ['sommeil', 'emotions'], negative: false },
+  { id: 'heureux', libelle: 'Heureux·se', icone: 'faceHeureux', rubriques: ['relations', 'confiance'], negative: false },
+  { id: 'anxieux', libelle: 'Anxieux·se', icone: 'faceAnxieux', rubriques: ['anxiete', 'concentration'], negative: true },
+  { id: 'triste', libelle: 'Triste', icone: 'faceTriste', rubriques: ['deuil', 'emotions'], negative: true },
+  { id: 'fatigue', libelle: 'Fatigué·e', icone: 'faceFatigue', rubriques: ['sommeil', 'concentration'], negative: true },
+  { id: 'colere', libelle: 'En colère', icone: 'faceColere', rubriques: ['emotions', 'relations'], negative: true },
+  { id: 'confus', libelle: 'Perdu·e', icone: 'faceConfus', rubriques: ['identite', 'confiance'], negative: true },
+  { id: 'espoir', libelle: 'Plein·e d’espoir', icone: 'sprout', rubriques: ['confiance', 'identite'], negative: false },
 ];
 
-export const CONTEXTES = ['ecole', 'famille', 'amities', 'amour', 'argent', 'avenir', 'sante', 'solitude', 'inconnu'];
+export const CONTEXTES = {
+  ecole: 'École',
+  famille: 'Famille',
+  amities: 'Amitiés',
+  amour: 'Amour',
+  argent: 'Argent',
+  avenir: 'Avenir',
+  sante: 'Santé',
+  solitude: 'Solitude',
+  inconnu: 'Je ne sais pas',
+};
+
+export const REPONSES_AIDE = { oui: 'Oui', non: 'Non', sais: 'Je ne sais pas' };
 
 export const ACCUSES = {
   calme: "Calme… c'est bon à entendre. Cet espace t'appartient entièrement.",

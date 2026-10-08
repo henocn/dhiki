@@ -42,13 +42,8 @@ export default function Confidentialite() {
         <p>Ces informations sont enregistrées dans ton navigateur (« stockage local ») et ne nous sont jamais transmises :</p>
         <ul>
           <li>tes réponses au parcours « Faire le point » (elles ne sont même pas conservées après la fin du parcours) ;</li>
-          <li>tes journaux, lettres et autres écrits (« Mes écrits ») ;</li>
-          <li>ta préférence de langue.</li>
+          <li>tes journaux, lettres et autres écrits (« Mes écrits »).</li>
         </ul>
-        <p>
-          <strong>Traduction automatique.</strong> Le site est rédigé en français. Si tu choisis l'anglais ou l'éwé, le texte des pages est
-          traduit par Google Traduction : il est alors transmis à Google. Rien n'est envoyé tant que tu restes en français.
-        </p>
         <p>
           Tu peux supprimer un écrit à tout moment depuis « Mes écrits », ou tout effacer en vidant les données du site dans ton navigateur.
           Attention : sur un appareil partagé, une autre personne utilisant le même navigateur pourrait les voir.

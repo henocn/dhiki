@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import Icon from '../components/Icon.jsx';
-import { useLang } from '../i18n/LangContext.jsx';
 import { sauvegarderEcrit } from '../lib/ecrits.js';
 import { exporterEnPdf } from '../lib/pdf.js';
 import { ExoHeader, Fin } from './commun.jsx';
@@ -14,7 +13,6 @@ function compterMots(texte) {
 
 // Écriture libre (lettre) : texte privé enregistré uniquement sur l'appareil.
 export default function Ecriture({ exercice }) {
-  const { t } = useLang();
   const [texte, setTexte] = useState('');
   const [termine, setTermine] = useState(null);
   const mots = compterMots(texte);
@@ -22,24 +20,24 @@ export default function Ecriture({ exercice }) {
   // Enregistre la lettre localement et affiche l'écran de fin.
   function terminer() {
     const contenu = texte.trim();
-    setTermine({ contenu, sauvegarde: sauvegarderEcrit(t('exo.lettre'), contenu) });
+    setTermine({ contenu, sauvegarde: sauvegarderEcrit('Lettre', contenu) });
   }
 
   if (termine) {
     return (
       <Fin
         icone="heart"
-        titre={t('exo.ecritureFinTitre')}
-        texte={t('exo.ecritureFinTexte')}
+        titre="Merci d’avoir écrit"
+        texte="Mettre des mots sur ce qu’on ressent soulage souvent. Tu peux garder ce texte ou le laisser partir."
         actions={
           <>
             <Link to="/mes-ecrits" className="btn btn-ghost">
               <Icon name="pen" size={16} />
-              {t('nav.ecrits')}
+              Mes écrits
             </Link>
-            <button type="button" className="btn btn-ghost" onClick={() => exporterEnPdf(t('exo.lettre'), termine.contenu)}>
+            <button type="button" className="btn btn-ghost" onClick={() => exporterEnPdf('Lettre', termine.contenu)}>
               <Icon name="file" size={16} />
-              {t('ecrits.exporter')}
+              Exporter en PDF
             </button>
             <button
               type="button"
@@ -49,14 +47,14 @@ export default function Ecriture({ exercice }) {
                 setTermine(null);
               }}
             >
-              {t('exo.ecrireEncore')}
+              Écrire encore
             </button>
           </>
         }
       >
         <p className={termine.sauvegarde ? 'hint-box' : 'warn-box'}>
           <Icon name={termine.sauvegarde ? 'lock' : 'alert'} size={16} />
-          {termine.sauvegarde ? t('exo.sauvegarde') : t('exo.sauvegardeEchec')}
+          {termine.sauvegarde ? 'Sauvegarder dans Mes écrits' : 'Sauvegarde impossible : la limite est atteinte ou le stockage est indisponible.'}
         </p>
       </Fin>
     );
@@ -64,18 +62,18 @@ export default function Ecriture({ exercice }) {
 
   return (
     <div className="exo-narrow exo-narrow--wide">
-      <ExoHeader titre={exercice.titre} sousTitre={t('exo.ecritureSousTitre')} />
+      <ExoHeader titre={exercice.titre} sousTitre="Écris librement, personne d’autre ne lira ce texte." />
       <div className="exo-panel">
-        <p className="muted">{t('exo.ecritureAide')}</p>
+        <p className="muted">Pas besoin de bien écrire. Laisse venir les mots.</p>
         <p className="muted">
-          {t('exo.ecriturePiste')} <em>« Il y a quelque chose que j'aurais voulu te dire… »</em>
+          Piste <em>« Il y a quelque chose que j'aurais voulu te dire… »</em>
         </p>
       </div>
-      <textarea className="textarea textarea--lg" value={texte} onChange={(e) => setTexte(e.target.value)} placeholder={t('exo.ecriturePlaceholder')} aria-label={exercice.titre} />
-      <p className="muted small right">{t('exo.mots', { n: mots })}</p>
+      <textarea className="textarea textarea--lg" value={texte} onChange={(e) => setTexte(e.target.value)} placeholder="Commence ici…" aria-label={exercice.titre} />
+      <p className="muted small right">{(mots === 1 ? `${mots} mot` : `${mots} mots`)}</p>
       <div className="btn-row btn-row--center">
         <button type="button" className="btn btn-primary" disabled={mots === 0} onClick={terminer}>
-          {t('exo.jaiTermine')}
+          J’ai terminé
         </button>
       </div>
     </div>

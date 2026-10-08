@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import Icon from '../components/Icon.jsx';
-import { useLang } from '../i18n/LangContext.jsx';
 import { ExoHeader, Fin, Progression } from './commun.jsx';
 import { SCAN_SECONDES, SCAN_ZONES } from './data.js';
 
 // Scan corporel : chaque zone dure 30 s puis passe automatiquement à la suivante (minuteur nettoyé en quittant la page).
 export default function Scan({ exercice }) {
-  const { t } = useLang();
   const [zone, setZone] = useState(0);
   const [restant, setRestant] = useState(SCAN_SECONDES);
   const [enPause, setEnPause] = useState(false);
@@ -34,8 +32,8 @@ export default function Scan({ exercice }) {
   if (termine) {
     return (
       <Fin
-        titre={t('exo.scanFinTitre')}
-        texte={t('exo.scanFinTexte')}
+        titre="Scan terminé"
+        texte="Tu as parcouru tout ton corps. Remarque les zones plus détendues qu’au début."
         actions={
           <button
             type="button"
@@ -46,7 +44,7 @@ export default function Scan({ exercice }) {
               setEnPause(false);
             }}
           >
-            {t('commun.recommencer')}
+            Recommencer
           </button>
         }
       />
@@ -56,7 +54,7 @@ export default function Scan({ exercice }) {
   const z = SCAN_ZONES[zone];
   return (
     <div className="exo-narrow">
-      <ExoHeader titre={exercice.titre} sousTitre={t('exo.zone', { n: zone + 1, total: SCAN_ZONES.length })} />
+      <ExoHeader titre={exercice.titre} sousTitre={`Zone ${zone + 1} sur ${SCAN_ZONES.length}`} />
       <Progression total={SCAN_ZONES.length} courant={zone} />
       <div className="exo-panel">
         <h2 className="exo-zone">{z.label}</h2>
@@ -65,16 +63,16 @@ export default function Scan({ exercice }) {
           <span className="timer-bubble" aria-live="off">
             {restant}
           </span>
-          <span className="muted small">{t('exo.secondesZone')}</span>
+          <span className="muted small">Porte ton attention sur cette zone, sans chercher à changer quoi que ce soit.</span>
         </div>
       </div>
       <div className="btn-row btn-row--center">
         <button type="button" className="btn btn-ghost" onClick={() => setEnPause((p) => !p)}>
           <Icon name={enPause ? 'play' : 'pause'} size={16} />
-          {enPause ? t('exo.reprendre') : t('exo.pause')}
+          {enPause ? 'Reprendre' : 'Pause'}
         </button>
         <button type="button" className="btn btn-primary" onClick={suivante}>
-          {t('exo.zoneSuivante')}
+          Zone suivante
           <Icon name="arrowRight" size={16} />
         </button>
       </div>

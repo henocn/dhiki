@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router';
-import { useLang } from '../../i18n/LangContext.jsx';
 import ChatbotWidget from '../chatbot/ChatbotWidget.jsx';
 import UrgenceModal from '../urgence/UrgenceModal.jsx';
 import Footer from './Footer.jsx';
@@ -22,11 +21,10 @@ function ScrollToTop() {
 
 // Gabarit commun à toutes les pages : en-tête, contenu, pied de page, urgence et assistant.
 export default function Layout() {
-  const { t } = useLang();
   return (
     <>
       <a href="#contenu" className="skip-link">
-        {t('commun.allerContenu')}
+        Aller au contenu
       </a>
       <ScrollToTop />
       <Header />
