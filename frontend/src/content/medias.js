@@ -17,6 +17,10 @@ export const MEDIAS = {
     src: '/images/accueil-consultation.png',
     alt: 'Un psychologue écoute un jeune homme lors d’une consultation',
   },
+  questionsHero: {
+    src: '/images/questions-hero.jpg',
+    alt: 'Une jeune femme hausse les épaules, les mains ouvertes, l’air perplexe',
+  },
   respirationAmbiance: {
     src: '/audio/respiration-ambiance.mp3',
   },

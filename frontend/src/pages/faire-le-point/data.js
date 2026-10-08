@@ -1,12 +1,18 @@
+export const GROUPES_EMOTIONS = [
+  { id: 'bien', libelle: 'Ça va' },
+  { id: 'lourd', libelle: 'C’est lourd' },
+  { id: 'mal', libelle: 'Ça fait mal' },
+];
+
 export const EMOTIONS = [
-  { id: 'calme', libelle: 'Calme', icone: 'faceCalme', rubriques: ['sommeil', 'emotions'], negative: false },
-  { id: 'heureux', libelle: 'Heureux·se', icone: 'faceHeureux', rubriques: ['relations', 'confiance'], negative: false },
-  { id: 'anxieux', libelle: 'Anxieux·se', icone: 'faceAnxieux', rubriques: ['anxiete', 'concentration'], negative: true },
-  { id: 'triste', libelle: 'Triste', icone: 'faceTriste', rubriques: ['deuil', 'emotions'], negative: true },
-  { id: 'fatigue', libelle: 'Fatigué·e', icone: 'faceFatigue', rubriques: ['sommeil', 'concentration'], negative: true },
-  { id: 'colere', libelle: 'En colère', icone: 'faceColere', rubriques: ['emotions', 'relations'], negative: true },
-  { id: 'confus', libelle: 'Perdu·e', icone: 'faceConfus', rubriques: ['identite', 'confiance'], negative: true },
-  { id: 'espoir', libelle: 'Plein·e d’espoir', icone: 'sprout', rubriques: ['confiance', 'identite'], negative: false },
+  { id: 'heureux', groupe: 'bien', libelle: 'Heureux·se', icone: 'faceHeureux', rubriques: ['relations', 'confiance'], negative: false },
+  { id: 'calme', groupe: 'bien', libelle: 'Calme', icone: 'faceCalme', rubriques: ['sommeil', 'emotions'], negative: false },
+  { id: 'fatigue', groupe: 'lourd', libelle: 'Fatigué·e', icone: 'faceFatigue', rubriques: ['sommeil', 'concentration'], negative: true },
+  { id: 'confus', groupe: 'lourd', libelle: 'Perdu·e', icone: 'faceConfus', rubriques: ['identite', 'confiance'], negative: true },
+  { id: 'anxieux', groupe: 'lourd', libelle: 'Anxieux·se', icone: 'faceAnxieux', rubriques: ['anxiete', 'concentration'], negative: true },
+  { id: 'triste', groupe: 'mal', libelle: 'Triste', icone: 'faceTriste', rubriques: ['deuil', 'emotions'], negative: true },
+  { id: 'colere', groupe: 'mal', libelle: 'En colère', icone: 'faceColere', rubriques: ['emotions', 'relations'], negative: true },
+  { id: 'sansEspoir', groupe: 'mal', libelle: 'Sans espoir', icone: 'faceSansEspoir', rubriques: ['emotions', 'deuil'], negative: true },
 ];
 
 export const CONTEXTES = {
@@ -31,7 +37,7 @@ export const ACCUSES = {
   fatigue: "Fatigué·e… ton corps et ta tête te demandent de ralentir. C'est déjà bien de le reconnaître.",
   colere: "La colère dit quelque chose d'important sur ce qui compte pour toi. Je t'entends.",
   confus: "Se sentir perdu·e, c'est difficile à vivre. Tu n'es pas seul·e dans ça.",
-  espoir: "De l'espoir — c'est précieux et ça mérite d'être nourri. Je suis là.",
+  sansEspoir: "Quand on ne voit plus d'issue, tout paraît lourd. Merci d'avoir mis des mots dessus : c'est déjà un pas.",
 };
 
 /* Trois niveaux par émotion : faible (1-3), modéré (4-6), fort (7-10). À faire valider par un professionnel. */
@@ -71,9 +77,9 @@ export const MESSAGES = {
     "La confusion que tu ressens signale souvent une période de transition. Tu cherches quelque chose — et c'est une démarche courageuse, même si elle est inconfortable.",
     "Se sentir aussi perdu·e peut être vraiment déstabilisant. Tu n'as pas à trouver toutes les réponses seul·e. Parfois, mettre des mots sur ce qu'on ressent avec quelqu'un d'autre aide à y voir plus clair.",
   ],
-  espoir: [
-    "L'espoir que tu portes est une lumière douce en toi. Garde-le précieusement — il t'appartient.",
-    "Ton espoir est une vraie force. Il t'aide à avancer même quand les choses sont complexes. Nourris-le avec des actions concrètes, aussi petites soient-elles.",
-    "Un espoir aussi fort peut parfois porter de grandes attentes. Reste ancré·e dans le présent aussi — chaque petit pas compte autant que la destination.",
+  sansEspoir: [
+    "Ce sentiment que rien ne bougera peut s'installer doucement. Il ne dit pas la vérité sur ton avenir : il dit surtout que tu es fatigué·e de porter quelque chose. En parler à quelqu'un de confiance peut alléger ce poids.",
+    "Se sentir sans espoir, c'est épuisant. Ce n'est pas une faiblesse, et ce n'est pas définitif, même si ça en a l'air. Tu mérites du soutien : un·e professionnel·le peut t'aider à retrouver un peu de lumière, pas à pas.",
+    "Ce que tu ressens est très lourd, et tu n'as pas à le porter seul·e. Parle dès maintenant à quelqu'un : un proche, un·e professionnel·le, ou l'aide d'urgence si tu as des pensées qui te font peur. Ta vie compte.",
   ],
 };

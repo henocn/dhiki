@@ -10,7 +10,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 import App from './App.jsx';
 import { UrgenceProvider } from './components/urgence/UrgenceContext.jsx';
-import './styles/global.css';
+import './styles/index.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

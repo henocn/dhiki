@@ -1,0 +1,53 @@
+/*
+ * Point d'entrée des styles.
+ * Tailwind d'abord (utilitaires dans le JSX), puis le CSS maison (global.css) pour ce que Tailwind ne couvre pas.
+ * global.css est rangé dans la couche « components » : les classes Tailwind (couche « utilities ») passent toujours devant.
+ * Le reset de Tailwind (preflight) n'est pas chargé : global.css a déjà le sien.
+ */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import './global.css' layer(components);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@source not inline('container');
+
+@theme {
+  --color-cr: #f7f0e6;
+  --color-sand: #fdf8f0;
+  --color-tc: #c2623f;
+  --color-tc-dark: #a94f2f;
+  --color-tcl: #e8a184;
+  --color-sage: #5f8265;
+  --color-coal: #2c1a12;
+  --color-ts: #6a544a;
+  --color-bd: #e2d4c3;
+  --color-bdl: #ede4d8;
+  --color-blanc-photo: #fefefe;
+
+  --font-title: 'Fraunces', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+
+  --animate-souffle: souffle 8s ease-in-out infinite;
+  --animate-entree: entree 0.45s ease both;
+
+  @keyframes souffle {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(0.85);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+  }
+
+  @keyframes entree {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

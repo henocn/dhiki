@@ -6,7 +6,7 @@ import { useUrgence } from '../urgence/UrgenceContext.jsx';
 const SUGGESTIONS = [
   { id: 'anxieux', libelle: 'Je me sens anxieux·se', reponse: 'Merci de me le dire. Quand l’anxiété monte, la respiration est un bon premier geste : elle calme le corps en quelques minutes.', action: { libelle: 'Faire l’exercice 4-7-8', to: '/exercices/respiration-4-7-8' } },
   { id: 'parler', libelle: 'Je veux parler à quelqu’un', reponse: 'Tu peux poser une question, publique ou confidentielle. Un·e professionnel·le te répondra, sans que tu aies à donner ton nom.', action: { libelle: 'Poser une question', to: '/questions' } },
-  { id: 'fonctionnement', libelle: 'Comment marche DHIKI ?', reponse: 'DHIKI propose des articles, des exercices et un espace de questions, gratuitement et sans inscription.', action: { libelle: 'En savoir plus', to: '/a-propos' } },
+  { id: 'fonctionnement', libelle: 'Comment marche DHIKI ?', reponse: 'DHIKI propose des articles, des exercices et un espace de questions et gratuitement.', action: { libelle: 'En savoir plus', to: '/a-propos' } },
   { id: 'donnees', libelle: 'Que faites-vous de mes données ?', reponse: 'Nous collectons le strict minimum : pas de compte, pas de nom. Tes écrits restent sur ton appareil.', action: { libelle: 'Lire la politique de confidentialité', to: '/confidentialite' } },
   { id: 'urgence', libelle: 'Je ne vais vraiment pas bien', reponse: 'Je suis désolé que tu traverses ça. Tu n’as pas à rester seul·e : ouvre l’aide d’urgence pour trouver quelqu’un à contacter maintenant.', action: { libelle: 'Ouvrir l’aide d’urgence', urgence: true } },
 ];

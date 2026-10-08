@@ -4,6 +4,10 @@ import Icon from './Icon.jsx';
 
 const VIDE = { citation: '', prenom: '', age: '', consentement: false };
 
+const titre = 'mb-7 pr-10 font-semibold text-[1.7rem]';
+const etiquette = 'text-ts font-medium text-[0.78rem] tracking-[0.06em] uppercase';
+const saisie = 'border border-bd rounded-none focus:border-tc';
+
 // Fenêtre de dépôt d'un témoignage (pseudo, âge, texte) : relu par l'équipe avant publication, consentement obligatoire.
 export default function TemoignageModal({ ouvert, onFermer, rubriqueSlug, rubriqueNom }) {
   const [valeurs, setValeurs] = useState(VIDE);
@@ -59,28 +63,42 @@ export default function TemoignageModal({ ouvert, onFermer, rubriqueSlug, rubriq
   const longueur = valeurs.citation.trim().length;
   return (
     <div className="overlay" onClick={(e) => e.target === e.currentTarget && onFermer()}>
-      <div className="sheet temo-modal" role="dialog" aria-modal="true" aria-labelledby="temo-titre">
-        <button type="button" className="sheet-close icon-btn" aria-label="Fermer" onClick={onFermer}>
+      <div
+        className="sheet max-w-[540px] pt-9 px-9 pb-[30px] rounded-none shadow-[0_30px_80px_rgba(44,26,18,0.28)]"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="temo-titre"
+      >
+        <button
+          type="button"
+          className="sheet-close icon-btn top-[18px] right-[18px] rounded-none bg-transparent"
+          aria-label="Fermer"
+          onClick={onFermer}
+        >
           <Icon name="x" size={20} />
         </button>
 
         {etat.envoye ? (
-          <div className="temo-merci">
-            <Icon name="checkCircle" size={36} />
-            <h2 id="temo-titre">Merci pour ton témoignage</h2>
+          <div className="flex flex-col items-center gap-2.5 pt-3 pb-1 text-center">
+            <Icon name="checkCircle" size={36} className="text-sage" />
+            <h2 id="temo-titre" className={titre}>
+              Merci pour ton témoignage
+            </h2>
             <p className="muted">Il sera relu par notre équipe avant d’être publié, pour protéger ton anonymat.</p>
-            <button type="button" className="btn btn-primary" onClick={onFermer}>
+            <button type="button" className="btn btn-primary mt-2" onClick={onFermer}>
               Fermer
             </button>
           </div>
         ) : (
           <form onSubmit={envoyer} noValidate>
-            <p className="temo-sujet">{rubriqueNom}</p>
-            <h2 id="temo-titre">Ton témoignage</h2>
+            <p className="mb-1 text-tc font-medium text-[0.8rem] tracking-[0.08em] uppercase">{rubriqueNom}</p>
+            <h2 id="temo-titre" className={titre}>
+              Ton témoignage
+            </h2>
 
-            <div className="field-row temo-ligne">
+            <div className="grid grid-cols-[1fr_90px] gap-6">
               <label className="field">
-                <span>Pseudo</span>
+                <span className={etiquette}>Pseudo</span>
                 <input
                   ref={premierChamp}
                   type="text"
@@ -88,16 +106,25 @@ export default function TemoignageModal({ ouvert, onFermer, rubriqueSlug, rubriq
                   onChange={maj('prenom')}
                   maxLength={40}
                   placeholder="Ex. : Ama"
+                  className={saisie}
                 />
               </label>
-              <label className="field field--sm">
-                <span>Âge</span>
-                <input type="number" inputMode="numeric" min={12} max={99} value={valeurs.age} onChange={maj('age')} />
+              <label className="field">
+                <span className={etiquette}>Âge</span>
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  min={12}
+                  max={99}
+                  value={valeurs.age}
+                  onChange={maj('age')}
+                  className={saisie}
+                />
               </label>
             </div>
 
             <label className="field">
-              <span>Ce que tu as vécu</span>
+              <span className={etiquette}>Ce que tu as vécu</span>
               <textarea
                 value={valeurs.citation}
                 onChange={maj('citation')}
@@ -105,12 +132,13 @@ export default function TemoignageModal({ ouvert, onFermer, rubriqueSlug, rubriq
                 maxLength={1200}
                 required
                 placeholder="Et ce qui t’a aidé…"
+                className={`${saisie} min-h-[130px]`}
               />
               <span className="field-hint">{`${longueur} / 1200`}</span>
             </label>
 
             <label className="checkbox">
-              <input type="checkbox" checked={valeurs.consentement} onChange={maj('consentement')} />
+              <input type="checkbox" checked={valeurs.consentement} onChange={maj('consentement')} className="rounded-none" />
               <span>
                 J’accepte une publication anonyme, après relecture.
               </span>
@@ -118,11 +146,15 @@ export default function TemoignageModal({ ouvert, onFermer, rubriqueSlug, rubriq
 
             {etat.erreur && <FormError error={etat.erreur} />}
 
-            <div className="form-actions">
-              <button type="button" className="btn btn-ghost" onClick={onFermer}>
+            <div className="form-actions mt-[22px] pt-5 border-t border-bdl">
+              <button type="button" className="btn btn-ghost rounded-none border-transparent bg-transparent" onClick={onFermer}>
                 Annuler
               </button>
-              <button type="submit" className="btn btn-primary" disabled={etat.envoi || longueur < 20 || !valeurs.consentement}>
+              <button
+                type="submit"
+                className="btn btn-primary rounded-none"
+                disabled={etat.envoi || longueur < 20 || !valeurs.consentement}
+              >
                 <Icon name="send" size={16} />
                 {etat.envoi ? 'Envoi…' : 'Envoyer'}
               </button>
