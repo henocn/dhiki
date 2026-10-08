@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router';
 import { api } from '../lib/api.js';
 import Icon from './Icon.jsx';
 
@@ -76,12 +75,12 @@ export default function TemoignageModal({ ouvert, onFermer, rubriqueSlug, rubriq
           </div>
         ) : (
           <form onSubmit={envoyer} noValidate>
-            <h2 id="temo-titre">{`Témoigner sur « ${rubriqueNom} »`}</h2>
-            <p className="muted temo-intro">Aucun nom de famille, numéro ou adresse : ton témoignage est relu avant publication.</p>
+            <p className="temo-sujet">{rubriqueNom}</p>
+            <h2 id="temo-titre">Ton témoignage</h2>
 
             <div className="field-row temo-ligne">
               <label className="field">
-                <span>Pseudo (facultatif)</span>
+                <span>Pseudo</span>
                 <input
                   ref={premierChamp}
                   type="text"
@@ -98,25 +97,22 @@ export default function TemoignageModal({ ouvert, onFermer, rubriqueSlug, rubriq
             </div>
 
             <label className="field">
-              <span>Ton témoignage</span>
+              <span>Ce que tu as vécu</span>
               <textarea
                 value={valeurs.citation}
                 onChange={maj('citation')}
                 rows={6}
                 maxLength={1200}
                 required
-                placeholder="Raconte ce que tu as vécu et ce qui t’a aidé…"
+                placeholder="Et ce qui t’a aidé…"
               />
-              <span className="field-hint">{`${longueur} / ${1200} caractères`}</span>
+              <span className="field-hint">{`${longueur} / 1200`}</span>
             </label>
 
             <label className="checkbox">
               <input type="checkbox" checked={valeurs.consentement} onChange={maj('consentement')} />
               <span>
-                J’accepte que ce témoignage soit publié anonymement sur DHIKI après relecture.{' '}
-                <Link to="/confidentialite#temoignages" onClick={onFermer}>
-                  En savoir plus
-                </Link>
+                J’accepte une publication anonyme, après relecture.
               </span>
             </label>
 

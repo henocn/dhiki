@@ -63,11 +63,6 @@ export default function Rubrique() {
                   <span className="rd-action-n">{rubrique[s.champ].length}</span>
                 </button>
               ))}
-              <button type="button" className="rd-action" onClick={() => defilerVers('temoignages')}>
-                <Icon name="quote" size={18} />
-                Témoignages
-                <span className="rd-action-n">{rubrique.temoignages.length}</span>
-              </button>
             </div>
           </div>
           <figure className="rd-photo" style={{ background: rubrique.couleurFond }}>
