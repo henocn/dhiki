@@ -92,10 +92,10 @@ async function seedContactsUrgence(client, contacts) {
   }
 }
 
-// Charge le jeu de données de développement extrait du prototype.
+// Charge les contenus extraits du prototype (en production, uniquement avec l'option explicite --production).
 async function seed() {
-  if (env.NODE_ENV === 'production') {
-    throw new Error('Le seed de développement ne doit pas être exécuté en production.');
+  if (env.NODE_ENV === 'production' && !process.argv.includes('--production')) {
+    throw new Error('En production, lancer le seed explicitement : npm run db:seed -- --production');
   }
 
   const [rubriques, articles, exercices, temoignages, contacts] = await Promise.all([
