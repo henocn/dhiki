@@ -136,6 +136,8 @@ const ICONS = {
   ),
   play: <path d="M6 4l14 8-14 8z" />,
   pause: <path d="M7 4h3v16H7zM14 4h3v16h-3z" />,
+  volume: <path d="M11 5 6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" />,
+  volumeOff: <path d="M11 5 6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6" />,
   refresh: (
     <>
       <path d="M1 4v6h6" />

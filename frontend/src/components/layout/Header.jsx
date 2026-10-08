@@ -32,8 +32,7 @@ export default function Header() {
     <header className="site-header">
       <div className="container header-inner">
         <Link to="/" className="brand" aria-label={t('nav.accueilAria')}>
-          <Logo />
-          <span className="brand-name">DHIKI</span>
+          <Logo size={42} />
         </Link>
 
         <nav className="nav-desktop" aria-label={t('nav.principale')}>
@@ -75,8 +74,7 @@ export default function Header() {
       >
         <div className="drawer-head">
           <span className="brand">
-            <Logo size={28} />
-            <span className="brand-name">DHIKI</span>
+            <Logo size={38} />
           </span>
           <button type="button" className="icon-btn" aria-label={t('nav.fermerMenu')} onClick={() => setMenuOuvert(false)}>
             <Icon name="x" size={22} />

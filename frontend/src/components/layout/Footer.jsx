@@ -12,8 +12,7 @@ export default function Footer() {
       <div className="container footer-grid">
         <div className="footer-brand">
           <span className="brand">
-            <Logo size={28} />
-            <span className="brand-name">DHIKI</span>
+            <Logo size={52} />
           </span>
           <p>{t('footer.mission')}</p>
           <p className="footer-disclaimer">

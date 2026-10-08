@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Icon from '../components/Icon.jsx';
+import { MEDIAS } from '../content/medias.js';
 import { useLang } from '../i18n/LangContext.jsx';
 import { ExoHeader } from './commun.jsx';
 
@@ -10,6 +11,56 @@ const ECHELLE_MAX = 1;
 function echellePourPhase(index, total) {
   if (index === total - 1 && total > 1) return ECHELLE_MIN;
   return ECHELLE_MAX;
+}
+
+// Bouton de son d'ambiance en boucle, masqué si le fichier audio n'est pas encore déposé.
+function SonAmbiance({ actif }) {
+  const audio = useRef(null);
+  const [disponible, setDisponible] = useState(false);
+  const [joue, setJoue] = useState(false);
+
+  useEffect(() => {
+    let annule = false;
+    fetch(MEDIAS.respirationAmbiance.src, { method: 'HEAD' })
+      .then((r) => {
+        if (!annule) setDisponible(r.ok && (r.headers.get('content-type') ?? '').startsWith('audio'));
+      })
+      .catch(() => {});
+    return () => {
+      annule = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!actif && joue) {
+      audio.current?.pause();
+      setJoue(false);
+    }
+  }, [actif, joue]);
+
+  // Lance ou coupe la musique d'ambiance.
+  function basculer() {
+    const el = audio.current;
+    if (!el) return;
+    if (joue) {
+      el.pause();
+      setJoue(false);
+    } else {
+      el.volume = 0.5;
+      el.play().then(() => setJoue(true)).catch(() => setDisponible(false));
+    }
+  }
+
+  if (!disponible) return null;
+  return (
+    <>
+      <audio ref={audio} src={MEDIAS.respirationAmbiance.src} loop preload="none" onError={() => setDisponible(false)} />
+      <button type="button" className="btn btn-ghost btn-sm breath-son" onClick={basculer} aria-pressed={joue}>
+        <Icon name={joue ? 'volume' : 'volumeOff'} size={16} />
+        {joue ? 'Couper le son' : 'Son d’ambiance'}
+      </button>
+    </>
+  );
 }
 
 // Exercice de respiration guidée : le cercle s'anime exactement sur la durée de chaque phase.
@@ -111,6 +162,7 @@ export default function Respiration({ exercice }) {
             {t('commun.recommencer')}
           </button>
         )}
+        <SonAmbiance actif={enCours} />
       </div>
     </div>
   );

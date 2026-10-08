@@ -94,37 +94,18 @@ export function Auteur({ auteur }) {
   );
 }
 
-// Carte d'article : titre, description, auteur·rice, durée de lecture et nombre de lectures (si disponible).
+// Carte d'article : seulement le titre et une courte description, les détails sont dans l'article.
 export function ArticleCard({ article }) {
-  const { t } = useLang();
   return (
     <Link to={`/articles/${article.slug}`} className="article-card">
       <h3>{article.titre}</h3>
       {article.description && <p className="article-card-desc">{article.description}</p>}
-      <div className="article-card-foot">
-        <Auteur auteur={article.auteur} />
-        <span className="article-card-meta">
-          {article.dureeLectureMin && (
-            <span>
-              <Icon name="clock" size={13} />
-              {t('commun.minutes', { n: article.dureeLectureMin })}
-            </span>
-          )}
-          {article.nbLectures > 0 && (
-            <span>
-              <Icon name="eye" size={13} />
-              {article.nbLectures}
-            </span>
-          )}
-        </span>
-      </div>
     </Link>
   );
 }
 
 // Carte de rubrique cliquable (accueil, liste, suggestions).
 export function RubriqueCard({ rubrique }) {
-  const { t } = useLang();
   return (
     <Link to={`/rubriques/${rubrique.slug}`} className="rub-card">
       <div className="rub-card-media" style={{ background: rubrique.couleurFond }}>
@@ -133,9 +114,6 @@ export function RubriqueCard({ rubrique }) {
       <div className="rub-card-body">
         <h3>{rubrique.nom}</h3>
         {rubrique.accroche && <p className="rub-card-accroche">{rubrique.accroche}</p>}
-        <p className="rub-card-meta">
-          {t('rubrique.compteArticles', { n: rubrique.nbArticles })} · {t('rubrique.compteExercices', { n: rubrique.nbExercices })}
-        </p>
       </div>
     </Link>
   );
