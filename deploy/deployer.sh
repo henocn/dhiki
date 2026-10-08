@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Mise à jour de DHIKI sur le serveur, à lancer après chaque push :
 #   bash deploy/deployer.sh           # code, migrations, build, rechargement PM2
-#   bash deploy/deployer.sh --seed    # idem + (re)chargement des contenus du dossier seed-data
+#   bash deploy/deployer.sh --seed    # idem + chargement des contenus (premier déploiement)
 set -euo pipefail
 
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
